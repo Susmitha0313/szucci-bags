@@ -1,0 +1,1 @@
+const emailid = document.getElementById("typeEmailX")
