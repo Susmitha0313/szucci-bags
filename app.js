@@ -57,5 +57,5 @@ app.use("/",userRouter);
 app.use("/admin", adminRouter);
 
 app.listen(port, ()=>{
-    console.log(`Server is running at http://localhost:${port}  .....if you are an admin click here http://localhost:${port}/admin/`);
+    console.log(`Server is running at http://localhost:${port}  .....if you are an admin click here http://localhost:${port}/admin/adminlogin`);
 })

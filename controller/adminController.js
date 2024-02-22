@@ -1,5 +1,6 @@
 const express =require("express");
-const Admin = require("../models/adminSchema");
+const User = require("../models/userSchema");
+const bcrypt = require("bcrypt");
 
 
 //load adminLoginPage
@@ -11,6 +12,8 @@ const getAdminHome = async(req,res)=>{
         console.log(error.message);
     }
 };
+
+
 
 const getProducts = async(req,res)=>{
     try{
@@ -32,6 +35,7 @@ const getUserList = async(req,res)=>{
 };
 
 
+
 const getAddProduct = async(req,res)=>{
     try{
          res.render("addProduct");
@@ -41,6 +45,8 @@ const getAddProduct = async(req,res)=>{
     }
 };
 
+
+
 const getALoginpage = async(req,res)=>{
     try{
          res.render("adminLogin");
@@ -49,6 +55,17 @@ const getALoginpage = async(req,res)=>{
         console.log(error.message);
     }
 };
+
+
+const getLogout =async(req,res)=>{
+    try{
+        res.render("adminLogin");
+    }catch(error){
+        console.log(error.message);
+    }
+}
+
+
 
 const getCategory = async(req,res)=>{
     try{
@@ -63,15 +80,13 @@ const getCategory = async(req,res)=>{
   
 
 const adminLogin = async (req, res) => {
-    console.log("entered into admin login");
+    console.log("admin logging in");
     try {
         const email= req.body.emailA;
         const password = req.body.passwordA;
-        console.log("email, password");
 
         // Find user by email
-        const admin = await Admin.findOne({email, isAdmin:"1"});
-
+        const admin = await User.findOne({email , isAdmin:"1"});
         // Check if user exists
         if (!admin) {
             return res.status(404).json({ message: "Admin not found" });
@@ -82,7 +97,7 @@ const adminLogin = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' });
         }
-
+  
         // Password is correct, set up user session or generate JWT token
         // req.session.user = user;
         res.redirect("/admin"); // Redirect to the desired page after successful login
@@ -93,12 +108,14 @@ const adminLogin = async (req, res) => {
 };
 
 
+
 module.exports = {
     getAdminHome,
     getProducts,
     getUserList,
     getAddProduct,
     getALoginpage,
+    getLogout,
     getCategory,
     adminLogin
     

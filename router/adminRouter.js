@@ -2,17 +2,21 @@ const express = require("express");
 const router = express()
 const adminController = require("../controller/adminController.js");
 
+
+const { isAdmin } = require("../Authentication/auth")  
+
 router.set("view engine" , "ejs")
 router.set("views" , "./views/admin")
 
 router.get("/", adminController.getAdminHome);
-router.get("/products", adminController.getProducts);
-router.get("/userList", adminController.getUserList);
-router.get("/addProducts", adminController.getAddProduct);
-router.get("/account", adminController.getALoginpage);
-router.get("/category", adminController.getCategory);
+router.get("/products",isAdmin, adminController.getProducts);
+router.get("/userList",isAdmin, adminController.getUserList);
+router.get("/addProducts",isAdmin, adminController.getAddProduct);
+router.get("/category",isAdmin, adminController.getCategory);
+router.get("/logout",isAdmin, adminController.getLogout)
 
-router.post("/login",adminController.adminLogin);
+router.get("/adminlogin", adminController.getALoginpage);
+router.post("/adminlogin",adminController.adminLogin);
 
 // router.get("/login", adminController.getLoginPage);
 // router.post("/login", adminController.adminLogin);

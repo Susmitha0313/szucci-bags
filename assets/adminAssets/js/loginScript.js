@@ -1,6 +1,6 @@
 const emailid = document.getElementById('emailAdmin')
 const passid = document.getElementById('passAdmin')
-const loginAdminid = document.getElementById('loginAdmin')
+const loginAdminid = document.getElementById('logForm')
 const error2 = document.getElementById('error2')
 const error4 = document.getElementById('error4')
 
