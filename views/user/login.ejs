@@ -58,25 +58,35 @@
                         <div class="login-register-wrap mr-70">
                             <h3 style="display: flex; justify-content:center; align-items: center;"><i class="fa fa-user-o"></i> Login</h3>
                             <div class="login-register-form">
-                                <form action="#">
+                                <form id="signform" action="/login" method="post">
+    
+                                    <% if(locals.message) { %>
+                                    <div  class="alert alert-success"> <%= locals.message %></div>
+                                    <% } %>
+            
+                                    <% if(locals.errmessage) { %>
+                                    <div class="alert alert-danger"> <%= locals.errmessage %></div>
+                                    <% } %>
+
+
                                     <div class="sin-login-register">
-                                        <label>Username or email address <span>*</span></label>
-                                        <input type="text" name="user-name">
+                                        <label for="typeEmailX">email address <span>*</span></label>
+                                        <input type="email" name="email" id="typeEmailX">
                                     </div>
+                                    <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
+
                                     <div class="sin-login-register">
-                                        <label>Password <span>*</span></label>
-                                        <input type="password" name="password">
+                                        <label for="typePasswordX">Password <span>*</span></label>
+                                        <input type="password" name="password" id="typePasswordX">
                                     </div>
+                                    <p><div id="error4" style="display: none;" class="alert alert-danger err"></div></p>
+
                                     <div class="login-register-btn-remember"  style="display: flex; justify-content:center; align-items: center; padding-top: 10px;">
-                                        <div class="login-register-remember">
-                                            <input type="checkbox">
-                                            <label>Remember me</label>
-                                        
-                                        <div class="login-register-btn">
-                                            <button type="submit">Log in</button>
-                                        </div>
-                                    </div>
-                                        
+                                       
+                                            <div class="login-register-btn">
+                                                <button type="submit">Login</button>
+                                            </div>
+                                      
                                     </div>
                                     <a href="forgetPass">Lost your password?</a>
                                 </form>
@@ -85,5 +95,59 @@
                         </div>
                     </div>
             </div>
-        </div>
-        <%- include("../partials/footer.ejs") %>
+        </div> 
+<script>
+  const emailid = document.getElementById('typeEmailX')
+  const passid = document.getElementById('typePasswordX')
+  const error2 = document.getElementById('error2')
+  const error4 = document.getElementById('error4')
+
+  
+function emailvalidateCheck(){
+    const emailval = emailid.value 
+    const emailpattern = /^([a-zA-Z0-9._-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/
+    if(!emailpattern.test(emailval)){
+        error2.style.display = "block"
+        error2.innerHTML = "Invalid Format"
+    }else{
+        error2.style.display = "none"
+        error2.innerHTML=""
+    }
+}
+
+function passValidateCheck(){
+    const passval = passid.value
+    const alpha = /[a-zA-Z]/
+    const digit = /\d/
+    if(passval.length < 6){
+        error4.style.display = "block"
+        error4.innerHTML = "Should contain atleast 6 characters"
+    }else if(!alpha.test(passval) || !digit.test(passval)){
+        error4.style.display = "block"
+        error4.innerHTML = "Should contain numbers an alphabets"
+    }else if(passval.trim()===""){
+        error4.style.display = "block"
+        error4.innerHTML = "Please enter the password"
+    }else{
+        error4.style.display = "none"
+        error4.innerHTML = ""
+    }
+}
+
+emailid.addEventListener("blur",emailvalidateCheck)
+passid.addEventListener("blur",passValidateCheck)
+
+document.addEventListener("DOMContentLoaded", function(){
+
+signform.addEventListener("submit", function(e){
+        emailvalidateCheck();
+        passValidateCheck();    
+        
+    });
+});
+
+</script> 
+
+
+
+<%- include("../partials/footer.ejs") %>

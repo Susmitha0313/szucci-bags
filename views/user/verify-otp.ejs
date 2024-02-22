@@ -1,0 +1,93 @@
+<%- include("../partials/header.ejs") %>
+   
+        <!-- mini cart start -->
+        <div class="sidebar-cart-active">
+            <div class="sidebar-cart-all">
+                <a class="cart-close" href="#"><i class="dlicon ui-1_simple-remove"></i></a>
+                <div class="cart-content">
+                    <h3>Shopping Cart</h3>
+                    <ul>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="assets/userAssets/images/cart/cart-1.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h4><a href="#">Bejewelled velvet sandals</a></h4>
+                                <span> 1 × $49.00	</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#">×</a>
+                            </div>
+                        </li>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="assets/userAssets/images/cart/cart-2.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h4><a href="#">Contrast faux fur jacket</a></h4>
+                                <span> 1 × $49.00	</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#">×</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="cart-total">
+                        <h4>Subtotal: <span>$170.00</span></h4>
+                    </div>
+                    <div class="cart-checkout-btn">
+                        <a class="btn-hover cart-btn-style" href="cart.html">view cart</a>
+                        <a class="no-mrg btn-hover cart-btn-style" href="checkout.html">checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
+            <div class="container-fluid">
+                <div class="breadcrumb-content text-center">
+                    <div class="breadcrumb-title">
+                        <h2>Email Verification</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="login-register-area pt-95 pb-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="login-register-wrap mr-70">
+                            <h3 style="display: flex; justify-content:center; align-items: center;"><i class="fa fa-user-o"></i> Verify OTP</h3>
+                            <div class="login-register-form">
+                                <form action="/verify-otp" method="post">
+    
+                                    <% if(locals.message) { %>
+                                    <div id="alertMessage" class="alert alert-success"> <%= locals.message %></div>
+                                    <% } %>
+            
+                                    <% if(locals.errmessage) { %>
+                                    <div id="alertMessage" class="alert alert-danger"> <%= locals.errmessage %></div>
+                                    <% } %>
+                                    <div class="sin-login-register">
+                                        <label>Enter OTP sent in your mail id:</label>
+                                        <input type="text" name="otp">
+                                    </div>
+                                    <div class="login-register-btn-remember"  style="display: flex; justify-content:center; align-items: center; padding-top: 10px;">
+                                        <div class="login-register-btn">
+                                            <button type="submit">Verify Email</button>
+                                        </div>  
+                                    </div>
+                                </form>
+                                <form action="/resend-otp" method="post">
+                                    <button type="submit">Resend OTP</button>
+                                </form>
+                               
+                            </div>
+                            <a>Already verified? </a> <a href="login">Login Now</a>
+                        </div>
+                    </div>
+            </div>
+        </div> 
+
+
+
+        <%- include("../partials/footer.ejs") %>

@@ -5,7 +5,7 @@
                 <div class="row align-items-center">
                     <div class="col-6">
                         <div class="mobile-logo logo-width">
-                            <a href="">
+                            <a href="/">
                                 <img alt="" src="assets/userAssets/images/logo/logo.png">
                             </a>
                         </div>
@@ -30,17 +30,7 @@
                 </div>
             </div>
         </div>
-        <!-- search start -->
-        <div class="search-content-wrap main-search-active">
-            <a class="search-close"><i class="dlicon ui-1_simple-remove"></i></a>
-            <div class="search-content">
-                <p>Start typing and press Enter to search</p>
-                <form class="search-form" action="#">
-                    <input type="text" placeholder="Search">
-                    <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
-                </form>
-            </div>
-        </div>
+        
         <!-- mini cart start -->
         <div class="sidebar-cart-active">
             <div class="sidebar-cart-all">
@@ -92,7 +82,7 @@
                     </div>
                     <ul>
                         <li>
-                            <a href="">Home</a>
+                            <a href="/">Home</a>
                         </li>
                         <li><span> > </span></li>
                         <li class="active">Register </li>
@@ -107,33 +97,184 @@
                         <div class="login-register-wrap register-wrap">
                             <h3 style="display: flex; justify-content:center; align-items: center;"> <i class="fa fa-user-o"></i> Register</h3>
                             <div class="login-register-form">
-                                <form action="#">
+                                <form  action="/signup" id="signform" method="post">
+                                   
+                                    <% if(locals.message){ %>
+                                        <div class="alert alert-danger"> <%= locals.message %></div>
+                                        <% } %>
+
+
+                                <div class="form-group">
+                                    
+                                </div>
+
                                     <div class="sin-login-register">
-                                        <label>Name <span>*</span></label>
-                                        <input type="text" name="name">
+                                        <label for="typeNameX">Name <span>*</span></label>
+                                        <input id="typeNameX"  type="text" name="name" value="Susmitha S">
                                     </div>
+                                    <p><div id="error1" style="display:none;" class="alert alert-danger err"></div></p>
+                                    
                                     <div class="sin-login-register">
-                                        <label>Email address <span>*</span></label>
-                                        <input type="email" name="email">
+                                        <label for="typeEmailX">Email address <span>*</span></label>
+                                        <input id="typeEmailX"  type="text" name="email"  value="susmitha0313@gmail.com" placeholder="emample@gmail.com">
                                     </div>
+                                    <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
+
                                     <div class="sin-login-register">
-                                        <label>Phone number <span>*</span></label>
-                                        <input type="tel" name="phone">
+                                        <label for="typeMobileX">Phone number <span>*</span></label>
+                                        <input id="typeMobileX"  type="tel" name="phone" value="9645338880">
                                     </div>
+                                    <p><div id="error3" style="display: none;" class="alert alert-danger err"></div></p>
+                            
                                     <div class="sin-login-register">
-                                        <label>Password <span>*</span></label>
-                                        <input type="password" name="password">
+                                        <label for="typePasswordX">Password <span>*</span></label>
+                                        <input id="typePasswordX"  type="password" name="password" value="Susmitha@123">
                                     </div>
-                                    <p>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our <a href="#">privacy policy</a></p>
+                                    <p><div id="error4" style="display: none;" class="alert alert-danger err"></div></p>
+                                  
+                                    <div class="sin-login-register">
+                                        <label for="typeRepasswordX">Rewrite Password<span>*</span></label>
+                                        <input  id="typeRepasswordX" type="password" name="repassword" value="Susmitha@123">
+                                    </div>
+                                    <p><div id="error5" style="display: none;" class="alert alert-danger err"></div></p>
+                             
+                                
+                                  
+
+
                                     <div class="login-register-btn" style="display: flex; justify-content:center; align-items: center;">
-                                        <button type="submit">Register</button>
+                                     <button  type="submit">Register</button>
                                     </div>
+                                    <p>by Register, an OTP will be sent to your given Mail id</p>
                                 </form>
                             </div>
+                            <div>
+                                <p>Already have an account? <a href="/login">Login here</a>
+                                </p>
+                              </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
+       <script>
+const emailid = document.getElementById('typeEmailX')
+const nameid = document.getElementById('typeNameX')
+const mobileid = document.getElementById('typeMobileX')
+const passid = document.getElementById('typePasswordX')
+const passid2 = document.getElementById('typeRepasswordX')
+const error1 = document.getElementById('error1')
+const error2 = document.getElementById('error2')
+const error3 = document.getElementById('error3')
+const error4 = document.getElementById('error4')
+const error5 = document.getElementById('error5')
+const signform = document.getElementById('signform')
+
+console.log("signup script is running");
+
+function emailvalidateCheck(){
+    const emailval = emailid.value 
+    const emailpattern = /^([a-zA-Z0-9._-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/
+    if(!emailpattern.test(emailval)){
+        error2.style.display = "block"
+        error2.innerHTML = "Invalid Format"
+    }else{
+        error2.style.display = "none"
+        error2.innerHTML=""
+    }
+}
+
+function passValidateCheck(){
+    const passval = passid.value
+    const alpha = /[a-zA-Z]/
+    const digit = /\d/
+    if(passval.length < 6){
+        error4.style.display = "block"
+        error4.innerHTML = "Should contain atleast 6 characters"
+    }else if(!alpha.test(passval) || !digit.test(passval)){
+        error4.style.display = "block"
+        error4.innerHTML = "Should contain numbers an alphabets"
+    }else if(passval.trim()===""){
+        error4.style.display = "block"
+        error4.innerHTML = "Please enter the password"
+    }else{
+        error4.style.display = "none"
+        error4.innerHTML = ""
+    }
+}
+
+
+function nameValidateCheck(){
+    const nameval = nameid.value
+    if(nameval.trim()===""){
+        error1.style.display = "block"
+        error1.innerHTML="Please enter the name"
+    }else{
+        error1.style.display = "none"
+        error1.innerHTML = ""
+    }
+}
+
+function passwordConfirmSame(){
+    const pw1 = passid.value
+    const pw2 = passid2.value
+    if(pw1 != pw2){
+        error5.style.display = "block"
+        error5.innerHTML= "Passwords did not match"
+    }else{
+        error5.style.display = "none"
+        error5.innerHTML= "";
+    }
+}
+
+
+function phonenumValCheck(){
+    const mobileval = mobileid.value
+    const regex = /^\d{10}$/;
+    if(mobileval.trim()===""){
+        error3.style.display = "block"
+        error3.innerHTML = "Please enter the mobile number"
+    }else if(mobileval.length < 10 || mobileval.length > 15){
+        error3.style.display = "block"
+        error3.innerHTML = "Number must be between 10 to 15 digits"
+    }else if(!regex.test(mobileval)){
+        error3.style.display = "block"
+        error3.innerHTML = "invalid format"
+    }else{
+        error3.style.display="none"
+        error3.innerHTML=""
+    }
+}
+
+emailid.addEventListener("blur",emailvalidateCheck)
+nameid.addEventListener("blur",nameValidateCheck)
+mobileid.addEventListener("blur",phonenumValCheck)
+passid.addEventListener("blur",passValidateCheck)
+passid2.addEventListener("blur", passwordConfirmSame)
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    signform.addEventListener("submit", function(e){
+        emailvalidateCheck();
+        nameValidateCheck()
+        phonenumValCheck();
+        passValidateCheck();
+        passwordConfirmSame();
         
+        console.log(emailid, nameid, mobileid, passid, error1,error2,error3,error4,error5,signform);
+        if(!emailid || !nameid || !mobileid || !passid || !error1 || !error2 || !error3 || !error4 || !error5 || !signform){
+            console.log("fill all boxes in there");
+            alert("if in prevent")
+        }
+        if (error1.innerHTML || error2.innerHTML || error3.innerHTML || error4.innerHTML || error5.innerHTML) {
+            e.preventDefault();
+          }
+    
+    });
+});
+</script>
+
+       
         <%- include("../partials/footer.ejs") %>
