@@ -1,6 +1,7 @@
 
 <%- include("../partials/adminHeader.ejs") %>
 
+
 <body class="dark">
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
@@ -19,7 +20,7 @@
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-item active">
+                <li class="menu-item ">
                     <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
@@ -31,7 +32,7 @@
                         <span class="text">Users</span>
                     </a>
                 </li>
-              
+               
                
                 <!-- <li class="menu-item ">
                     <a class="menu-link" href="/admin/adminlogin"> <i class="icon material-icons md-person"></i>
@@ -92,85 +93,46 @@
             </div>
         </header>
 
-
-<section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Products </h2>
-        </div>
-        <div>
-            <a href="addProducts" class="btn btn-primary btn-sm rounded">Create new</a>
-        </div>
-    </div>
-    <div class="card mb-4">
-        <!-- <header class="card-header"> -->
-            <!-- <div class="row gx-3"> -->
-                <!-- <div class="col-lg-4 col-md-6 me-auto">
-                    <input type="text" placeholder="Search..." class="form-control">
-                </div> -->
-                <!-- <div class="col-lg-2 col-6 col-md-3">
-                    <select class="form-select">
-                        <option>All category</option>
-                        <option>Electronics</option>
-                        <option>Clothings</option>
-                        <option>Something else</option>
-                    </select>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Categories </h2>
+                    <p>Edit category</p>
                 </div>
-                <div class="col-lg-2 col-6 col-md-3">
-                    <select class="form-select">
-                        <option>Latest added</option>
-                        <option>Cheap first</option>
-                        <option>Most viewed</option>
-                    </select>
-                </div> -->
-            <!-- </div> -->
-        <!-- </header> -->
-        <div class="card-body">
-            <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
-                <div class="col">
-                    <div class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="/assets/adminAssets/imgs/items/1.jpg" alt="Product"> </a>
-                        <div class="info-wrap">
-                            <a href="#" class="title text-truncate">Just another product name</a>
-                            <div class="price mb-2">$179.00</div> <!-- price.// -->
-                            <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                                <i class="material-icons md-edit"></i> Edit
-                            </a>
-                            <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                                <i class="material-icons md-delete_forever"></i> Delete
-                            </a>
-                        </div>
-                    </div> <!-- card-product  end// -->
-                </div> <!-- col.// -->
-                <div class="col">
-                    <div class="card card-product-grid">
-                        <a href="#" class="img-wrap"> <img src="/assets/adminAssets/imgs/items/2.jpg" alt="Product"> </a>
-                        <div class="info-wrap">
-                            <a href="#" class="title text-truncate">Brown Winter Jacket for Men</a>
-                            <div class="price mb-2">$179.00</div> <!-- price.// -->
-                            <a href="#" class="btn btn-sm font-sm rounded btn-brand">
-                                <i class="material-icons md-edit"></i> Edit
-                            </a>
-                            <a href="#" class="btn btn-sm font-sm btn-light rounded">
-                                <i class="material-icons md-delete_forever"></i> Delete
-                            </a>
-                        </div>
-                    </div> <!-- card-product  end// -->
-                </div> <!-- col.// -->
-            </div> <!-- row.// -->
-        </div> <!-- card-body end// -->
-    </div> <!-- card end// -->
-    <div class="pagination-area mt-30 mb-50">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">16</a></li>
-                <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
-            </ul>
-        </nav>
-    </div>
-</section> 
-    <%- include("../partials/adminFooter.ejs") %>
+                <div>
+                    <input type="text"  placeholder="Search Categories" class="form-control bg-white">
+                </div>
+            </div>
+        <div class="card">
+            <div class="card-body">
+                <!-- <div class="row"> -->
+                    <div class="col-md-12">
+                        <form id="createCat" action="/admin/productCategory" method="post" type="submit">
+                            <div class="mb-4">
+                                <p class="form-label"><h6>Edit Category</h6></p>
+                                <label for="product-name" class="form-label">Name</label>
+                                <input type="text" name="name" value="" placeholder="Type here" class="form-control" id="product_name" />
+                            </div>
+                            <p><div id="error1" style="display: none;" class="alert alert-danger err"></div></p>
+    
+                            <div class="mb-4">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" placeholder="Type here" class="form-control" id="product_description">   </textarea>
+                            </div>
+                            <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
+    
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Update Category</button>
+                            </div>
+                        </form>
+                   
+            </div> <!-- card body .// -->
+        </div> <!-- card .// -->
+    </section>
+
+
+ 
+
+
+        
+<%- include("../partials/adminFooter.ejs") %>

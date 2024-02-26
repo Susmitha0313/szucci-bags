@@ -31,7 +31,7 @@ const productSchema = Mongoose.Schema({
         requires: true
     },
     createdOn:{
-        type: time,
+        type: Number,
         requires: true
     },
     quantity:{

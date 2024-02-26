@@ -71,6 +71,8 @@
                                         <label>Enter OTP sent in your mail id:</label>
                                         <input type="text" name="otp">
                                     </div>
+                                    <div>Time left: <span style="color: red;" id="timer"></span></div>
+                                    
                                     <div class="login-register-btn-remember"  style="display: flex; justify-content:center; align-items: center; padding-top: 10px;">
                                         <div class="login-register-btn">
                                             <button type="submit">Verify Email</button>
@@ -87,7 +89,35 @@
                     </div>
             </div>
         </div> 
+<script>
+    function callmycount(){
+        document.getElementById("timer").innerHTML = "02" + ":" + "00";
+        let myTimer = setInterval(startTimer, 1000);
 
+        function startTimer(){
+            var presentTime = document.getElementById('timer').innerHTML;
+            var timeArray = presentTime.split(/[:]+/);
+            var m = parseInt(timeArray[0]);
+            var s = checkSecond((parseInt(timeArray[1]) - 1));
+            if(s==59){m=m-1}
+            if(m<0 && s==59){
+                alert("Timeout for otp");
+                  clearTimeout(myTimer)
+                }
+            document.getElementById('timer').innerHTML =  m + ":" + s;
+                }
 
+            function checkSecond(sec){
+                if (sec < 10 && sec>= 0){
+                    sec = "0" + sec
+                }
+                if(sec< 0){
+                    sec = "59"
+                }
+                return sec;
+            }
+    }
+    callmycount();
+</script>
 
         <%- include("../partials/footer.ejs") %>

@@ -1,6 +1,6 @@
 const express = require("express");
 const User = require("../models/userSchema");
-const generateOtp = require("../Config/Otp/otpController");
+const otpController = require("../Config/Otp/otpController");
 const sentMail = require("../Config/nodemailer/sentMail.js");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
@@ -9,17 +9,18 @@ const { v4: uuidv4 } = require("uuid");
 env.config();
 
 
+const pageNotFound = async (req, res) => {
+   res.render("user/page-404")
+};
+
+
+
 //load loginPage
 const getLoginPage = async(req,res)=>{
-  
     try{
-        if(!req.session.user){
             res.render("user/login");
-        }else{
-            res.redirect("/");
-        }
     }catch(error){
-        console.log(error.message);
+        res.redirect("/pageNotFound");
     }
 };
 
@@ -30,18 +31,11 @@ const getSignupPage = async(req,res)=>{
     try{
         res.render("user/signup")
     }catch(error){
-        console.log(error.message);
+        res.redirect("user/pageNotFound");
     }
 };
 
 
-const pageNotFound = async (req, res) => {
-    try {
-      res.render("user/page-404");
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
 
 const getHomePage= async(req,res)=>{
@@ -79,8 +73,11 @@ const signupUser = async(req,res)=>{
         const findUser = await User.findOne({email});
 
             if(!findUser){
-                let otp = generateOtp();
+                let otp = otpController.generateOtp();
+                const otpDuration = 5 * 60 * 1000;
                 sentMail(email, otp);
+                const otpData = {otp, expiryTime:Date.now() + otpDuration};
+                otpController.otpExpiryTimer(otpData, otpDuration);
                 const newUser={
                     name:req.body.name,
                     email:req.body.email,
@@ -113,15 +110,12 @@ const signupUser = async(req,res)=>{
 
 //verify otp from email with generated otp and save the user data to DB
 const verifyOtp = async(req,res)=>{
-    console.log("hhh");
     try{
          //get otp from body
          const bodyOtp = req.body.otp;
          const sessionOtp = req.session.data.otp;
-         console.log( req.session)
         if(bodyOtp === sessionOtp){
             const user = req.session.data;
-            console.log(user.password);
             const passHashed = await securePassword(user.password);
             const newUser =  new User({
                 name:user.name,
@@ -131,7 +125,7 @@ const verifyOtp = async(req,res)=>{
             });
             await newUser.save();
             req.session.user = newUser._id;
-
+            console.log("verifying otp")
             res.redirect("/login");
            
         }else{
@@ -160,7 +154,7 @@ const securePassword = async (password) => {
     try{
         const email = req.body.email;
         console.log(email);
-        const otp = generateOtp();
+        const otp = otpController.generateOtp();
         await sentMail(email, otp);
         req.session.data.otp = otp;
         res.render("user/verify-otp")
@@ -174,7 +168,6 @@ const userLogin = async (req, res) => {
     try {
         const email= req.body.email;
         const password = req.body.password;
-
         // Find user by email
         const user = await User.findOne({email});
 
@@ -188,7 +181,6 @@ const userLogin = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid password' });
         }
-
         // Password is correct, set up user session or generate JWT token
         // req.session.user = user;
         res.redirect("/"); // Redirect to the desired page after successful login
@@ -201,6 +193,7 @@ const userLogin = async (req, res) => {
 
 
 module.exports = {
+    pageNotFound,
     getLoginPage,
     getProductDetailPage,
     getSignupPage,

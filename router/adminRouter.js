@@ -1,39 +1,37 @@
 const express = require("express");
-const router = express()
+const router = express();
 const adminController = require("../controller/adminController.js");
-
-
+const categoryController = require("../controller/categoryController.js");
+const productController = require("../controller/productController.js");
 const { isAdmin } = require("../Authentication/auth")  
 
 router.set("view engine" , "ejs")
 router.set("views" , "./views/admin")
 
-router.get("/", adminController.getAdminHome);
+
+router.get("/pageerror", adminController.pageNotFound);
+
+router.post("/logout",isAdmin, adminController.getALoginpage);
+// router.get("/",isAdmin, adminController.getAdminHome);
 router.get("/products",isAdmin, adminController.getProducts);
 router.get("/userList",isAdmin, adminController.getUserList);
 router.get("/addProducts",isAdmin, adminController.getAddProduct);
-router.get("/category",isAdmin, adminController.getCategory);
-router.get("/logout",isAdmin, adminController.getLogout)
+router.get("/logout",isAdmin, adminController.getLogout);
 
 router.get("/adminlogin", adminController.getALoginpage);
 router.post("/adminlogin",adminController.adminLogin);
 
-// router.get("/login", adminController.getLoginPage);
-// router.post("/login", adminController.adminLogin);
-
-// router.get("/signup", adminController.getSignupPage);
-// router.post("/signup", adminController.signupUser);
-
-// router.post("/verify-otp", adminController.verifyOtp);
-// router.post("/resend-otp", adminController.resendOtp);
-
-// router.get("/product-details", adminController.getProductDetailPage);
+router.get("/adminhome", adminController.getAdminHome)
 
 
+//category routerss
+router.get("/category",isAdmin, adminController.getCategory);
+router.get("/categoryEdit",isAdmin, adminController.getCategoryEdit);
+router.post("/productCategory", categoryController.addCategory);
 
-
-
-// router.get("/wishlist", adminController.getWishlist);
+//AdminUserManagment router
+router.put("/user/block/:userId",isAdmin, adminController.blockUser);
+router.put("/user/unblock/:userId",isAdmin, adminController.unblockUser);
 
 
 

@@ -6,7 +6,7 @@
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top">
             <a href="/admin" class="brand-wrap">
-                <img src="//assets/adminAssets/imgs/icons/logo.png" class="logo" alt="Evara Dashboard">
+                <img src="/assets/adminAssets/imgs/icons/logo.png" class="logo" alt="Evara Dashboard">
             </a>
             <div>
                 <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
@@ -15,7 +15,7 @@
         <nav>
             <ul class="menu-aside">
                 <li class="menu-item">
-                    <a class="menu-link" href="/admin"> <i class="icon material-icons md-home"></i>
+                    <a class="menu-link" href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
@@ -31,19 +31,14 @@
                         <span class="text">Users</span>
                     </a>
                 </li>
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/addProducts"> <i class="icon material-icons md-add_box"></i>
-                        <span class="text">Add product</span>
-                    </a>
-                    
-                </li>
+              
                
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/account"> <i class="icon material-icons md-person"></i>
+                <!-- <li class="menu-item ">
+                    <a class="menu-link" href="/admin/adminlogin"> <i class="icon material-icons md-person"></i>
                         <span class="text">Account</span>
                     </a>
                     
-                </li>
+                </li> -->
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-category"></i>
                         <span class="text">Category</span>
@@ -62,12 +57,12 @@
                         <input list="search_terms" type="text" class="form-control" placeholder="Search term">
                         <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
                     </div>
-                    <datalist id="search_terms">
+                    <!-- <datalist id="search_terms">
                         <option value="Products">
                         <option value="New orders">
                         <option value="Apple iphone">
                         <option value="Ahmed Hassan">
-                    </datalist>
+                    </datalist> -->
                 </form>
             </div>
             <div class="col-nav">
@@ -84,7 +79,7 @@
                     </li>
                   
                     <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="//assets/adminAssets/imgs/people/testi-7.png" alt="User"></a>
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/assets/adminAssets/imgs/people/avatar4.jpg" alt="User"></a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
                             <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
                             <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
@@ -99,7 +94,7 @@
 
 <section class="content-main">
     <div class="content-header">
-        <h2 class="content-title">Sellers list</h2>
+        <h2 class="content-title">User list</h2>
         <div>
             <a href="#" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
         </div>
@@ -136,29 +131,13 @@
                             <th>Email</th>
                             <th>Status</th>
                             <th>Registered</th>
-                            <th class="text-end"> Action </th>
+                            <th>Action  </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td width="40%">
-                                <a href="#" class="itemside">
-                                    <div class="left">
-                                        <img src="/assets/adminAssets/imgs/people/avatar1.jpg" class="img-sm img-avatar" alt="Userpic">
-                                    </div>
-                                    <div class="info pl-3">
-                                        <h6 class="mb-0 title">Eleanor Pena</h6>
-                                        <small class="text-muted">Seller ID: #439</small>
-                                    </div>
-                                </a>
-                            </td>
-                            <td>eleanor2022@example.com</td>
-                            <td><span class="badge rounded-pill alert-success">Active</span></td>
-                            <td>08.07.2022</td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                            </td>
-                        </tr>
+                        <% user.forEach(element => { %>
+                         
+                       
                         <tr>
                             <td width="40%">
                                 <a href="#" class="itemside">
@@ -166,170 +145,26 @@
                                         <img src="/assets/adminAssets/imgs/people/avatar2.jpg" class="img-sm img-avatar" alt="Userpic">
                                     </div>
                                     <div class="info pl-3">
-                                        <h6 class="mb-0 title">Mary Monasa</h6>
-                                        <small class="text-muted">Seller ID: #129</small>
+                                        <h6 class="mb-0 title"><%= element.name %></h6>
                                     </div>
                                 </a>
                             </td>
-                            <td>monalisa@example.com</td>
-                            <td><span class="badge rounded-pill alert-success">Active</span></td>
-                            <td>11.07.2022</td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="40%">
-                                <a href="#" class="itemside">
-                                    <div class="left">
-                                        <img src="/assets/adminAssets/imgs/people/avatar3.jpg" class="img-sm img-avatar" alt="Userpic">
-                                    </div>
-                                    <div class="info pl-3">
-                                        <h6 class="mb-0 title">Jonatan Ive</h6>
-                                        <small class="text-muted">Seller ID: #400</small>
-                                    </div>
-                                </a>
-                            </td>
-                            <td>mrjohn@example.com</td>
+                            <td><%= element.email %></td>
                             <td><span class="badge rounded-pill alert-success">Active</span></td>
                             <td>08.07.2022</td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
+                            <td>
+                                <button class="toggleBtn btn btn-sm font-sm btn-brand rounded"
+                                data-user-id="<%= element._id %>"
+                                data-is-blocked="<%= element.isBlocked %>">
+                            <% if (!element.isBlocked) { %>
+                                Block
+                            <% } else { %>
+                                Unblock
+                            <% } %>
+                        </button>
                             </td>
                         </tr>
-                        <tr>
-                            <td width="40%">
-                                <a href="#" class="itemside">
-                                    <div class="left">
-                                        <img src="/assets/adminAssets/imgs/people/avatar4.jpg" class="img-sm img-avatar" alt="Userpic">
-                                    </div>
-                                    <div class="info pl-3">
-                                        <h6 class="mb-0 title">Eleanor Pena</h6>
-                                        <small class="text-muted">Seller ID: #439</small>
-                                    </div>
-                                </a>
-                            </td>
-                            <td>eleanor2022@example.com</td>
-                            <td><span class="badge rounded-pill alert-danger">Inactive</span></td>
-                            <td>08.07.2022</td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="40%">
-                                <a href="#" class="itemside">
-                                    <div class="left">
-                                        <img src="/assets/adminAssets/imgs/people/avatar1.jpg" class="img-sm img-avatar" alt="Userpic">
-                                    </div>
-                                    <div class="info pl-3">
-                                        <h6 class="mb-0 title">Albert Pushkin</h6>
-                                        <small class="text-muted">Seller ID: #439</small>
-                                    </div>
-                                </a>
-                            </td>
-                            <td>someone@mymail.com</td>
-                            <td><span class="badge rounded-pill alert-success">Active</span></td>
-                            <td>20.11.2019</td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="40%">
-                                <a href="#" class="itemside">
-                                    <div class="left">
-                                        <img src="/assets/adminAssets/imgs/people/avatar2.jpg" class="img-sm img-avatar" alt="Userpic">
-                                    </div>
-                                    <div class="info pl-3">
-                                        <h6 class="mb-0 title">Alexandra Pena</h6>
-                                        <small class="text-muted">Seller ID: #439</small>
-                                    </div>
-                                </a>
-                            </td>
-                            <td>eleanor2022@example.com</td>
-                            <td><span class="badge rounded-pill alert-danger">Inactive</span></td>
-                            <td>08.07.2022</td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="40%">
-                                <a href="#" class="itemside">
-                                    <div class="left">
-                                        <img src="/assets/adminAssets/imgs/people/avatar3.jpg" class="img-sm img-avatar" alt="Userpic">
-                                    </div>
-                                    <div class="info pl-3">
-                                        <h6 class="mb-0 title">Eleanor Pena</h6>
-                                        <small class="text-muted">Seller ID: #439</small>
-                                    </div>
-                                </a>
-                            </td>
-                            <td>eleanor2022@example.com</td>
-                            <td><span class="badge rounded-pill alert-danger">Inactive</span></td>
-                            <td>08.07.2022</td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="40%">
-                                <a href="#" class="itemside">
-                                    <div class="left">
-                                        <img src="/assets/adminAssets/imgs/people/avatar4.jpg" class="img-sm img-avatar" alt="Userpic">
-                                    </div>
-                                    <div class="info pl-3">
-                                        <h6 class="mb-0 title">Alex Pushkina</h6>
-                                        <small class="text-muted">Seller ID: #439</small>
-                                    </div>
-                                </a>
-                            </td>
-                            <td>alex@gmail.org</td>
-                            <td><span class="badge rounded-pill alert-success">Active</span></td>
-                            <td>08.07.2022</td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="40%">
-                                <a href="#" class="itemside">
-                                    <div class="left">
-                                        <img src="/assets/adminAssets/imgs/people/avatar1.jpg" class="img-sm img-avatar" alt="Userpic">
-                                    </div>
-                                    <div class="info pl-3">
-                                        <h6 class="mb-0 title">Eleanor Pena</h6>
-                                        <small class="text-muted">Seller ID: #439</small>
-                                    </div>
-                                </a>
-                            </td>
-                            <td>eleanor2022@example.com</td>
-                            <td><span class="badge rounded-pill alert-success">Active</span></td>
-                            <td>08.07.2022</td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="40%">
-                                <a href="#" class="itemside">
-                                    <div class="left">
-                                        <img src="/assets/adminAssets/imgs/people/avatar2.jpg" class="img-sm img-avatar" alt="Userpic">
-                                    </div>
-                                    <div class="info pl-3">
-                                        <h6 class="mb-0 title">Eleanor Pena</h6>
-                                        <small class="text-muted">Seller ID: #439</small>
-                                    </div>
-                                </a>
-                            </td>
-                            <td>eleanor2022@example.com</td>
-                            <td><span class="badge rounded-pill alert-success">Active</span></td>
-                            <td>08.07.2022</td>
-                            <td class="text-end">
-                                <a href="#" class="btn btn-sm btn-brand rounded font-sm mt-15">View details</a>
-                            </td>
-                        </tr>
+                        <% }) %> 
                     </tbody>
                 </table> <!-- table-responsive.// -->
             </div>
@@ -337,16 +172,57 @@
     </div> <!-- card end// -->
     <div class="pagination-area mt-15 mb-50">
         <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">16</a></li>
-                <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
-            </ul>
+            
         </nav>
     </div>
 </section>
+<!-- <script>
+    // Add event listener to the button
+document.getElementById('toggleBtn').addEventListener('click', function() {
+    // Toggle the 'blocked' class of the button
+    this.classList.toggle('blocked');
+
+    // Change the button text based on its state
+    if (this.classList.contains('blocked')) {
+        this.innerText = 'Unblock';
+    } else {
+        this.innerText = 'Block';
+    }
+});
+
+</script>-->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(()=> {
+        // Handle click event on toggleBtn
+        $('.toggleBtn').click(()=> {
+            const userId = $(this).data('userId');
+            const isBlocked = $(this).data('isBlocked');
+            const action = isBlocked ? 'unblock' : 'block';
+
+            // Send AJAX request to backend route
+            $.ajax({
+                url: `/user/${action}/${userId}`,
+                type: 'PUT',
+                success: function(response) {
+                    // Update button text and data attribute
+                    if (action === 'block') {
+                        $(this).text('Unblock').data('isBlocked', true);
+                    } else {
+                        $(this).text('Block').data('isBlocked', false);
+                    }
+                    alert(response.message);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('Error occurred while processing request');
+                }
+            });
+        });
+    });
+</script>
+
 
         <%- include("../partials/adminFooter.ejs") %>

@@ -9,8 +9,8 @@ const error3 = document.getElementById('error3')
 const error4 = document.getElementById('error4')
 const error5 = document.getElementById('error5')
 const signform = document.getElementById('signform')
+const timerElement = document.getElementById("timer")
 
-console.log("signup script is running");
 
 function emailvalidateCheck(){
     const emailval = emailid.value 
@@ -55,6 +55,7 @@ function nameValidateCheck(){
     }
 }
 
+
 function passwordConfirmSame(){
     const pw1 = passid.value
     const pw2 = passid2.value
@@ -74,10 +75,10 @@ function phonenumValCheck(){
     if(mobileval.trim()===""){
         error3.style.display = "block"
         error3.innerHTML = "Please enter the mobile number"
-    }else if(mobileval.length < 10 || mobileval.length > 15){
+    }else if(mobileval.length < 10 || mobileval.length > 10){
         error3.style.display = "block"
-        error3.innerHTML = "Number must be between 10 to 15 digits"
-    }else if(!regex.test(mobileval)){
+        error3.innerHTML = "Number must be between 10 digits"
+    }else if(!regex.test(mobileval) || mobileval === "0000000000"){
         error3.style.display = "block"
         error3.innerHTML = "invalid format"
     }else{
@@ -86,15 +87,14 @@ function phonenumValCheck(){
     }
 }
 
+
+
 emailid.addEventListener("blur",emailvalidateCheck)
 nameid.addEventListener("blur",nameValidateCheck)
 mobileid.addEventListener("blur",phonenumValCheck)
 passid.addEventListener("blur",passValidateCheck)
 
 document.addEventListener("DOMContentLoaded", function(){
-
-
-
     signform.addEventListener("submit", function(e){
         emailvalidateCheck();
         nameValidateCheck();

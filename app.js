@@ -36,6 +36,9 @@ app.use(express.static(path.join(__dirname,"views")))
 //   res.status(404).render('page-404');
 // });
 
+
+
+
 //set up session middlewares
 app.use(
     session({
@@ -55,6 +58,14 @@ app.use("/", nocache());
 
 app.use("/",userRouter);
 app.use("/admin", adminRouter);
+
+app.use("/*", function (req, res) {
+  res.redirect("/pageNotFound");
+});
+
+app.use("/admin/*", (req,res)=>{
+  res.redirect("/pageerror")
+})
 
 app.listen(port, ()=>{
     console.log(`Server is running at http://localhost:${port}  .....if you are an admin click here http://localhost:${port}/admin/adminlogin`);

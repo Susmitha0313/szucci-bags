@@ -5,6 +5,8 @@ const userController = require("../controller/userController.js");
 
 router.get("/", userController.getHomePage);
 
+router.get("/pageNotFound", userController.pageNotFound);
+
 router.get("/login", userController.getLoginPage);
 router.post("/login", userController.userLogin);
 

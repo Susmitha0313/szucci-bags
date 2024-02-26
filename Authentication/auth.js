@@ -19,20 +19,28 @@ const isLogged = (req,res,next)=>{
     }
 }
 
+
 const isAdmin = (req,res,next)=>{
-    User.findOne({ isAdmin:"1"})
-    .then((data)=>{
-        if(data){
-            next();
-        }else{
-            res.redirect("/adminlogin");
-        }
-    })
-    .catch((error)=>{
-        console.log("Error in isAdmin middleWare");
-        res.status(500).send("Internal server errorrrr");
-    })
+  try{
+    console.log("middleware calling");
+    
+    admin = req.session.admin;
+    console.log("middleware"+ admin);
+  
+    if(admin){
+        next();
+    }else{
+        console.log("else condition");
+        res.redirect("/admin/adminLogin");
+    }
+}catch(error){
+    console.error("Error in isAdmin middleware:", error);
+    res.status(500).send("Internal server error");
 }
+}
+
+
+
 
 
 module.exports = {

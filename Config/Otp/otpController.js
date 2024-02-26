@@ -9,4 +9,13 @@ const generateOtp = ()=>{
 }
 
 
-module.exports = generateOtp;
+const otpExpiryTimer = (otp, duration)=>{
+    setTimeout(()=>{
+        delete otp;
+        console.log("OTP expired");
+    },duration);
+};
+
+module.exports = {
+    generateOtp,
+    otpExpiryTimer};
