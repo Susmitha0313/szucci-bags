@@ -1,0 +1,264 @@
+{
+	"tables": {
+		"f0e4230d-aa4c-4938-a5fd-d341985f4dcf": {
+			"id": "f0e4230d-aa4c-4938-a5fd-d341985f4dcf",
+			"visible": true,
+			"name": "user",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "182ecaf1-d3c3-4134-81e8-4ccd982f00e9",
+					"name": "_id",
+					"datatype": "ObjectId",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"options": ""
+				},
+				{
+					"id": "692888ec-95af-4916-b65c-bd251e81e989",
+					"name": "name",
+					"datatype": "String",
+					"param": "",
+					"pk": false,
+					"nn": false,
+					"list": false,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"options": ""
+				}
+			],
+			"relations": [
+				"507ed1be-f8d7-4c5a-8e97-f646bf2d7fc8"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "6504e403-5154-40f4-8f09-3c2f76098877",
+					"name": "Primary",
+					"isPk": true,
+					"cols": [
+						{
+							"id": "c39bb6f5-68d9-42e3-afe0-5322129b4b52",
+							"colid": "182ecaf1-d3c3-4134-81e8-4ccd982f00e9"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"others": ""
+		},
+		"110e083b-48ec-407f-865a-8fdd912a22a3": {
+			"id": "110e083b-48ec-407f-865a-8fdd912a22a3",
+			"visible": true,
+			"name": "product",
+			"desc": "",
+			"estimatedSize": "",
+			"cols": [
+				{
+					"id": "3f55ed89-abcd-467d-8a3c-9cd3e2452e18",
+					"name": "_id",
+					"datatype": "ObjectId",
+					"param": "",
+					"pk": true,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"options": ""
+				},
+				{
+					"id": "4f5990d6-437e-4942-84a0-16543983d782",
+					"name": "user",
+					"datatype": "ObjectId",
+					"param": "",
+					"pk": false,
+					"nn": true,
+					"comment": "",
+					"defaultvalue": "",
+					"data": "",
+					"after": "",
+					"options": "",
+					"fk": true
+				}
+			],
+			"relations": [
+				"507ed1be-f8d7-4c5a-8e97-f646bf2d7fc8"
+			],
+			"lines": [],
+			"keys": [
+				{
+					"id": "6d8fcabe-035c-4d10-b7f6-ba9e68868934",
+					"name": "Primary",
+					"isPk": true,
+					"cols": [
+						{
+							"id": "a5331e74-f738-465c-87f5-5f8955035775",
+							"colid": "3f55ed89-abcd-467d-8a3c-9cd3e2452e18"
+						}
+					]
+				}
+			],
+			"indexes": [],
+			"embeddable": false,
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"beforeScript": "",
+			"afterScript": "",
+			"others": ""
+		}
+	},
+	"relations": {
+		"507ed1be-f8d7-4c5a-8e97-f646bf2d7fc8": {
+			"id": "507ed1be-f8d7-4c5a-8e97-f646bf2d7fc8",
+			"visible": true,
+			"name": "user_product",
+			"desc": "",
+			"type": "identifying",
+			"parent_key": "6504e403-5154-40f4-8f09-3c2f76098877",
+			"parent": "f0e4230d-aa4c-4938-a5fd-d341985f4dcf",
+			"child": "110e083b-48ec-407f-865a-8fdd912a22a3",
+			"c_mp": "true",
+			"c_mch": "true",
+			"c_p": "one",
+			"c_ch": "many",
+			"c_cp": "",
+			"c_cch": "",
+			"cols": [
+				{
+					"id": "3be5f7bb-6b12-4123-864a-fdef6c2796f6",
+					"parentcol": "182ecaf1-d3c3-4134-81e8-4ccd982f00e9",
+					"childcol": "4f5990d6-437e-4942-84a0-16543983d782"
+				}
+			],
+			"generate": true,
+			"generateCustomCode": true,
+			"customCode": "",
+			"relationColor": "transparent"
+		}
+	},
+	"notes": {},
+	"lines": {},
+	"model": {
+		"name": "project 1",
+		"id": "95661d65-46d5-41d8-bbe7-cf738bb7d49f",
+		"activeDiagram": "fc59f26b-a9bb-48a2-b6f5-ee3e3faf41dc",
+		"desc": "",
+		"path": "",
+		"type": "MONGOOSE",
+		"version": 1,
+		"parentTableInFkCols": true,
+		"caseConvention": "under",
+		"replaceSpace": "_",
+		"color": "transparent",
+		"sideSelections": true,
+		"isDirty": true,
+		"storedin": {
+			"major": 7,
+			"minor": 5,
+			"extra": 2
+		},
+		"laststoredin": {
+			"major": 7,
+			"minor": 5,
+			"extra": 2
+		},
+		"writeFileParam": false,
+		"authorName": "",
+		"companyDetails": "",
+		"companyUrl": "",
+		"def_coltopk": true,
+		"def_others": ""
+	},
+	"otherObjects": {},
+	"diagrams": {
+		"fc59f26b-a9bb-48a2-b6f5-ee3e3faf41dc": {
+			"name": "Main Diagram",
+			"description": "",
+			"id": "fc59f26b-a9bb-48a2-b6f5-ee3e3faf41dc",
+			"keysgraphics": true,
+			"linegraphics": "detailed",
+			"zoom": 1,
+			"background": "transparent",
+			"lineColor": "transparent",
+			"isOpen": true,
+			"main": true,
+			"diagramItems": {
+				"f0e4230d-aa4c-4938-a5fd-d341985f4dcf": {
+					"referencedItemId": "f0e4230d-aa4c-4938-a5fd-d341985f4dcf",
+					"x": 181,
+					"y": 134,
+					"gHeight": 63,
+					"gWidth": 179,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10",
+					"collapsed": false
+				},
+				"110e083b-48ec-407f-865a-8fdd912a22a3": {
+					"referencedItemId": "110e083b-48ec-407f-865a-8fdd912a22a3",
+					"x": 463,
+					"y": 143,
+					"gHeight": 63,
+					"gWidth": 185,
+					"color": "#ffffff",
+					"background": "#03a9f4",
+					"resized": false,
+					"autoExpand": true,
+					"backgroundOpacity": "10",
+					"collapsed": false
+				}
+			},
+			"scroll": {
+				"x": 0,
+				"y": 0
+			},
+			"type": "erd",
+			"showHorizontal": true,
+			"showDescriptions": true,
+			"showIndicators": true,
+			"showProgress": true,
+			"lineWidth": "2",
+			"boxSize": "0",
+			"boxSpacing": "2",
+			"boxAlign": "center",
+			"showIndicatorCaptions": true,
+			"showEstimatedSize": false,
+			"showSchemaContainer": true,
+			"showEmbeddedInParents": true,
+			"showCardinalityCaptions": true,
+			"showColumns": true,
+			"showColumnDataTypes": true,
+			"showSampleData": false,
+			"showTableIndexes": true,
+			"showTableDescriptions": false,
+			"showRelations": true,
+			"backgroundImage": "na",
+			"descriptionsColor": "transparent",
+			"embeddedSpacing": "2",
+			"showMainIcon": true,
+			"showLabels": true
+		}
+	},
+	"diagramsOrder": [],
+	"order": [],
+	"collapsedTreeItems": [],
+	"reverseStats": {}
+}

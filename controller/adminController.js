@@ -16,7 +16,7 @@ const getAdminHome = async(req,res)=>{
          res.render("adminHome");
        
     }catch(error){
-        console.log("/pageerror");
+        res.redirect("/pageerror");
     }  
     }
    
@@ -27,7 +27,7 @@ const getProducts = async(req,res)=>{
     try{
          res.render("products");
     }catch(error){
-        console.log("/pageerror");
+        res.redirect("/pageerror");
     }
 };
 
@@ -38,18 +38,7 @@ const getUserList = async(req,res)=>{
          res.render("userList",{user});
        
     }catch(error){
-        console.log("/pageerror");
-    }
-};
-
-
-
-const getAddProduct = async(req,res)=>{
-    try{
-         res.render("addProduct");
-       
-    }catch(error){
-        console.log("/pageerror");
+        res.redirect("/pageerror");
     }
 };
 
@@ -60,7 +49,7 @@ const getALoginpage = async(req,res)=>{
          res.render("adminLogin");
        
     }catch(error){
-        console.log("/pageerror");
+        res.redirect("/pageerror");
     }
 };
 
@@ -70,30 +59,15 @@ const getLogout =async(req,res)=>{
         req.session.admin = null;
         res.redirect("/admin/adminLogin");
     }catch(error){
-        console.log("/pageerror");
+        res.redirect("/pageerror");
     }
 }
 
 
 
-const getCategory = async(req,res)=>{
-    try{
-         res.render("productCategory");
-       
-    }catch(error){
-        console.log("/pageerror");
-    }
-};
 
-const getCategoryEdit = async(req,res)=>{
-    try{
-        res.render("productCategEdit");
-    }catch(error){
-        console.log("/pageerror");
-    }
-}
 
-  
+
 
 const adminLogin = async (req, res) => {
     
@@ -129,41 +103,23 @@ const adminLogin = async (req, res) => {
     }
 };
 
+const userBlock = async(req,res)=>{
+    try{
+        const id = req.query.id;
+        const userData = await User.findOne({_id:id});
 
-
-const blockUser = async(req,res)=>{
-    try {
-        const userId = req.params.userId;
-        console.log(userId);
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-        user.isBlocked = true;
-        await user.save();
-        res.status(200).json({ message: 'User blocked successfully' });
-    } catch (error) {
-        console.error('Error blocking user:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        if(userData.isBlocked == true){
+            const blocked = await User.findByIdAndUpdate({_id:id},{$set:{isBlocked:false}});
+          }else{
+           const unblocked = await User.findByIdAndUpdate({_id:id},{$set:{isBlocked:true}});
+          }
+          const user = await User.find({})
+          res.render("userList",{user});
+    }catch(error){
+        console.error("/pageerror");
     }
-};
+}
 
-
-const unblockUser = async(req,res)=>{
-    try {
-        const userId = req.params.userId;
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-        user.isBlocked = false;
-        await user.save();
-        res.status(200).json({ message: 'User unblocked successfully' });
-    } catch (error) {
-        console.error('Error unblocking user:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
 
 
 
@@ -172,13 +128,10 @@ module.exports = {
     getAdminHome,
     getProducts,
     getUserList,
-    getAddProduct,
     getALoginpage,
     getLogout,
-    getCategory,
-    getCategoryEdit,
-    blockUser,
-    unblockUser,
+   
+    userBlock,
 
     adminLogin
     

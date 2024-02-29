@@ -1,6 +1,17 @@
 
 <%- include("../partials/adminHeader.ejs") %>
-
+<style>
+     .thumbnails-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .thumbnail {
+            margin: 5px;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+</style>
 
 <body class="dark">
     <div class="screen-overlay"></div>
@@ -92,70 +103,318 @@
                 </ul>
             </div>
         </header>
-
-
-<section class="content-main">
-    <div class="row">
-        <div class="col-12">
-            <div class="content-header">
-                <h2 class="content-title">Add New Product</h2>
-               
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4>Basic</h4>
-                </div>
-                <div class="card-body">
-                    <form action="/admin/addProduct" method="post">
-                        <div class="mb-4">
-                            <label for="product_name"  class="form-label">Product title</label>
-                            <input name="productTitle" type="text"  placeholder="Type here" class="form-control" id="product_name">
-                        </div>
-                        <div class="mb-4">
-                            <label  for="product_description" class="form-label">Full description</label>
-                            <input name="description" placeholder="Type here" class="form-control" rows="4" id="product_description"></input>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="mb-4">
-                                    <label for="price" class="form-label">Price</label>
-                                    <div class="row gx-2">
-                                        <input name="price" id="price" placeholder="$" type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <div class="row gx-2">
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label">Category</label>
-                                            <select class="form-select">
-                                                <option> Travel Bag</option>
-                                                <option> Hand Bag </option>
-                                                <option> Laptop Bag </option>
-                                                <option> Sports Bag </option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-6 mb-3">
-                                            <label class="form-label">Brand</label>
-                                            <select class="form-select">
-                                                <option> Passenger </option>
-                                                <option> Nike </option>
-                                                <option> Americal Tourister </option>
-                                                <option> Miraggio </option>
-                                            </select>
-                                        </div>
-                                        <button type="submit" class="btn btn-md rounded font-sm hover-up">Add Product</button>
-                                    </form>
-                                </div>
-                            </div> 
-                         </div> 
+        <section class="content-main">
+            <div class="row">
+                <div class="col-12">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Product</h2>
+                       
                     </div>
-                </div> 
-            </div> 
-         </div>
-</section>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Basic</h4>
+                        </div>
+                        <div class="card-body">
+                            <form id="productAddForm" action="/admin/addProduct" method="post" enctype="multipart/form-data">
+                                <div class="mb-4">
+                                    <label for="product_name"  class="form-label">Product title</label>
+                                    <input id="product_name" name="productTitle" type="text"  placeholder="Type here" class="form-control" >
+                                <p><div id="nameError"  class=" text-danger"></div></p>
+                                </div>
+        
+                                <div class="mb-4">
+                                    <label  for="productDescription" class="form-label">Description</label>
+                                    <input id="productDescription" name="description" placeholder="Type here" type="text" class="form-control" rows="4" ></input>
+                                    <p><div id="descriptionError"  class=" text-danger"></div></p>
+                                </div>
+                                
+        
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            
+                                            <div class="row gx-2">
+                                                <label for="regPrice" class="form-label">Regular price</label>
+                                                <input id="regPrice" placeholder="$" name="regPrice" type="text" class="form-control">
+                                                <p><div id="regularError" class=" text-danger"></div></p>
+                                            </div>
+        
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label for="offerPrice" class="form-label">Offer price</label>
+                                            <input id="offerPrice" placeholder="$" name="OfferPrice" type="text" class="form-control">
+                                        <p><div id="offerPriceError" class=" text-danger"></div></p>
+                                    </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label name="currency" class="form-label">Currency</label>
+                                            <select class="form-select">
+                                                <option> INR </option>
+                                                <option> USD </option>
+                                        </select>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="mb-4">
+                                        <label  for="product_stock" class="form-label">Stock</label>
+                                        <input id="product_stock" name="description" placeholder="Type here" type="text" class="form-control"></input>
+                                        <p><div id="stockError"  class=" text-danger"></div></p>
+                                    </div>
+                                    
+                                    
+        
+                                </div>
+                                <!-- </div> -->
+                               
+                                <div class="col-lg-12">
+                                        
+                                        <div class="card-body">
+                                            <div class="card mb-6">
+                                                <div class="card-header">
+                                                    <h4>Choose images</h4>
+                                                </div>
+                                                <div class="border row">
+                                                    <div id="addedImagesContainer" class="thumbnails-container"></div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="input-upload">
+                                                        <input class="form-control border" name="images" id="imageInput" type="file"
+                                                            multiple>
+                                                    </div>
+                                                    <p><div id="images-error"  class=" text-danger"></div></p>
+        
+                                                </div>
+                                                
+                                            </div> <!-- card end// -->
+                                            
+                                
+                                            <div class="card mb-4">
+                                                <div class="card-header">
+                                                    <h4>Organization</h4>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row gx-2">
+                                                        <div class="col-sm-6 mb-3">
+                                                            <label name="category" class="form-label">Category</label>
+                                                            <select class="form-select">
+                                                                <option> Travel Bags </option>
+                                                                <option> Laptop Bags </option>
+                                                                <option> School Bags </option>
+                                                                <option> Hand Bags </option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-6 mb-3">
+                                                            <label name="brand" class="form-label">Brand</label>
+                                                            <select class="form-select">
+                                                                <option> Passenger </option>
+                                                                <option> Nike </option>
+                                                                <option> Miraggio </option>
+                                                                <option> American Tourister </option>
+                                                            </select>
+                                                        </div>
+                                                        
+                                                        
+                                                    </div> <!-- row.// -->
+                                                </div>
+                                            </div> <!-- card end// -->
+                                        </div>
+                                    </div> 
+                                    
+                                <!-- </div>  -->
+                                <button type="submit" class="btn btn-md rounded font-sm hover-up">  Save Product  </button>
+                                
+                           </form>
+                           </div>
+                        <p><div id="stockError" class=" text-danger"></div></p>
+         
+            </div>     
+        </section>
+
+
+<script>
+     document.getElementById('imageInput').addEventListener('change', function(event) {
+            const container = document.getElementById('addedImagesContainer');
+            container.innerHTML = ''; // Clear previous images
+
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function() {
+                        const img = document.createElement('img');
+                        img.src = reader.result;
+                        img.classList.add('thumbnail');
+                        container.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const productAddForm = document.getElementById("productAddForm");
+
+    function nameValidation() {
+        const productName = document.getElementById("product_name").value;
+        const nameError = document.getElementById("nameError");
+        // Validation logic for product name
+        if (productName.trim() === ""){
+                nameError.innerHTML = "Please enter valid name"
+                return false
+            } else if (productName.length <= 3) {
+                nameError.innerHTML = "Name must need atleast 3 character"
+                return false
+            } else if (productName.length >= 20) {
+                nameError.innerHTML = "Name can't exceed 20 character"
+                return false
+            } else if ((!/^[A-Za-z\s]+$/.test(productName))) {
+                nameError.innerHTML = "Name can't contain characters other than alphabets, underscore and &"
+                return false
+            }
+            nameError.innerHTML = "";
+            return true
+    }
+
+    function desValidation() {
+        const description = document.getElementById("productDescription").value;
+        const descriptionError = document.getElementById("descriptionError");
+        // Validation logic for description
+        if (description.trim() === "") {
+                descriptionError.innerHTML = "Please enter valid description"
+                return false
+            } else if (description.length <= 10) {
+                descriptionError.innerHTML = "Description must need more than 10 character"
+                return false
+            } else if (description.length >= 50) {
+                descriptionError.innerHTML = "Description can't exceed 50 character"
+                return false
+            }
+            descriptionError.innerHTML = "";
+            return true
+    }
+
+    function regValidation() {
+        const regular = document.getElementById("regPrice").value;
+        const regularError = document.getElementById("regularError");
+        // Validation logic for regular price
+        if (regular.trim() === "") {
+                regularError.innerHTML = "Please enter valid amount"
+                return false
+            } else if (/^\d+$/.test(regular)) {
+                const regNumber = parseInt(regular);
+                if (regNumber < 1000) {
+                    regularError.innerHTML = "Regular price need more than 1000 amount"
+                    return false
+                } else if (regNumber > 100000) {
+                    regularError.innerHTML = "Regular price can't accept more than 1,00,000 amount"
+                    return false
+                }
+            } else {
+                regularError.innerHTML = "Price can't contain characters other numbers"
+                return false
+            }
+            regularError.innerHTML = "";
+            return true
+    }
+
+    function offerValidation() {
+        const offerPrice = document.getElementById("offerPrice").value;
+        const offerPriceError = document.getElementById("offerPriceError");
+        // Validation logic for offer price
+        if (offerPrice.trim() === "") {
+                offerPriceError.innerHTML = "Please enter valid amount"
+                return false
+            } else if (/^\d+$/.test(offerPrice)) {
+                const regNumber = parseInt(offerPrice);
+                if (regNumber < 1000) {
+                    offerPriceError.innerHTML = "Offer price need more than 1000 amount"
+                    return false
+                } else if (regNumber > 100000) {
+                    offerPriceError.innerHTML = "Offer price can't accept more than 1,00,000 amount"
+                    return false
+                }
+            } else {
+                offerPriceError.innerHTML = "Price can't contain characters other numbers"
+                return false
+            }
+            offerPriceError.innerHTML = "";
+            return true
+    }
+
+    function stockValidation() {
+        const stock = document.getElementById("product_stock").value;
+        const stockError = document.getElementById("stockError");
+        // Validation logic for product stock
+        if (stock.trim() === "") {
+                stockError.innerHTML = "Please enter valid product stock";
+                return false;
+            } else if (/^\d+$/.test(stock)) {
+                const stockNumber = parseInt(stock);
+                if (stockNumber < 1) {
+                    stockError.innerHTML = "Product needs minimum 1 stock";
+                    return false;
+                } else {
+                    stockError.innerHTML = ""; // Clear the error message here
+                    return true; // Return true for valid input
+                }
+            } else {
+                stockError.innerHTML = "Stock amount can't contain characters other than numbers";
+                return false;
+            }
+    }
+
+    function imageValidation() {
+        const selectImages = document.getElementById("imageInput").files;
+        const imageError = document.getElementById("images-error");
+        // Validation logic for images
+
+            if (selectImages.length !== 5) {
+                imageError.innerHTML = "Images must need exactly 5 images";
+                return false;
+            }
+            imageError.innerHTML = "";
+            return true;
+    }
+
+    // Attach event listeners for form submission
+    productAddForm.addEventListener("submit", function (e) {
+        // Validate all fields on form submission
+        nameValidation();
+        desValidation();
+        regValidation();
+        offerValidation();
+        stockValidation();
+        imageValidation();
+
+        // Prevent form submission if there are validation errors
+        if (/* Any validation error condition */
+        nameError.innerHTML ||
+        descriptionError.innerHTML ||
+        regularError.innerHTML ||
+        offerPriceError.innerHTML ||
+        stockError.innerHTML ||
+        imageError.innerHTML) {
+            e.preventDefault();
+        }
+    });
+
+    // Attach blur event listeners for individual form fields
+    document.getElementById("product_name").addEventListener("blur", nameValidation);
+    document.getElementById("productDescription").addEventListener("blur", desValidation);
+    document.getElementById("regPrice").addEventListener("blur", regValidation);
+    document.getElementById("offerPrice").addEventListener("blur", offerValidation);
+    document.getElementById("product_stock").addEventListener("blur", offerValidation);
+    document.getElementById("imageInput").addEventListener("blur", offerValidation);
+});
+
+</script>
 
 <%- include("../partials/adminFooter.ejs") %>

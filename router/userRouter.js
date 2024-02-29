@@ -13,6 +13,7 @@ router.post("/login", userController.userLogin);
 router.get("/signup", userController.getSignupPage);
 router.post("/signup", userController.signupUser);
 
+router.get("/verify-otp", userController.getVerifyOtpPage);
 router.post("/verify-otp", userController.verifyOtp);
 router.post("/resend-otp", userController.resendOtp);
 

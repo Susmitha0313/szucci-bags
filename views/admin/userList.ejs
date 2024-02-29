@@ -96,7 +96,7 @@
     <div class="content-header">
         <h2 class="content-title">User list</h2>
         <div>
-            <a href="#" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
+            <a href="/signup" class="btn btn-primary"><i class="material-icons md-plus"></i> Create new</a>
         </div>
     </div>
     <div class="card mb-4">
@@ -130,14 +130,12 @@
                             <th>Seller</th>
                             <th>Email</th>
                             <th>Status</th>
-                            <th>Registered</th>
-                            <th>Action  </th>
+
+                            
                         </tr>
                     </thead>
                     <tbody>
                         <% user.forEach(element => { %>
-                         
-                       
                         <tr>
                             <td width="40%">
                                 <a href="#" class="itemside">
@@ -150,19 +148,15 @@
                                 </a>
                             </td>
                             <td><%= element.email %></td>
-                            <td><span class="badge rounded-pill alert-success">Active</span></td>
-                            <td>08.07.2022</td>
                             <td>
-                                <button class="toggleBtn btn btn-sm font-sm btn-brand rounded"
-                                data-user-id="<%= element._id %>"
-                                data-is-blocked="<%= element.isBlocked %>">
-                            <% if (!element.isBlocked) { %>
-                                Block
-                            <% } else { %>
-                                Unblock
-                            <% } %>
-                        </button>
-                            </td>
+                                <% if (element.isBlocked === true) { %>
+                                    <a href="/admin/userBlock?id=<%= element._id %> "><button  class="toggleBtn btn btn-sm font-sm btn-brand rounded" >Unblock</button></a>
+                                
+                                <% }else{ %>
+                                    <a href="/admin/userBlock?id=<%= element._id %> "><button  class="toggleBtn btn btn-sm font-sm btn-brand rounded">Block</button></a>  
+                                    <% } %>
+                              
+                              </td>
                         </tr>
                         <% }) %> 
                     </tbody>
@@ -176,53 +170,9 @@
         </nav>
     </div>
 </section>
-<!-- <script>
-    // Add event listener to the button
-document.getElementById('toggleBtn').addEventListener('click', function() {
-    // Toggle the 'blocked' class of the button
-    this.classList.toggle('blocked');
-
-    // Change the button text based on its state
-    if (this.classList.contains('blocked')) {
-        this.innerText = 'Unblock';
-    } else {
-        this.innerText = 'Block';
-    }
-});
-
-</script>-->
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    $(document).ready(()=> {
-        // Handle click event on toggleBtn
-        $('.toggleBtn').click(()=> {
-            const userId = $(this).data('userId');
-            const isBlocked = $(this).data('isBlocked');
-            const action = isBlocked ? 'unblock' : 'block';
 
-            // Send AJAX request to backend route
-            $.ajax({
-                url: `/user/${action}/${userId}`,
-                type: 'PUT',
-                success: function(response) {
-                    // Update button text and data attribute
-                    if (action === 'block') {
-                        $(this).text('Unblock').data('isBlocked', true);
-                    } else {
-                        $(this).text('Block').data('isBlocked', false);
-                    }
-                    alert(response.message);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                    alert('Error occurred while processing request');
-                }
-            });
-        });
-    });
-</script>
 
 
         <%- include("../partials/adminFooter.ejs") %>

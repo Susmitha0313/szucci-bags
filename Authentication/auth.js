@@ -2,8 +2,6 @@ const { log } = require("console");
 const User = require("../models/userSchema");
 
 const isLogged = (req,res,next)=>{
-    console.log("isLogged middleware calling");
-    log
     if(req.session.user){
         User.findOne({_id: req.session.user})
         .then((data)=>{
@@ -22,15 +20,10 @@ const isLogged = (req,res,next)=>{
 
 const isAdmin = (req,res,next)=>{
   try{
-    console.log("middleware calling");
-    
     admin = req.session.admin;
-    console.log("middleware"+ admin);
-  
     if(admin){
         next();
     }else{
-        console.log("else condition");
         res.redirect("/admin/adminLogin");
     }
 }catch(error){

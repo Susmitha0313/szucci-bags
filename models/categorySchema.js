@@ -5,20 +5,20 @@ const Mongoose = require("mongoose");
 const categorySchema = new Mongoose.Schema({
     name:{
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     description:{
         type: String,
         required: true,
-        unique:true 
     },
-    isListed: {
+    isBlocked:{
         type: Boolean,
-        default: true
+        default : false
     },
-    categoryOffer: {
+    serialNum:{
         type: Number,
-        default: "0"
+        unique:true
     }
 });
 

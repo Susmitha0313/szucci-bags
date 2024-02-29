@@ -25,6 +25,15 @@ const getLoginPage = async(req,res)=>{
 };
 
 
+const getVerifyOtpPage = async(req,res)=>{
+    try{
+            res.render("user/verify-otp");
+    }catch(error){
+        res.redirect("/pageNotFound");
+    }
+};
+
+
 //load signUppage
 const getSignupPage = async(req,res)=>{
     console.log("is signup calling");
@@ -125,11 +134,16 @@ const verifyOtp = async(req,res)=>{
             });
             await newUser.save();
             req.session.user = newUser._id;
-            console.log("verifying otp")
-            res.redirect("/login");
+            res.locals.message = "OTP verified successfully";
+            console.log("verifying OTP")
+            res.json({status:"success"});
+            // res.redirect("/login");
            
         }else{
-            console.log("otp is not matching");
+         res.json({status:"failed"});
+
+            //  console.log("OTP does not match");
+            //  res.render("user/verify-otp")
         }
         }catch(error){
         console.log(error.message);
@@ -152,11 +166,11 @@ const securePassword = async (password) => {
 
   const resendOtp = async(req,res)=>{
     try{
-        const email = req.body.email;
-        console.log(email);
-        const otp = otpController.generateOtp();
+       const email = req.session.data.email;
+       console.log(email);
+        const newOtp = otpController.generateOtp();
         await sentMail(email, otp);
-        req.session.data.otp = otp;
+        req.session.data.otp = newOtp;
         res.render("user/verify-otp")
     }catch(error){
         console.log("Error in resending OTP ");
@@ -164,7 +178,7 @@ const securePassword = async (password) => {
   }
   
 
-const userLogin = async (req, res) => {
+const userLogin = async (req, res) => {   
     try {
         const email= req.body.email;
         const password = req.body.password;
@@ -199,6 +213,7 @@ module.exports = {
     getSignupPage,
     getHomePage,
     getOtpPage,
+    getVerifyOtpPage,
     signupUser,
     pageNotFound,
     verifyOtp,

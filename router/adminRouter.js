@@ -4,6 +4,7 @@ const adminController = require("../controller/adminController.js");
 const categoryController = require("../controller/categoryController.js");
 const productController = require("../controller/productController.js");
 const { isAdmin } = require("../Authentication/auth")  
+const upload = require("../Config/multer folder/multer.js")
 
 router.set("view engine" , "ejs")
 router.set("views" , "./views/admin")
@@ -11,27 +12,37 @@ router.set("views" , "./views/admin")
 
 router.get("/pageerror", adminController.pageNotFound);
 
-router.post("/logout",isAdmin, adminController.getALoginpage);
-// router.get("/",isAdmin, adminController.getAdminHome);
-router.get("/products",isAdmin, adminController.getProducts);
-router.get("/userList",isAdmin, adminController.getUserList);
-router.get("/addProducts",isAdmin, adminController.getAddProduct);
-router.get("/logout",isAdmin, adminController.getLogout);
 
+
+router.get("/userList",isAdmin, adminController.getUserList);
+router.get("/logout",isAdmin, adminController.getLogout);
+router.post("/logout",isAdmin, adminController.getALoginpage);
 router.get("/adminlogin", adminController.getALoginpage);
 router.post("/adminlogin",adminController.adminLogin);
 
 router.get("/adminhome", adminController.getAdminHome)
 
 
+router.get("/userBlock", adminController.userBlock);
+router.get("/categoryBlock",categoryController.categoryBlock);
+
 //category routerss
-router.get("/category",isAdmin, adminController.getCategory);
-router.get("/categoryEdit",isAdmin, adminController.getCategoryEdit);
-router.post("/productCategory", categoryController.addCategory);
+router.get("/category",isAdmin, categoryController.getCategory);
+router.get("/categoryEdit",isAdmin, categoryController.getCategoryEdit);
+router.post("/category", categoryController.createCategory);
+
+//product routerss
+router.get("/products",isAdmin, adminController.getProducts);
+router.get("/addProducts",isAdmin, productController.getAddProduct);
+// router.post("/addProduct",isAdmin,productController.upload, productController.addNewProduct);
+router.post("/addProduct",isAdmin,upload.array("images", 5), productController.addNewProduct);
+
+
+
 
 //AdminUserManagment router
-router.put("/user/block/:userId",isAdmin, adminController.blockUser);
-router.put("/user/unblock/:userId",isAdmin, adminController.unblockUser);
+// router.put("/user/block/:userId",isAdmin, adminController.blockUser);
+// router.put("/user/unblock/:userId",isAdmin, adminController.unblockUser);
 
 
 
