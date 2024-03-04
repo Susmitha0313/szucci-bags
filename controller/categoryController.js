@@ -44,7 +44,7 @@ const createCategory = async(req,res)=>{
         name:catname,
         description: description
       });
-      await newCat.save();
+      await newCat.save();  
       console.log(newCat);
       return res.render("productCategory",{ creationError:"New Category Added"});
       // showSuccessMessage();
@@ -56,24 +56,24 @@ const createCategory = async(req,res)=>{
 }
 
 
-const categoryBlock = async(req,res)=>{
-  try{
-    console.log("CatBlock");
-    const nameCat = req.query.name;
-    const categoryName = await Category.findOne({name:nameCat});
-    console.log(categoryName);
-    if(categoryName.isBlocked === true){
-      const blocked = await Category.findByIdAndUpdate({name:categoryName},{$set:{isBlocked:false}})
-    }else{
-      const unblocked= await Category.findByIdAndUpdate({name:categoryName},{$set:{isBlocked:true}})
-    }
-const category = await Category.find({})
-res.render("productCategory",{category});
-  }catch(error){
-    console.error("/pageerror");
+const categoryBlock = async (req, res) => {
+  try {
+      console.log("CatBlock");
+      const nameCat = req.query.categoryName; // Corrected query parameter name
+      const categoryName = await Category.findOne({ name: nameCat });
+
+      if (categoryName.isBlocked === true) {
+          const blocked = await Category.findOneAndUpdate({ name: nameCat }, { $set: { isBlocked: false } });
+      } else {
+          const unblocked = await Category.findOneAndUpdate({ name: nameCat }, { $set: { isBlocked: true } });
+      }
+
+      const category = await Category.find({});
+      res.render("productCategory", { category });
+  } catch (error) {
+      console.error("/pageerror", error); // Log the actual error
   }
 }
-
 
 
 module.exports = {

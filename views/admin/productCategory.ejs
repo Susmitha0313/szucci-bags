@@ -150,16 +150,18 @@
                                 <% category.forEach(cat => { %>
                                 <tr>
                                     <td><b><%= cat.name %></b></td>
-                                    <td> <%= cat.description%></td>
-                                   
+                                    <td><%= cat.description %></td>
                                     <td>
                                         <% if (cat.isBlocked === true) { %>
-                                            <a href="/admin/categoryBlock?categoryName=<%= category.name %> "><button  class="toggleBtn btn btn-sm font-sm btn-brand rounded" >Unblock</button></a>
-                                        
-                                        <% }else{ %>
-                                            <a href="/admin/categoryBlock?categoryName=<%= category.name %> "><button  class="toggleBtn btn btn-sm font-sm btn-brand rounded">Block</button></a>  
-                                            <% } %>
-                                      </td>
+                                            <a href="/admin/categoryBlock?categoryName=<%= cat.name %>">
+                                                <button class="toggleBtn btn btn-sm font-sm btn-brand rounded">Unblock</button>
+                                            </a>
+                                        <% } else { %>
+                                            <a href="/admin/categoryBlock?categoryName=<%= cat.name %>">
+                                                <button class="toggleBtn btn btn-sm font-sm btn-brand rounded">Block</button>
+                                            </a>
+                                        <% } %>
+                                    </td>
                                 </tr>
                                 <% }) %>
                             </tbody>

@@ -14,49 +14,86 @@ const getAddProduct = async(req,res)=>{
 };
 
 
-const addNewProduct = async (req, res) => {
-    
+
+
+const geteditProduct = async (req, res) => {
     try {
-        // upload(req, res, async function (err) {
-        //     if (err instanceof multer.MulterError) {
-        //         console.log("Multer Error:", err);
-        //         return res.json({ status: "failed", message: "Error uploading files." });
-        //     } else if (err) {
-        //         console.log("Error:", err);
-        //         return res.json({ status: "failed", message: "Error uploading files." });
-        //     }
-
-        //     const { productName, description, regPrice, offerPrice } = req.body;
-
-        //     // Check for product existence
-        //     const productExists = await Product.findOne({ name: productName });
-        //     if (productExists) {
-        //         return res.json({ status: "failed", message: "Product already exists." });
-        //     }
-
-        //     // Check for empty fields or invalid input
-        //     if (!productName || !description || isNaN(regPrice) || isNaN(offerPrice)) {
-        //         return res.status(400).json({ status: "failed", message: "Invalid input." });
-        //     }
-
-        //     // Proceed with product creation
-        //     const newProd = new Product({
-        //         name: productName,
-        //         description: description,
-        //         regPrice: regPrice,
-        //         offerPrice: offerPrice,
-        //         images: req.files.map(file => file.path)
-        //     });
-        //     await newProd.save();
-        //     return res.json({ status: "success", message: "New product added." });
-        // });
-const name = req.body.productTitle;
-console.log(name);
-
-
+        const productId = req.params.productId;
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).send("Product not found");
+        }
+        res.render("editProduct", { product });
     } catch (error) {
-        console.log(error.message);
-        
+        console.error('Error retrieving product:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+
+
+
+
+const getProducts = async(req,res)=>{
+    try{
+        const product = await Product.find({});
+        res.render("products",{product});
+    }catch(error){
+        res.redirect("/pageerror");
+    }
+};
+
+
+
+
+const addProduct = async (req, res) => {
+  try {
+    // Extract data from the request body
+    const { productTitle, description, regPrice, OfferPrice , stock, category, brand } = req.body;
+    const images = req.files; // Assuming you're using multer or similar middleware for file uploads
+    // const imagesofArray = images.map(image => ({ url: image.path }))
+    const imagesofArray = req.files.map((x)=> x.originalname)
+    const description1 = ""+description
+    console.log(imagesofArray)
+    // Create a new product instance
+    const newProduct = new Product({
+        productName: productTitle,
+        description: description1,
+        regularPrice: regPrice,
+        salePrice: OfferPrice,
+        quantity: stock,
+        category: category,
+        brand: brand,
+        productImage: imagesofArray // Assuming images are stored as URLs in the database
+    });
+    // Save the new product to the database
+    await newProduct.save();
+    res.redirect("/admin/products");
+} catch (error) {
+    // Handle any errors that occur during product creation or saving
+    console.error(`Error in addProduct: ${error.message}`);
+    return res.status(500).json({ status: 'error', message: 'Internal server error' });
+  }
+};
+
+
+
+
+const productBlock = async(req, res) => {
+    try {
+        const prodName = req.query.productName;
+        const product = await Product.findOne({ productName: prodName });
+
+        if (product.isBlocked === true) {
+            await Product.findOneAndUpdate({ productName: prodName }, { $set: { isBlocked: false } });
+        } else {
+            await Product.findOneAndUpdate({ productName: prodName }, { $set: { isBlocked: true } });
+        }
+
+        const products = await Product.find({});
+        res.render("products", { product: products });
+    } catch (error) {
+        console.error("/pageerror", error);
     }
 }
 
@@ -65,7 +102,11 @@ console.log(name);
 
 module.exports = {
     getAddProduct,
-    addNewProduct,
+    addProduct,
+    getProducts,
+    productBlock,
+    geteditProduct
+
     // upload,
     // addUser,
 

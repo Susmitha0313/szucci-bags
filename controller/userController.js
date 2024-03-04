@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../models/userSchema");
+const Product = require("../models/productSchema");
 const otpController = require("../Config/Otp/otpController");
 const sentMail = require("../Config/nodemailer/sentMail.js");
 const nodemailer = require("nodemailer");
@@ -18,7 +19,7 @@ const pageNotFound = async (req, res) => {
 //load loginPage
 const getLoginPage = async(req,res)=>{
     try{
-            res.render("user/login");
+        res.render("user/login");
     }catch(error){
         res.redirect("/pageNotFound");
     }
@@ -49,13 +50,26 @@ const getSignupPage = async(req,res)=>{
 
 const getHomePage= async(req,res)=>{
     try{
+        const proData = await Product.find({isBlocked : false})
+        const isAuthenticated = req.session.email;
+        console.log("auth? :",isAuthenticated);
+
         console.log("home page loading");
-        res.render("user/home")
+        res.render("user/home",{proData,})
     }catch(error){
         console.log(error.message);
     }
 };
 
+
+
+const getuserProfilePage = async(req,res)=>{
+    try{
+        res.render("user/userProfile")
+    }catch(error){
+        console.log(error.message);
+    }
+}
 
 const getOtpPage = async(req,res)=>{
     try{
@@ -67,7 +81,11 @@ const getOtpPage = async(req,res)=>{
 
 const getProductDetailPage = async(req,res)=>{
     try{
-        res.render("user/product-details");
+        const proId = req.query.id;
+        console.log(proId)
+        const proDetails = await Product.findById({_id:proId})
+        console.log(proDetails)
+        res.render("user/product-details",{proDetails});
     }catch(error){
         console.log(error.message);
     }
@@ -102,7 +120,7 @@ const signupUser = async(req,res)=>{
                 res.render("user/verify-otp");
                 
             }else{
-                console.log("User already  Exists");
+                console.log("User already Exists");
                 return res.render("user/signup",{
                     message:"User with this email already exists",
                 });
@@ -184,19 +202,19 @@ const userLogin = async (req, res) => {
         const password = req.body.password;
         // Find user by email
         const user = await User.findOne({email});
-
+        console.log(user);
         // Check if user exists
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.render("user/login",{ message: "User not found" });
         }
-        
         // Check password
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Invalid password' });
-        }
-        // Password is correct, set up user session or generate JWT token
-        // req.session.user = user;
+            return res.render({ message: 'Invalid password' });
+        }     
+
+        
+        req.session.email = email;
         res.redirect("/"); // Redirect to the desired page after successful login
     } catch (error) {
         console.error(error.message);
@@ -212,6 +230,7 @@ module.exports = {
     getProductDetailPage,
     getSignupPage,
     getHomePage,
+    getuserProfilePage,
     getOtpPage,
     getVerifyOtpPage,
     signupUser,

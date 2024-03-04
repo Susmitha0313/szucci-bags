@@ -2,15 +2,9 @@ const { log } = require("console");
 const User = require("../models/userSchema");
 
 const isLogged = (req,res,next)=>{
-    if(req.session.user){
-        User.findOne({_id: req.session.user})
-        .then((data)=>{
-            if(data.isBlocked == false){
-                next()
-            }else{
-                res.redirect("/adminlogin")
-            }
-        })
+    console.log("logged? middleware")
+    if(req.session.email){
+      next()
     }else{
         console.log("else case");
         res.redirect("/login");

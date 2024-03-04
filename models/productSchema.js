@@ -4,59 +4,56 @@ const Mongoose = require("mongoose");
 const productSchema = Mongoose.Schema({
     id:{
         type: String,
-        requires: true
+        require: true
     },
     productName:{
         type: String,
-        requires: true
+        require: true
     },
     description:{
         type: String,
-        requires: true
+        require: true
     },
     brand:{
         type: String,
-        requires: true
+        require: true
     },
     category:{
         type: String,
-        requires: true
+        require: true
     },
     regularPrice:{
         type: Number,
-        requires: true
+        require: true
     },
     salePrice:{
         type: Number,
-        requires: true
+        require: true
     },
-    createdOn:{
-        type: Number,
-        requires: true
-    },
+    
     quantity:{
         type: Number,
-        requires: true
+        require: true
     },
     isBlocked:{
         type: Boolean,
-        requires: true
+        require: true
     },
     productImage:{
         type: Array,
-        requires: true
+        require: true
     },
     color:{
         type: String,
-        requires: true
+        require: true
     },
     status:{
         type: String,
-        requires: true
+        require: true
     },
     productOffer:{
         type: Number,
-        requires: true
+        require: true
     }
 
 })

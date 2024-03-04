@@ -23,13 +23,6 @@ const getAdminHome = async(req,res)=>{
 
 
 
-const getProducts = async(req,res)=>{
-    try{
-         res.render("products");
-    }catch(error){
-        res.redirect("/pageerror");
-    }
-};
 
 
 const getUserList = async(req,res)=>{
@@ -126,7 +119,7 @@ const userBlock = async(req,res)=>{
 module.exports = {
     pageNotFound,
     getAdminHome,
-    getProducts,
+    // getProducts,
     getUserList,
     getALoginpage,
     getLogout,

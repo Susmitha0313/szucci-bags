@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express()
 const userController = require("../controller/userController.js");
+const {isLogged} = require("../Authentication/auth") ;
 
 
 router.get("/", userController.getHomePage);
@@ -17,7 +18,10 @@ router.get("/verify-otp", userController.getVerifyOtpPage);
 router.post("/verify-otp", userController.verifyOtp);
 router.post("/resend-otp", userController.resendOtp);
 
-router.get("/product-details", userController.getProductDetailPage);
+router.get("/product-details",isLogged, userController.getProductDetailPage);
+
+router.get("/userProfile",isLogged, userController.getuserProfilePage);
+
 
 
 
