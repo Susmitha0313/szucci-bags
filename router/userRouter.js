@@ -18,7 +18,7 @@ router.get("/verify-otp", userController.getVerifyOtpPage);
 router.post("/verify-otp", userController.verifyOtp);
 router.post("/resend-otp", userController.resendOtp);
 
-router.get("/product-details",isLogged, userController.getProductDetailPage);
+router.get("/product-details", userController.getProductDetailPage);
 
 router.get("/userProfile",isLogged, userController.getuserProfilePage);
 

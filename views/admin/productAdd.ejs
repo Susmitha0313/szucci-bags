@@ -46,11 +46,11 @@
                 
                
                 <li class="menu-item ">
-                    <a class="menu-link" href="/admin/adminlogin"> <i class="icon material-icons md-person"></i>
-                        <span class="text">Account</span>
+                    <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-person"></i>
+                        <span class="text">Brand</span>
                     </a>
-                    
                 </li>
+                
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-category"></i>
                         <span class="text">Category</span>
@@ -154,7 +154,7 @@
                                    
                                     <div class="mb-4">
                                         <label  for="product_stock" class="form-label">Stock</label>
-                                        <input id="product_stock" name="stock" placeholder="Type here" type="text" class="form-control"></input>
+                                        <input id="product_stock" name="`" placeholder="Type here" type="text" class="form-control"></input>
                                         <p><div id="stockError"  class=" text-danger"></div></p>
                                     </div>
                                     
@@ -194,10 +194,11 @@
                                                         <div class="col-sm-6 mb-3">
                                                             <label name="category" class="form-label">Category</label>
                                                             <select class="form-select">
-                                                                <option> Travel Bags </option>
-                                                                <option> Laptop Bags </option>
-                                                                <option> School Bags </option>
-                                                                <option> Hand Bags </option>
+                                                                <% if(locals.catData){ %>
+                                                                    <% catData.forEach(element =>{ %>
+                                                                <option value="<%= element._id %>" ><%= element.name %> </option>
+                                                                <% }) %>
+                                                                <% } %>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-6 mb-3">
@@ -302,10 +303,10 @@
                 return false
             } else if (/^\d+$/.test(regular)) {
                 const regNumber = parseInt(regular);
-                if (regNumber < 1000) {
-                    regularError.innerHTML = "Regular price need more than 1000 amount"
+                if (regNumber < 100) {
+                    regularError.innerHTML = "Regular price need more than 100 amount"
                     return false
-                } else if (regNumber > 100000) {
+                } else if (regNumber >  100000) {
                     regularError.innerHTML = "Regular price can't accept more than 1,00,000 amount"
                     return false
                 }
@@ -318,6 +319,7 @@
     }
 
     function offerValidation() {
+         const regular = document.getElementById("regPrice").value;
         const offerPrice = document.getElementById("offerPrice").value;
         const offerPriceError = document.getElementById("offerPriceError");
         // Validation logic for offer price
@@ -325,14 +327,17 @@
                 offerPriceError.innerHTML = "Please enter valid amount"
                 return false
             } else if (/^\d+$/.test(offerPrice)) {
-                const regNumber = parseInt(offerPrice);
-                if (regNumber < 1000) {
-                    offerPriceError.innerHTML = "Offer price need more than 1000 amount"
+                const offerNumber = parseInt(offerPrice);
+                const regNumber = parseInt(regular);
+                if (offerNumber > regNumber) {
+                    offerPriceError.innerHTML = "Offer price cannot exceed regular price"
                     return false
-                } else if (regNumber > 100000) {
+                } else if (offerNumber > 100000 ) {
                     offerPriceError.innerHTML = "Offer price can't accept more than 1,00,000 amount"
                     return false
-                }
+                } else if (offerNumber < 100) {
+                    regularError.innerHTML = "Regular price need more than 100 amount"
+                    return false
             } else {
                 offerPriceError.innerHTML = "Price can't contain characters other numbers"
                 return false
@@ -340,6 +345,7 @@
             offerPriceError.innerHTML = "";
             return true
     }
+}
 
     function stockValidation() {
         const stock = document.getElementById("product_stock").value;

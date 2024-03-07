@@ -1,59 +1,100 @@
 const Category = require("../models/categorySchema");
 const Product = require("../models/productSchema");
 
-
+  
        
 const getCategory = async(req,res)=>{
   try{
-    const category = await Category.find({})
-
-       res.render("productCategory",{category});
-     
+    const catData = await Category.find({});
+      res.render("productCategory", {category : catData});
   }catch(error){
-      console.log("/pageerror");
+      console.log(error.message);
   }
 };
 
 
 
-const getCategoryEdit = async(req,res)=>{
+
+const getCatEdit = async(req,res)=>{
   try{
-      res.render("productCategEdit");
+    const catId = req.params.Id;
+    const category = await Category.findById({_id:catId});
+    console.log("cat: "+ category);
+    if(!category){
+      return res.status(404).send("Category not found");
+    }
+      res.render("productCategEdit",{category});
   }catch(error){
       console.log("/pageerror");
+      res.status(500).send('Category Edit Internal Server Error');
   }
 }
+                                                                       
+
+
 
   
 
-
-
 const createCategory = async(req,res)=>{
   try{
-    console.log("dfgdgfdg")
-    const catname = req.body.name;
-    const description = req.body.description;
-    const catData = await Category.findOne({name:catname});
-
-    if(catData){
-      console.log("Category already exists");
-      return res.status(400).json({ status: "error", message: "Category already exists" });
-    }
-    else{
-      const newCat = new Category({
-        name:catname,
-        description: description
+      const catName = req.body.name;
+      const catDes = req.body.description;
+      const category = await Category.find({})
+      console.log(category);
+      const catData = await Category.find({name: catName});
+      
+    if(typeof catData != undefined){
+       const newCat = new Category({
+        name: catName,
+        description : catDes
       });
-      await newCat.save();  
-      console.log(newCat);
-      return res.render("productCategory",{ creationError:"New Category Added"});
-      // showSuccessMessage();
+      const savedCat = await newCat.save();
+      return res.render("productCategory",{catAdded: "Category added successfully", category:[savedCat, ...category]})
+    }else{
+      const catExists = "Category already exists";
+      return res.render("productCategory",{errMsg: catExists});
     }
   }catch(error){
-    console.error(`Error in createCategory: ${error.message}`);
-    res.status(500).json({ status: "error", message: "Internal server error" });
+    console.log(error.message);
+    return res.status(500).send("Server Error");
   }
 }
+  
+
+
+//ivde ann error
+const categoryEdit = async (req, res) => {
+  try {
+    console.log("ivde category kitunilla....")
+    const catId = req.params.Id; // Assuming the parameter is 'id', not 'Id'
+    const catName = req.body.name;
+    const catDes = req.body.description;
+
+    // Find the category by its ID
+    const existingCategory = await Category.findById(catId);
+
+    if (!existingCategory) {
+      return res.status(404).json({ status: 'error', message: 'Category not found' });
+    }
+
+    // Update category properties
+    existingCategory.name = catName;
+    existingCategory.description = catDes;
+
+    // Save the updated category to the database
+    await existingCategory.save();
+
+    // Redirect to the appropriate route after successful update
+    res.redirect("/admin/category");
+  } catch (error) {
+    // Handle any errors that occur during the update process
+    console.error(`Error in updateCategory: ${error.message}`);
+    return res.status(500).json({ status: 'error', message: 'Internal server error' });
+  }
+};
+
+
+
 
 
 const categoryBlock = async (req, res) => {
@@ -69,7 +110,7 @@ const categoryBlock = async (req, res) => {
       }
 
       const category = await Category.find({});
-      res.render("productCategory", { category });
+      res.render("productCategory", {category});
   } catch (error) {
       console.error("/pageerror", error); // Log the actual error
   }
@@ -78,7 +119,8 @@ const categoryBlock = async (req, res) => {
 
 module.exports = {
     getCategory,
-    getCategoryEdit,
+    getCatEdit,
+    categoryEdit,
     createCategory,
     categoryBlock,
     

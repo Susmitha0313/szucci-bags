@@ -1,6 +1,6 @@
 
 <%- include("../partials/adminHeader.ejs") %>
-
+  
 
 <body class="dark">
     <div class="screen-overlay"></div>
@@ -33,13 +33,12 @@
                     </a>
                 </li>
                
-               
-                <!-- <li class="menu-item ">
-                    <a class="menu-link" href="/admin/adminlogin"> <i class="icon material-icons md-person"></i>
-                        <span class="text">Account</span>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-person"></i>
+                        <span class="text">Brand</span>
                     </a>
-                    
-                </li> -->
+                </li>
+                
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-category"></i>
                         <span class="text">Category</span>
@@ -103,21 +102,24 @@
                     <input type="text"  placeholder="Search Categories" class="form-control bg-white">
                 </div>
             </div>
-        <div class="card">
+        <div class="card">  
             <div class="card-body">
                 <!-- <div class="row"> -->
                     <div class="col-md-12">
-                        <form id="createCat" action="/admin/category" method="post" type="submit">
+                        <form id="createCat" action="/admin/categoryEdit" method="post" type="submit">
+                            <input type="hidden" name="categoryId" value="<%= category._id %>" />
+
                             <div class="mb-4">
                                 <p class="form-label"><h6>Edit Category</h6></p>
                                 <label for="product-name" class="form-label">Name</label>
-                                <input type="text" name="name" value="" placeholder="Type here" class="form-control" id="product_name" />
+                                <input type="text" name="name" value="<%= category.name %>" placeholder="Type here" class="form-control" id="product_name" />
                             </div>
                             <p><div id="error1" style="display: none;" class="alert alert-danger err"></div></p>
-    
+     
                             <div class="mb-4">
                                 <label class="form-label">Description</label>
-                                <textarea name="description" placeholder="Type here" class="form-control" id="product_description">   </textarea>
+          
+                                <input  type="text" style="height: 100px; vertical-align: top;"  name="description" value="<%= category.description %>" placeholder="Type here" class="form-control" id="product_description">
                             </div>
                             <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
     

@@ -26,6 +26,7 @@ const getLoginPage = async(req,res)=>{
 };
 
 
+
 const getVerifyOtpPage = async(req,res)=>{
     try{
             res.render("user/verify-otp");
@@ -33,6 +34,7 @@ const getVerifyOtpPage = async(req,res)=>{
         res.redirect("/pageNotFound");
     }
 };
+
 
 
 //load signUppage
@@ -50,6 +52,7 @@ const getSignupPage = async(req,res)=>{
 
 const getHomePage= async(req,res)=>{
     try{
+        
         const proData = await Product.find({isBlocked : false})
         const isAuthenticated = req.session.email;
         console.log("auth? :",isAuthenticated);
@@ -65,11 +68,13 @@ const getHomePage= async(req,res)=>{
 
 const getuserProfilePage = async(req,res)=>{
     try{
-        res.render("user/userProfile")
+        const userId = req.session.id;
+        const userData = await User.findById({userId})
+        res.render("user/userProfile",{userData})
     }catch(error){
         console.log(error.message);
     }
-}
+}    
 
 const getOtpPage = async(req,res)=>{
     try{
@@ -78,6 +83,9 @@ const getOtpPage = async(req,res)=>{
         console.log(error.message);
     }
 };
+
+
+
 
 const getProductDetailPage = async(req,res)=>{
     try{
