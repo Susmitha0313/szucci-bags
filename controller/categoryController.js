@@ -1,4 +1,5 @@
 const Category = require("../models/categorySchema");
+const Brand = require("../models/brandSchema");
 const Product = require("../models/productSchema");
 
   
@@ -11,26 +12,6 @@ const getCategory = async(req,res)=>{
       console.log(error.message);
   }
 };
-
-
-
-
-const getCatEdit = async(req,res)=>{
-  try{
-    const catId = req.params.Id;
-    const category = await Category.findById({_id:catId});
-    console.log("cat: "+ category);
-    if(!category){
-      return res.status(404).send("Category not found");
-    }
-      res.render("productCategEdit",{category});
-  }catch(error){
-      console.log("/pageerror");
-      res.status(500).send('Category Edit Internal Server Error');
-  }
-}
-                                                                       
-
 
 
   
@@ -62,21 +43,38 @@ const createCategory = async(req,res)=>{
   
 
 
+
+
+const getCatEdit = async(req,res)=>{
+  try{
+    const catId = req.params.Id;
+    const category = await Category.findById({_id:catId});
+    console.log("cat: "+ category);
+    if(!category){
+      return res.status(404).send("Category not found");
+    }
+      res.render("productCategEdit",{category});
+  }catch(error){
+      console.log("/pageerror");
+      res.status(500).send('Category Edit Internal Server Error');
+  }
+}
+                                                                       
+
+
+
+
 //ivde ann error
 const categoryEdit = async (req, res) => {
   try {
-    console.log("ivde category kitunilla....")
-    const catId = req.params.Id; // Assuming the parameter is 'id', not 'Id'
     const catName = req.body.name;
     const catDes = req.body.description;
-
-    // Find the category by its ID
-    const existingCategory = await Category.findById(catId);
-
-    if (!existingCategory) {
-      return res.status(404).json({ status: 'error', message: 'Category not found' });
+    const catId = req.params.Id;
+    const existingCategory = await Category.findById({_id:catId});
+    console.log("cat: "+ category);
+    if(!existingCategory){
+      return res.status(404).send("Category not found");
     }
-
     // Update category properties
     existingCategory.name = catName;
     existingCategory.description = catDes;

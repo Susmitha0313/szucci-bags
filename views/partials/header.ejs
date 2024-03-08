@@ -184,8 +184,19 @@
                     <div class="col-6">
                         <div class="mobile-header-right-wrap">
                             <div class="header-right-wrap header-right-flex">
+                                <div class="dropdown same-style">
+                                    <a href="#"><i class="fa fa-user"></i></a>
+                                    <div class="dropdown-content account-dropdown-active">
+                                        <ul>
+                                           
+                                            <li><a href="/login">Login</a></li>
+                                            <li><a href="/signup">Register</a></li>
+                                            <li><a href="/accountinfo">Account</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                                 <div class="same-style cart-wrap">
-                                    <a href="#" class="cart-active">
+                                    <a href="/productCart" class="cart-active">
                                         <i class="dlicon shopping_bag-20"></i>
                                         <span class="count-style">02</span>
                                     </a>
@@ -217,7 +228,7 @@
         <!-- mini cart start -->
         <div class="sidebar-cart-active">
             <div class="sidebar-cart-all">
-                <a class="cart-close" href="#"><i class="dlicon ui-1_simple-remove"></i></a>
+                <a class="cart-close" href="/productCart"><i class="dlicon ui-1_simple-remove"></i></a>
                 <div class="cart-content">
                     <h3>Shopping Cart</h3>
                     <ul>
@@ -250,8 +261,8 @@
                         <h4>Subtotal: <span>$170.00</span></h4>
                     </div>
                     <div class="cart-checkout-btn">
-                        <a class="btn-hover cart-btn-style" href="cart.html">view cart</a>
-                        <a class="no-mrg btn-hover cart-btn-style" href="checkout.html">checkout</a>
+                        <a class="btn-hover cart-btn-style" href="/productCart">view cart</a>
+                        <a class="no-mrg btn-hover cart-btn-style" href="/checkout">checkout</a>
                     </div>
                 </div>
             </div>

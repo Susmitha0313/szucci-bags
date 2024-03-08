@@ -135,7 +135,6 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="mb-4">
-                                            
                                             <div class="row gx-2">
                                                 <label for="regPrice" class="form-label">Regular price</label>
                                                 <input id="regPrice" placeholder="$" name="regPrice" type="text" value="<%= product.regularPrice %>" class="form-control">
@@ -148,7 +147,7 @@
                                         <div class="mb-4">
                                             <label for="offerPrice" class="form-label">Offer price</label>
                                             <input id="offerPrice" placeholder="$" name="OfferPrice" type="text" value="<%= product.salePrice %>" class="form-control">
-                                        <p><div id="offerPriceError" class=" text-danger"></div></p>
+                                            <p><div id="offerPriceError" class=" text-danger"></div></p>
                                     </div>
                                     </div>
                                     
@@ -200,21 +199,23 @@
                                                 <div class="card-body">
                                                     <div class="row gx-2">
                                                         <div class="col-sm-6 mb-3">
-                                                            <label name="category" class="form-label">Category</label>
-                                                            <select class="form-select">
-                                                                <option> Travel Bags </option>
-                                                                <option> Laptop Bags </option>
-                                                                <option> School Bags </option>
-                                                                <option> Hand Bags </option>
+                                                            <label  class="form-label">Category</label>
+                                                            <select name="category" class="form-select">
+                                                                <% if(locals.catData){ %>
+                                                                    <% catData.forEach(element =>{ %>
+                                                                <option value="<%= element._id %>" ><%= element.name %> </option>
+                                                                <% }) %>
+                                                                <% } %>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-6 mb-3">
-                                                            <label name="brand" class="form-label">Brand</label>
-                                                            <select class="form-select">
-                                                                <option> Passenger </option>
-                                                                <option> Nike </option>
-                                                                <option> Miraggio </option>
-                                                                <option> American Tourister </option>
+                                                            <label class="form-label">Brand</label>
+                                                            <select  name="brand" class="form-select">
+                                                                <% if(locals.brandData){ %>
+                                                                    <% brandData.forEach(element =>{ %>
+                                                                <option value="<%= element._id %>" ><%= element.name %> </option>
+                                                                <% }) %>
+                                                                <% } %>
                                                             </select>
                                                         </div>
                                                         
@@ -264,6 +265,7 @@
 
     function nameValidation() {
         const productName = document.getElementById("product_name").value;
+        console.log(productName)
         const nameError = document.getElementById("nameError");
         // Validation logic for product name
         if (productName.trim() === ""){
@@ -304,6 +306,7 @@
     function regValidation() {
         const regular = document.getElementById("regPrice").value;
         const regularError = document.getElementById("regularError");
+        console.log("regular price:", regular);
         // Validation logic for regular price
         if (regular.trim() === "") {
                 regularError.innerHTML = "Please enter valid amount"
@@ -329,6 +332,8 @@
          const regular = document.getElementById("regPrice").value;
         const offerPrice = document.getElementById("offerPrice").value;
         const offerPriceError = document.getElementById("offerPriceError");
+        console.log("Offer price:", offerPrice);
+
         // Validation logic for offer price
         if (offerPrice.trim() === "") {
                 offerPriceError.innerHTML = "Please enter valid amount"
@@ -345,6 +350,7 @@
                 } else if (offerNumber < 100) {
                     regularError.innerHTML = "Regular price need more than 100 amount"
                     return false
+                }
             } else {
                 offerPriceError.innerHTML = "Price can't contain characters other numbers"
                 return false
@@ -352,7 +358,8 @@
             offerPriceError.innerHTML = "";
             return true
     }
-}
+
+     
 
     function stockValidation() {
         const stock = document.getElementById("product_stock").value;

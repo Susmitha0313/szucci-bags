@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express()
 const userController = require("../controller/userController.js");
+const cartController = require("../controller/cartController.js");
 const {isLogged} = require("../Authentication/auth") ;
 
 
@@ -14,13 +15,16 @@ router.post("/login", userController.userLogin);
 router.get("/signup", userController.getSignupPage);
 router.post("/signup", userController.signupUser);
 
-router.get("/verify-otp", userController.getVerifyOtpPage);
-router.post("/verify-otp", userController.verifyOtp);
-router.post("/resend-otp", userController.resendOtp);
+router.get("/accountinfo",isLogged, userController.getAccountInfo);
 
-router.get("/product-details", userController.getProductDetailPage);
+router.get("/verify-otp",isLogged, userController.getVerifyOtpPage);
+router.post("/verify-otp",isLogged, userController.verifyOtp);
+router.post("/resend-otp",isLogged, userController.resendOtp);
 
-router.get("/userProfile",isLogged, userController.getuserProfilePage);
+router.get("/product-details",isLogged, userController.getProductDetailPage);
+
+router.get("/productCart",isLogged, cartController.getCartPage);
+router.get("/checkout",isLogged, cartController.getCheckoutPage);
 
 
 

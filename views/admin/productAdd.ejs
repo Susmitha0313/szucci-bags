@@ -117,7 +117,7 @@
                             <h4>Basic</h4>
                         </div>
                         <div class="card-body">
-                            <form id="productAddForm" action="/admin/addProduct" method="post" enctype="multipart/form-data">
+                            <form id="productAddForm" action="/admin/productAdd" method="post" enctype="multipart/form-data">
                                 <div class="mb-4">
                                     <label for="product_name"  class="form-label">Product title</label>
                                     <input id="product_name" name="productTitle" type="text"  placeholder="Type here" class="form-control" >
@@ -154,7 +154,7 @@
                                    
                                     <div class="mb-4">
                                         <label  for="product_stock" class="form-label">Stock</label>
-                                        <input id="product_stock" name="`" placeholder="Type here" type="text" class="form-control"></input>
+                                        <input id="product_stock" name="stock" placeholder="Type here" type="text" class="form-control"></input>
                                         <p><div id="stockError"  class=" text-danger"></div></p>
                                     </div>
                                     
@@ -192,8 +192,8 @@
                                                 <div class="card-body">
                                                     <div class="row gx-2">
                                                         <div class="col-sm-6 mb-3">
-                                                            <label name="category" class="form-label">Category</label>
-                                                            <select class="form-select">
+                                                            <label  class="form-label">Category</label>
+                                                            <select name="category" class="form-select">
                                                                 <% if(locals.catData){ %>
                                                                     <% catData.forEach(element =>{ %>
                                                                 <option value="<%= element._id %>" ><%= element.name %> </option>
@@ -202,12 +202,13 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-6 mb-3">
-                                                            <label name="brand" class="form-label">Brand</label>
-                                                            <select class="form-select">
-                                                                <option> Passenger </option>
-                                                                <option> Nike </option>
-                                                                <option> Miraggio </option>
-                                                                <option> American Tourister </option>
+                                                            <label class="form-label">Brand</label>
+                                                            <select  name="brand" class="form-select">
+                                                                <% if(locals.brandData){ %>
+                                                                    <% brandData.forEach(element =>{ %>
+                                                                <option value="<%= element._id %>" ><%= element.name %> </option>
+                                                                <% }) %>
+                                                                <% } %>
                                                             </select>
                                                         </div>
                                                         
@@ -336,8 +337,9 @@
                     offerPriceError.innerHTML = "Offer price can't accept more than 1,00,000 amount"
                     return false
                 } else if (offerNumber < 100) {
-                    regularError.innerHTML = "Regular price need more than 100 amount"
+                    offerPriceError.innerHTML = "Regular price need more than 100 amount"
                     return false
+                }
             } else {
                 offerPriceError.innerHTML = "Price can't contain characters other numbers"
                 return false
@@ -345,7 +347,8 @@
             offerPriceError.innerHTML = "";
             return true
     }
-}
+
+    
 
     function stockValidation() {
         const stock = document.getElementById("product_stock").value;

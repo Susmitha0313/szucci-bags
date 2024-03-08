@@ -52,11 +52,9 @@ const getSignupPage = async(req,res)=>{
 
 const getHomePage= async(req,res)=>{
     try{
-        
         const proData = await Product.find({isBlocked : false})
         const isAuthenticated = req.session.email;
         console.log("auth? :",isAuthenticated);
-
         console.log("home page loading");
         res.render("user/home",{proData,})
     }catch(error){
@@ -66,15 +64,15 @@ const getHomePage= async(req,res)=>{
 
 
 
-const getuserProfilePage = async(req,res)=>{
+const getAccountInfo = async(req,res)=>{
     try{
-        const userId = req.session.id;
-        const userData = await User.findById({userId})
-        res.render("user/userProfile",{userData})
+        res.render("user/userProfile");
     }catch(error){
         console.log(error.message);
     }
 }    
+
+
 
 const getOtpPage = async(req,res)=>{
     try{
@@ -238,7 +236,7 @@ module.exports = {
     getProductDetailPage,
     getSignupPage,
     getHomePage,
-    getuserProfilePage,
+    getAccountInfo,
     getOtpPage,
     getVerifyOtpPage,
     signupUser,

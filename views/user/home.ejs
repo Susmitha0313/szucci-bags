@@ -23,6 +23,62 @@
             </div>
         </div>
 
+
+
+        <div class="product-area pt-70 pb-45 section-padding-1">
+            <div class="container-fluid">
+                <div class="section-title-9 text-center">
+                    <h2>New Arrival</h2>
+                </div>
+                <div class="product-tab-list-5 nav mt-20 mb-45">
+                    <a class="active" href="#product-6" data-bs-toggle="tab">
+                        All
+                    </a>
+                    <a href="#product-7" data-bs-toggle="tab">
+                        Travel
+                    </a>
+                    <a href="#product-8" data-bs-toggle="tab">
+                        HandBag
+                    </a>
+                    <a href="#product-9" data-bs-toggle="tab">
+                        Laptop
+                    </a>
+                </div>
+                <div class="tab-content jump-2">
+                    <div id="product-6" class="tab-pane active padding-20-row-col">
+                        <div class="row">
+                          
+                        <% for(let i=0; i <proData.length ; i++){ %>
+
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                <div class="product-wrap mb-50">
+                                    <div class="product-img default-overlay mb-25"  style="height: 300px;">
+                                        <a href="/product-details?id=<%=proData[i]._id%>">
+                                            <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="Product">
+                                        </a>
+                                        </a>
+                                        <div class="product-action product-action-position-1">
+                                            <a href="/product-details?id=<%=proData[i]._id%>"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
+                                            <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
+                                           
+                                            <a title="Add to Cart" href="/productCart"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content-4 title-font-width-400 text-center">
+                                        <h3><a href="product-details"><%= proData.productName %></a></h3>
+                                        <div class="product-price-3">
+                                            <span class="new-price">$ <%= proData[i].regularPrice%></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %> 
+                        </div>
+                    </div>
+                </div>   
+            </div>
+        </div>
+                
         <div class="banner-area section-padding-1 padding-70-row-col pt-100">
             <div class="container-fluid">
                 <div class="row">
@@ -40,7 +96,7 @@
                             </span>
                             </div>
                             <div class="btn-style-2 btn-style-2-position mt-25">
-                                <a class="btn-2-border-black btn-2-bg-color" href="product-details.e">
+                                <a class="btn-2-border-black btn-2-bg-color" href="product-details">
                                     Shop now
                                 </a>
                             </div>
@@ -88,66 +144,21 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>        
 
-        <div class="product-area pt-70 pb-45 section-padding-1">
-            <div class="container-fluid">
-                <div class="section-title-9 text-center">
-                    <h2>New Arrival</h2>
-                </div>
-                <div class="product-tab-list-5 nav mt-20 mb-45">
-                    <a class="active" href="#product-6" data-bs-toggle="tab">
-                        All
-                    </a>
-                    <a href="#product-7" data-bs-toggle="tab">
-                        Travel
-                    </a>
-                    <a href="#product-8" data-bs-toggle="tab">
-                        HandBag
-                    </a>
-                    <a href="#product-9" data-bs-toggle="tab">
-                        Laptop
-                    </a>
-                </div>
-                <div class="tab-content jump-2">
-                    <div id="product-6" class="tab-pane active padding-20-row-col">
-                        <div class="row">
-                          
-                        <% for(let i=0; i <proData.length ; i++){ %>
 
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="product-wrap mb-50">
-                                    <div class="product-img default-overlay mb-25">
-                                        <a href="/product-details?id=<%=proData[i]._id%>">
-                                            <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="Product">
-                                        </a>>
-                                        </a>
-                                        <div class="product-action product-action-position-1">
-                                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="#"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                            <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                           
-                                            <a title="Add to Cart" href="#"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="product-content-4 title-font-width-400 text-center">
-                                        <h3><a href="product-details"><%= proData.productName %></a></h3>
-                                        <div class="product-price-3">
-                                            <span class="new-price">$ <%= proData[i].regularPrice%></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-<% } %>
 
-                            
-                        </div>
-                    </div>
-                </div>
-                 
-            </div>
-        </div>
-                   
+
+
+
+
+
+
+
+
+
+
         <div class="subscribe-area pt-100 pb-100">
             <div class="container">
                 <div class="row">

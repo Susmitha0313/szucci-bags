@@ -5,7 +5,7 @@ const Brand = require("../models/brandSchema");
 
              
 const getBrandPage = async(req,res)=>{
-  try{
+  try{    
     const brandData = await Brand.find({});
       res.render("productBrand", {brand : brandData});
   }catch(error){
@@ -13,11 +13,12 @@ const getBrandPage = async(req,res)=>{
   }
 };
 
-
+   
 
 const getBrandEdit = async(req,res)=>{
   try{
-      res.render("productBrandEdit");
+    const brandData = await Brand.find({});
+      res.render("productBrandEdit",{brandData});
   }catch(error){
       console.log("/pageerror");
   }
@@ -48,23 +49,48 @@ const createBrand = async(req,res)=>{
 }
   
 
+    
 
+// const brandBlock = async (req, res) => {
+//   try {
+//       const brandName = req.query.brandName; // Corrected query parameter brand
+//       const braName = await Brand.findOne({ brand: brandName });
+
+//       if (braName.isBlocked === true) {
+//           const blocked = await Brand.findOneAndUpdate({ brand: brandName }, { $set: { isBlocked: false } });
+//       } else {
+//           const unblocked = await Brand.findOneAndUpdate({ brand: brandName }, { $set: { isBlocked: true } });
+//       }
+
+//       const brandData = await Brand.find({});
+//       res.render("productBrand", {brand : brandData});
+//   } catch (error) {
+//       console.error("/pageerror", error); // Log the actual error
+//   }
+// }
 
 const brandBlock = async (req, res) => {
   try {
-      const nameBrand = req.query.braName; // Corrected query parameter brand
-      const braName = await Brand.findOne({ brand: nameBrand });
+      const brandName = req.query.brandName; // Corrected query parameter brandName
+      const brand = await Brand.findOne({ brandName });
 
-      if (braName.isBlocked === true) {
-          const blocked = await Brand.findOneAndUpdate({ brand: nameBrand }, { $set: { isBlocked: false } });
+      if (brand) {
+          // Toggle the isBlocked field
+          brand.isBlocked = !brand.isBlocked;
+
+          // Save the updated brand
+          await brand.save();
+
+          // Redirect to the same page after updating the brand status
+          const brandData = await Brand.find({});
+          res.render("productBrand", { brand: brandData });
       } else {
-          const unblocked = await Brand.findOneAndUpdate({ brand: nameBrand }, { $set: { isBlocked: true } });
+          console.error("Brand not found");
+          res.status(404).send("Brand not found");
       }
-
-      const brandData = await Brand.find({});
-      res.render("productBrand", {brandData});
   } catch (error) {
-      console.error("/pageerror", error); // Log the actual error
+      console.error("/admin/brandBlock error", error);
+      res.status(500).send("Internal Server Error");
   }
 }
 

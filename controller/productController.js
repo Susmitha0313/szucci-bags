@@ -1,5 +1,6 @@
 const Product = require("../models/productSchema");
 const Category = require("../models/categorySchema");
+const Brand = require("../models/brandSchema");
 const User = require("../models/userSchema");
 const fs = require("fs");
 const path = require("path");
@@ -8,7 +9,8 @@ const multer  = require("multer");
 const getAddProduct = async(req,res)=>{
     try{
         const catData = await Category.find({});
-         res.render("productAdd",{catData}); 
+        const brandData = await Brand.find({});
+         res.render("productAdd",{catData,brandData}); 
     }catch(error){
         res.redirect("/pageerror");
     }
@@ -20,12 +22,14 @@ const getAddProduct = async(req,res)=>{
 const geteditProduct = async (req, res) => {
     try {
         const productId = req.params.productId;
+        const catData = await Category.find({});
+        const brandData = await Brand.find({});
         const product = await Product.findById(productId);
         console.log(product)
         if (!product) {
             return res.status(404).send("Product not found");
         }
-        res.render("productEdit", {product});
+        res.render("productEdit", {product,catData, brandData});
     } catch (error) {
         console.error('Error retrieving product:', error);
         res.status(500).send('Internal Server Error');
@@ -71,7 +75,8 @@ const getProducts = async(req,res)=>{
     try{
         const product = await Product.find({});
         const catData = await Category.find({});
-        res.render("products",{product , catData});
+        const brandData = await Brand.find({});
+        res.render("products",{product , catData, brandData});
     }catch(error){
         res.redirect("/pageerror");
     }
@@ -81,14 +86,14 @@ const getProducts = async(req,res)=>{
 
 
 const addProduct = async (req, res) => {
+    console.log("add product working");
   try {
     // Extract data from the request body
     const { productTitle, description, regPrice, OfferPrice , stock, category, brand } = req.body;
     const images = req.files; // Assuming you're using multer or similar middleware for file uploads
     // const imagesofArray = images.map(image => ({ url: image.path }))
     const imagesofArray = req.files.map((x)=> x.originalname)
-    const description1 = ""+description
-    console.log(imagesofArray)
+    const description1 = ""+description;
     // Create a new product instance
     const newProduct = new Product({
         productName: productTitle,
@@ -102,6 +107,7 @@ const addProduct = async (req, res) => {
     });
     // Save the new product to the database
     await newProduct.save();
+    console.log(newProduct)
     res.redirect("/admin/products");
 } catch (error) {
     // Handle any errors that occur during product creation or saving

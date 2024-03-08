@@ -127,7 +127,7 @@
                         <p style="color: red;"><%= errMsg %></p>
                         <% } %>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Create category</button>
+                            <button type="submit" id="submitBtn" class="btn btn-primary">Create category</button>
                         </div>
                         <p><div id="message" style="display: none; color: #155724;" class="alert alert-success "></div></p>
                         
@@ -148,7 +148,7 @@
                                     <th>Description</th>
                                     <th>Action  </th>
                                 </tr>
-                            </thead>
+                            </thead>    
 
                             <tbody>
                                 <% category.forEach(cat => { %>
@@ -158,7 +158,7 @@
                                     <td><a href="/admin/categoryEdit/<%= cat._id %>">
                                         <button class="toggleBtn btn btn-sm font-sm rounded" style="background-color: rgb(49, 103, 100);">Edit</button>
                                     </a>
-                            </td>
+                                    </td>
                                     <td>
                                         <% if (cat.isBlocked === true) { %>
                                             <a href="/admin/categoryBlock?categoryName=<%= cat.name %>">
@@ -217,6 +217,7 @@
     const messageDiv = document.getElementById("message"); 
     prodName.addEventListener("blur", catNameValidation);
     prodDescri.addEventListener("blur", catDescValidation);
+    createCat.addEventListener("blur", {catDescValidation,catNameValidation});
     </script>
 
 <%- include("../partials/adminFooter.ejs") %>
