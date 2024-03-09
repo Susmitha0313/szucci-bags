@@ -49,25 +49,6 @@ const createBrand = async(req,res)=>{
 }
   
 
-    
-
-// const brandBlock = async (req, res) => {
-//   try {
-//       const brandName = req.query.brandName; // Corrected query parameter brand
-//       const braName = await Brand.findOne({ brand: brandName });
-
-//       if (braName.isBlocked === true) {
-//           const blocked = await Brand.findOneAndUpdate({ brand: brandName }, { $set: { isBlocked: false } });
-//       } else {
-//           const unblocked = await Brand.findOneAndUpdate({ brand: brandName }, { $set: { isBlocked: true } });
-//       }
-
-//       const brandData = await Brand.find({});
-//       res.render("productBrand", {brand : brandData});
-//   } catch (error) {
-//       console.error("/pageerror", error); // Log the actual error
-//   }
-// }
 
 const brandBlock = async (req, res) => {
   try {
@@ -94,11 +75,33 @@ const brandBlock = async (req, res) => {
   }
 }
 
+const deleteBrand = async (req, res) => {
+  try {
+      const brandName = req.query.brandName;
+      const brandone = await Brand.findOne({ brandName });
+      const brandData = await Brand.find({});
+
+      if (!brandone) {
+          return res.status(404).send("Brand not found");
+      }
+
+      await Brand.deleteOne({ brandName });
+
+      res.render("productBrand",{brand: brandData});
+  } catch (error) {
+      console.error("/admin/deleteBrand error", error);
+      res.status(500).send("Internal Server Error");
+  }
+}
+
+
 
 module.exports = {
     getBrandPage,
     getBrandEdit,
     createBrand,
     brandBlock,
+    deleteBrand,
+
     
 }  

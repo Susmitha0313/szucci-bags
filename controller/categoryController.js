@@ -114,6 +114,38 @@ const categoryBlock = async (req, res) => {
   }
 }
 
+const deleteCategory = async (req, res) => {
+  try {
+    const categoryName = req.query.categoryName;
+    
+    // Assuming Category is the Mongoose model for categories
+    const deletedCategory = await Category.findOneAndDelete({ name: categoryName });
+
+    if (!deletedCategory) {
+      // Handle case where the category does not exist
+      console.log(`Category "${categoryName}" not found.`);
+      // Redirect or render an error page
+      // Example: res.redirect("/error");
+      return;
+    }
+
+    // After deletion, you may want to update related data or perform other actions.
+
+    // Fetch the updated category list after deletion
+    const categoryList = await Category.find({});
+
+    // Render the page with the updated category list
+    res.render("productCategory", { category: categoryList });
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    // Render an error page or redirect to an error page
+    // Example: res.redirect("/error");
+  }
+};
+
+
+
+
 
 module.exports = {
     getCategory,
@@ -121,5 +153,6 @@ module.exports = {
     categoryEdit,
     createCategory,
     categoryBlock,
+    deleteCategory,
     
 }

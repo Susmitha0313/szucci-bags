@@ -10,6 +10,7 @@ const getAddProduct = async(req,res)=>{
     try{
         const catData = await Category.find({});
         const brandData = await Brand.find({});
+        console.log(catData + "<catdata" + brandData + "<brandData")
          res.render("productAdd",{catData,brandData}); 
     }catch(error){
         res.redirect("/pageerror");
@@ -29,7 +30,7 @@ const geteditProduct = async (req, res) => {
         if (!product) {
             return res.status(404).send("Product not found");
         }
-        res.render("productEdit", {product,catData, brandData});
+        res.render("productEdit", {product,catData,brandData});
     } catch (error) {
         console.error('Error retrieving product:', error);
         res.status(500).send('Internal Server Error');
@@ -90,10 +91,10 @@ const addProduct = async (req, res) => {
   try {
     // Extract data from the request body
     const { productTitle, description, regPrice, OfferPrice , stock, category, brand } = req.body;
-    const images = req.files; // Assuming you're using multer or similar middleware for file uploads
-    // const imagesofArray = images.map(image => ({ url: image.path }))
     const imagesofArray = req.files.map((x)=> x.originalname)
     const description1 = ""+description;
+    const cat = await Category.findById({_id: category});
+    const brandd = await Brand.findById({_id: brand});
     // Create a new product instance
     const newProduct = new Product({
         productName: productTitle,
@@ -101,8 +102,8 @@ const addProduct = async (req, res) => {
         regularPrice: regPrice,
         salePrice: OfferPrice,
         quantity: stock,
-        category: category,
-        brand: brand,
+        category: cat._id,
+        brand: brandd._id,
         productImage: imagesofArray // Assuming images are stored as URLs in the database
     });
     // Save the new product to the database

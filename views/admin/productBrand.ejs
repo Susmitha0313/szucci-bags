@@ -108,7 +108,7 @@
         <div class="card-body">    
             <div class="row">
                 <div class="col-md-3">
-
+  
 
                     <form id="createBrand" action="/admin/brand" method="post">
                         <div class="mb-4">
@@ -135,6 +135,7 @@
                                 <tr>   
                                     <th>Brand</th>
                                     <th>Action</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -152,9 +153,13 @@
                                             </a>
                                         <% } %>
                                      </td>     
+                                     <td>
+                                        <button class="toggleBtn btn btn-sm font-sm btn-brand rounded" onclick="confirmDelete('<%= bra.brandName %>')">Delete</button>
+                                    </td>
                                 </tr>
                                 <% }) %>
-                            </tbody>   
+                            </tbody>
+                              
                         </table>
                     </div>
                 </div> <!-- .col// -->
@@ -169,7 +174,7 @@
     const braName = document.getElementById("brandName");
     const error1 = document.getElementById("error1");
     const createBrand = document.getElementById("createBrand");
-   
+    const messageDiv = document.getElementById("message"); 
     
     function braNameValidation() {
         const catName = braName.value.trim();
@@ -182,8 +187,13 @@
         }
     }
 
-    
-    const messageDiv = document.getElementById("message"); 
+    function confirmDelete(brandName) {
+    if (confirm("Are you sure you want to delete this brand?")) {
+        // If the user confirms the deletion, redirect to the delete URL
+        window.location.href = "/admin/deleteBrand?brandName=" + encodeURIComponent(brandName);
+    }
+}
+
     braName.addEventListener("blur", braNameValidation);
     </script>
 

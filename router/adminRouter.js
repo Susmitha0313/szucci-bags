@@ -43,6 +43,7 @@ router.get("/categoryEdit/:Id",isAdmin,categoryController.getCatEdit)
 router.get("/categoryBlock",isAdmin, categoryController.categoryBlock);
 router.post("/categoryEdit", isAdmin, categoryController.categoryEdit);
 router.post("/category",isAdmin ,categoryController.createCategory);
+router.get("/deleteCategory",isAdmin ,categoryController.deleteCategory);
 
 
 
@@ -51,6 +52,7 @@ router.get("/brand",isAdmin, brandController.getBrandPage);
 router.get("/brandEdit",isAdmin, brandController.getBrandEdit);
 router.post("/brand",isAdmin, brandController.createBrand);
 router.get("/brandBlock",isAdmin, brandController.brandBlock);
+router.get("/deleteBrand",isAdmin, brandController.deleteBrand);
 
 
 

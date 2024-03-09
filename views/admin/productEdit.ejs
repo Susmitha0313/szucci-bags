@@ -179,7 +179,7 @@
                                                 </div> 
                                                <div class="card-body">
                                                     <div class="input-upload">
-                                                        <input class="form-control border" name="images" id="imageInput" type="file"
+                                                        <input class="form-control border" name="images" id="imageInput"  type="file"
                                                             multiple>
                                                     </div>
                                                     <p><div id="images-error"  class=" text-danger"></div></p>
@@ -213,7 +213,7 @@
                                                             <select  name="brand" class="form-select">
                                                                 <% if(locals.brandData){ %>
                                                                     <% brandData.forEach(element =>{ %>
-                                                                <option value="<%= element._id %>" ><%= element.name %> </option>
+                                                                <option value="<%= element._id %>" ><%= element.brandName %> </option>
                                                                 <% }) %>
                                                                 <% } %>
                                                             </select>

@@ -146,7 +146,9 @@
                                     
                                     <th>Name</th>
                                     <th>Description</th>
-                                    <th>Action  </th>
+                                    <th>Edit </th>
+                                    <th>Block/Unblock</th>
+                                    <th>Delete</th>
                                 </tr>
                             </thead>    
 
@@ -170,6 +172,11 @@
                                             </a>
                                         <% } %>
                                     </td>
+                                    <td>
+                                        <button class="toggleBtn btn btn-sm font-sm btn-brand rounded" onclick="confirmDelete('<%= cat.name %>')">Delete</button>
+                                    </td>
+                                            
+                                    
                                 </tr>
                                 <% }) %>
                             </tbody>
@@ -210,6 +217,13 @@
         } else {
             error2.style.display = "none";
             error2.innerHTML = "";
+        }
+    }
+
+    function confirmDelete(categoryName) {
+        if (confirm(`Are you sure you want to delete the category "${categoryName}"?`)) {
+            // Redirect to the deletion URL
+            window.location.href = `/admin/deleteCategory?categoryName=${categoryName}`;
         }
     }
 
