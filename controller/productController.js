@@ -20,6 +20,26 @@ const getAddProduct = async(req,res)=>{
 
 
 
+const getProductDetailPage = async(req,res)=>{
+    try{
+        const proId = req.query.id;
+        console.log("getting prod detail page od id: "+proId)
+        const proDetails = await Product.findById({_id:proId})
+        const catDetails = await Category.findOne({_id:proDetails.category});
+        const brandDetails = await Brand.findOne({_id:proDetails.brand});
+        console.log(catDetails)
+        console.log(proDetails);
+        console.log(brandDetails);
+        res.render("user/product-details",{proDetails, catDetails,brandDetails});
+    }catch(error){
+        console.log(error.message);
+    }
+}
+
+
+
+
+
 const geteditProduct = async (req, res) => {
     try {
         const productId = req.params.productId;
@@ -101,6 +121,7 @@ const addProduct = async (req, res) => {
         description: description1,
         regularPrice: regPrice,
         salePrice: OfferPrice,
+        isBlocked: false,
         quantity: stock,
         category: cat._id,
         brand: brandd._id,
@@ -148,6 +169,7 @@ module.exports = {
     productBlock,
     geteditProduct,
     editProduct,
+    getProductDetailPage
       
 
     // upload,

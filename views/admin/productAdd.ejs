@@ -287,8 +287,8 @@
             } else if (description.length <= 10) {
                 descriptionError.innerHTML = "Description must need more than 10 character"
                 return false
-            } else if (description.length >= 50) {
-                descriptionError.innerHTML = "Description can't exceed 50 character"
+            } else if (description.length >= 500) {
+                descriptionError.innerHTML = "Description can't exceed 500 character"
                 return false
             }
             descriptionError.innerHTML = "";

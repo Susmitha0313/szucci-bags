@@ -17,10 +17,12 @@
         </div>
     </div>
 </div>
+<!-- cart start -->
 <div class="cart-main-area pt-90 pb-100">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <!-- <form action="#"> -->
                     <div class="row">
                         <div class="col-lg-8">
                             <div class="table-content table-responsive cart-table-content">
@@ -43,10 +45,10 @@
                                                 <a href=""><i class="dlicon ui-1_simple-remove"></i></a>
                                             </td>
                                             <td class="product-img">
-                                             
+                                                <a href="#"><img src="assets/adminAssets/imgUploads/<%= prodData[i].images[1] %>" alt="image" style="width:50px; height: 50px;" ></a>
                                             </td>
-                                            <td class="product-name"><a href="#"><%= prodData.productName  %></a></td>
-                                            <td class="product-price"><span class="amount">$ <%=  prodData.salePrice %></span></td>
+                                            <td class="product-name"><a href="#">High Collar Jacket</a></td>
+                                            <td class="product-price"><span class="amount">$26.00</span></td>
                                             <td class="cart-quality">
                                                 <div class="product-details-quality quality-width-cart">
                                                     <div class="cart-plus-minus">
@@ -87,59 +89,12 @@
                             </div>
                         </div>
                     </div>
+                <!-- </form> -->
             </div>
         </div>
     </div>
 </div>
 
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    // Function to handle deletion of cart item
-function deleteCartItem(itemId) {
-    // Show SweetAlert confirmation dialog
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'You are about to remove this item from your cart!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, remove it!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // If user confirms, make AJAX request to delete item
-            $.ajax({
-                url: '/deleteCartItem', // Replace with your actual delete endpoint
-                type: 'POST', // Or 'GET' depending on your server setup
-                data: { itemId: itemId }, // Pass the item ID to be deleted
-                success: function(response) {
-                    // On success, remove the item from the cart list
-                    $('#cartItem_' + itemId).remove();
-                    // Show success message
-                    Swal.fire(
-                        'Deleted!',
-                        'Your item has been removed from the cart.',
-                        'success'
-                    );
-                },
-                error: function(xhr, status, error) {
-                    // On error, show error message
-                    Swal.fire(
-                        'Error!',
-                        'An error occurred while deleting the item.',
-                        'error'
-                    );
-                }
-            });
-        }
-    });
-}
-
-</script>
- 
 <%- include("../partials/footer.ejs") %>
       
 

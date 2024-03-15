@@ -52,7 +52,7 @@
 
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                 <div class="product-wrap mb-50">
-                                    <div class="product-img default-overlay mb-25"  style="height: 300px;">
+                                    <div class="product-img default-overlay mb-25" >
                                         <a href="/product-details?id=<%=proData[i]._id%>">
                                             <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="Product">
                                         </a>
@@ -65,17 +65,71 @@
                                         </div>
                                     </div>
                                     <div class="product-content-4 title-font-width-400 text-center">
-                                        <h3><a href="product-details"><%= proData.productName %></a></h3>
+                                        <h4><a href="product-details"><%= proData[i].productName %></a></h4>
                                         <div class="product-price-3">
-                                            <span class="new-price">$ <%= proData[i].regularPrice%></span>
+                                            <% if(proData[i].salePrice) {%>
+                                            <span style="color: green;" class="new-price">₹ <%= proData[i].salePrice%></span>
+                                            <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">$ <%= proData[i].regularPrice%></span>
+                                            <% if (proData[i].regularPrice && proData[i].salePrice) { %>
+                                                <% var offerPercentage = ((proData[i].regularPrice - proData[i].salePrice) / proData[i].regularPrice) * 100; %>
+                                                <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
+                                                    <span>
+                                                        <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
+                                                    </span>
+                                                </div>
+                                            <% } %>
+                                        <% } else { %>
+                                            <span>₹<%= proData[i].regularPrice %></span>
+                                        <% } %>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         <% } %> 
-                        </div>
+                        </div>       
                     </div>
                 </div>   
+
+                <div class="tab-content jump-3">
+                    <div id="product-7" class="tab-pane active padding-20-row-col">
+                        <div class="row">
+                            <% proData.forEach(proData => { %>
+                                <% if (proData.category === 'Travel') { %>
+                
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                        <div class="product-wrap mb-50">
+                                            <div class="product-img default-overlay mb-25">
+                                                <a href="/product-details?id=<%= proData._id %>">
+                                                    <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData.productImage %>" alt="Product">
+                                                </a>
+                                                <div class="product-action product-action-position-1">
+                                                    <a href="/product-details?id=<%= proData._id %>"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
+                                                    <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
+                
+                                                    <!-- Add to Cart button with productId and quantity -->
+                                                    <form action="/addToCart" method="POST">
+                                                        <input type="hidden" name="productId" value="<%= proData._id %>">
+                                                        <input type="number" name="quantity" value="1" min="1">
+                                                        <button type="submit" title="Add to Cart"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></button>
+                                                    </form>
+                                                </div>   
+                                            </div>
+                                            <div class="product-content-4 title-font-width-400 text-center">
+                                                <h3><a href="product-details"><%= proData.productName %></a></h3>
+                                                <div class="product-price-3">
+                                                    <span class="new-price"> <%= proData.salePrice %></span>
+                                                    <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">$ <%= proData.regularPrice %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+                
+
             </div>
         </div>
                 
@@ -184,7 +238,39 @@
                 </div>
             </div>
         </div>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+                
+        <script>
+            function addToCart(){
+            const otp = document.getElementById("otp").value;
+            const alertMessage = document.getElementById("alertMessage");
 
+            
+            $.ajax({
+
+                url:"/verify-otp",
+                method:"post",
+                data:{otp},
+                success:(response)=>{
+                    if(response.status == "success"){
+                        
+                        //res.redirect n pakaram                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                        window.location.href = "/login"
+                    }else{
+                        alertMessage.style.display = "block";
+                    setTimeout(()=>{
+                        alertMessage.style.display = "none";
+                    },3000)
+                    }
+                }
+            })
+        }
+
+        </script>
+        
+       
 
         <%- include("../partials/footer.ejs") %>
       

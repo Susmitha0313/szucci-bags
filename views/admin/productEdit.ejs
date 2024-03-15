@@ -108,132 +108,104 @@
                 <div class="col-12">
                     <div class="content-header">
                         <h2 class="content-title">Edit Product</h2>
-                       
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-12">
                     <div class="card mb-4">
                         <div class="card-header">
                             <h4>Basic</h4>
                         </div>
                         <div class="card-body">
-                           
                             <form id="productAddForm" action="/admin/productEdit/<%= product._id %>" method="post" enctype="multipart/form-data">
                                 <div class="mb-4">
-                                    <label for="product_name"  class="form-label">Name</label>
-                                    <input id="product_name" name="productTitle" type="text"  value="<%= product.productName %>"  placeholder="Type here" class="form-control" >
-                                <p><div id="nameError"  class=" text-danger"></div></p>
+                                    <label for="product_name" class="form-label">Name</label>
+                                    <input id="product_name" name="productTitle" type="text" value="<%= product.productName %>" placeholder="Type here" class="form-control">
+                                    <div id="nameError" class="text-danger"></div>
                                 </div>
-        
                                 <div class="mb-4">
-                                    <label  for="productDescription" class="form-label">Description</label>
-                                    <input id="productDescription" name="description" placeholder="Type here" type="text" value="<%= product.description %>" class="form-control" rows="4" ></input>
-                                    <p><div id="descriptionError"  class=" text-danger"></div></p>
+                                    <label for="productDescription" class="form-label">Description</label>
+                                    <input id="productDescription" name="description" placeholder="Type here" type="text" value="<%= product.description %>" class="form-control" rows="4"></input>
+                                    <div id="descriptionError" class="text-danger"></div>
                                 </div>
-                                
-        
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="mb-4">
-                                            <div class="row gx-2">
-                                                <label for="regPrice" class="form-label">Regular price</label>
-                                                <input id="regPrice" placeholder="$" name="regPrice" type="text" value="<%= product.regularPrice %>" class="form-control">
-                                                <p><div id="regularError" class=" text-danger"></div></p>
-                                            </div>
-        
+                                            <label for="regPrice" class="form-label">Regular price</label>
+                                            <input id="regPrice" placeholder="$" name="regPrice" type="text" value="<%= product.regularPrice %>" class="form-control">
+                                            <div id="regularError" class="text-danger"></div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="mb-4">
                                             <label for="offerPrice" class="form-label">Offer price</label>
                                             <input id="offerPrice" placeholder="$" name="OfferPrice" type="text" value="<%= product.salePrice %>" class="form-control">
-                                            <p><div id="offerPriceError" class=" text-danger"></div></p>
-                                    </div>
-                                    </div>
-                                    
-                                   
-                                    <div class="mb-4">
-                                        <label  for="product_stock" class="form-label">Stock</label>
-                                        <input id="product_stock" name="stock" placeholder="Type here" type="text" value="<%= product.quantity %>" class="form-control"></input>
-                                        <p><div id="stockError"  class=" text-danger"></div></p>
-                                    </div>
-                                    
-                                    
-        
-                                </div>
-                                <!-- </div> -->
-                               
-                                <div class="col-lg-12">
-                                            <div class="card mb-12">
-                                                <div class="card-header">
-                                                    <h4>Choose images</h4>
-                                                </div>
-                                                
-                                                <div >
-                                                    <div class="border row">
-                                                        <div id="addedImagesContainer" class="thumbnails-container">
-                                                            <% for(let i=0; i<product.productImage.length; i++) { %>
-                                                            <img  src="/assets/adminAssets/imgUploads/<%= product.productImage[i] %>" class="img-sm , thumbnail"  alt="Product">
-                                                            <% } %></div>
-                                                    </div>    
-                                                </div> 
-                                               <div class="card-body">
-                                                    <div class="input-upload">
-                                                        <input class="form-control border" name="images" id="imageInput"  type="file"
-                                                            multiple>
-                                                    </div>
-                                                    <p><div id="images-error"  class=" text-danger"></div></p>
-                                                </div>
-                                            </div>
-                                        
-                                               
-                                               
-                                                
-                                </div> <!-- card end// -->
-                                            
-                                
-                                            <div class="card mb-4">
-                                                <div class="card-header">
-                                                    <h4>Organization</h4>
-                                                </div>
-                                                <div class="card-body">
-                                                    <div class="row gx-2">
-                                                        <div class="col-sm-6 mb-3">
-                                                            <label  class="form-label">Category</label>
-                                                            <select name="category" class="form-select">
-                                                                <% if(locals.catData){ %>
-                                                                    <% catData.forEach(element =>{ %>
-                                                                <option value="<%= element._id %>" ><%= element.name %> </option>
-                                                                <% }) %>
-                                                                <% } %>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-6 mb-3">
-                                                            <label class="form-label">Brand</label>
-                                                            <select  name="brand" class="form-select">
-                                                                <% if(locals.brandData){ %>
-                                                                    <% brandData.forEach(element =>{ %>
-                                                                <option value="<%= element._id %>" ><%= element.brandName %> </option>
-                                                                <% }) %>
-                                                                <% } %>
-                                                            </select>
-                                                        </div>
-                                                        
-                                                        
-                                                    </div> <!-- row.// -->
-                                                </div>
-                                            </div> <!-- card end// -->
+                                            <div id="offerPriceError" class="text-danger"></div>
                                         </div>
-                                    </div> 
-                                    
-                                <!-- </div>  -->
-                                <button type="submit" class="btn btn-md rounded font-sm hover-up">  Save Product  </button>
-                                
-                           </form>
-                           </div>
-                        <p><div id="stockError" class=" text-danger"></div></p>
-         
-            </div>     
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label for="product_stock" class="form-label">Stock</label>
+                                            <input id="product_stock" name="stock" placeholder="Type here" type="text" value="<%= product.quantity %>" class="form-control">
+                                            <div id="stockError" class="text-danger"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h4>Choose images</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="input-upload">
+                                            <input class="form-control border" name="images" id="imageInput" type="file" multiple>
+                                        </div>  
+                                        <p><div id="images-error" class="text-danger"></div></p>
+                                        <div class="border row">
+                                            <div id="addedImagesContainer" class="thumbnails-container">
+                                                <% for(let i=0; i<product.productImage.length; i++) { %>
+                                                    <img src="/assets/adminAssets/imgUploads/<%= product.productImage[i] %>" class="img-sm , thumbnail" alt="Product">
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h4>Organization</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row gx-2">
+                                            <div class="col-sm-6 mb-3">
+                                                <label class="form-label">Category</label>
+                                                <select name="category" class="form-select">
+                                                    <% if (locals.catData) { %>
+                                                        <% catData.forEach(element => { %>
+                                                            <option value="<%= element._id %>" <%= product.category.toString() === element._id.toString() ? 'selected' : '' %>><%= element.name %></option>
+                                                        <% }) %>
+                                                    <% } %>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-6 mb-3">
+                                                <label class="form-label">Brand</label>
+                                                <select name="brand" class="form-select">
+                                                    <% if (locals.brandData) { %>
+                                                        <% brandData.forEach(element => { %>
+                                                            <option value="<%= element._id %>" <%= product.brand.toString() === element._id.toString() ? 'selected' : '' %>><%= element.brandName %></option>
+                                                        <% }) %>
+                                                    <% } %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-md rounded font-sm hover-up">Save Product</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+               
         </section>
 
 
@@ -295,8 +267,8 @@
             } else if (description.length <= 10) {
                 descriptionError.innerHTML = "Description must need more than 10 character"
                 return false
-            } else if (description.length >= 50) {
-                descriptionError.innerHTML = "Description can't exceed 50 character"
+            } else if (description.length >= 500) {
+                descriptionError.innerHTML = "Description can't exceed 500 character"
                 return false
             }
             descriptionError.innerHTML = "";

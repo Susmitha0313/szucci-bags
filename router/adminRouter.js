@@ -30,8 +30,7 @@ router.get("/productAdd",isAdmin, productController.getAddProduct);
 router.get("/editProduct/:productId", isAdmin, productController.geteditProduct);
 router.get("/productBlock", isAdmin,productController.productBlock);
 router.post("/productAdd",isAdmin,upload.array("images", 5), productController.addProduct);
-router.post("/productEdit",isAdmin,upload.array("images", 5), productController.editProduct);
-
+router.post("/productEdit/:productId", isAdmin, upload.array("images", 5), productController.editProduct);
 
 
 

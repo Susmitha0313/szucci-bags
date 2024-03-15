@@ -31,7 +31,14 @@ const userSchema = new Mongoose.Schema({
     isAdmin: {
         type: String,
         default: "0"
+    },
+    cart:{
+        type: Array
+    },
+    wishlist:{
+        type: Array
     }
+
 });
 
 const User = Mongoose.model("User", userSchema);

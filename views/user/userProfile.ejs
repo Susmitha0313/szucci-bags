@@ -1,9 +1,6 @@
 
  <%- include("../partials/header.ejs") %>
 
-  
-        <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
-            <div class="container-fluid">
                 <div class="breadcrumb-content text-center">
                     <div class="breadcrumb-title">
                         <h2>My Account</h2>
@@ -41,12 +38,16 @@
                                             <div class="row">
                                                 <div class="single-input-item">
                                                     <label for="first-name" class="required" >Name<span>*</span></label>
-                                                    <input type="text" id="first-name" />
+                                                    <input type="text" id="first-name" value="<%= userInfo.name %>" />
                                                 </div>
                                             </div>
                                             <div class="single-input-item">
                                                 <label for="email" class="required">Email Address <span>*</span></label>
-                                                <input type="email" id="email" />
+                                                <input type="email" id="email" value="<%= userInfo.email %>" />
+                                            </div>
+                                            <div class="single-input-item">
+                                                <label for="phone" class="required">Phone Number <span>*</span></label>
+                                                <input type="tel" id="phone" value="<%= userInfo.phone %>" />
                                             </div>
                                             <fieldset>
                                                 <legend>Password change</legend>

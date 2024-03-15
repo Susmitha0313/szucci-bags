@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../models/userSchema");
 const Product = require("../models/productSchema");
+const Category = require("../models/categorySchema");
 const otpController = require("../Config/Otp/otpController");
 const sentMail = require("../Config/nodemailer/sentMail.js");
 const nodemailer = require("nodemailer");
@@ -39,7 +40,6 @@ const getVerifyOtpPage = async(req,res)=>{
 
 //load signUppage
 const getSignupPage = async(req,res)=>{
-    console.log("is signup calling");
     try{
         res.render("user/signup")
     }catch(error){
@@ -52,26 +52,26 @@ const getSignupPage = async(req,res)=>{
 
 const getHomePage= async(req,res)=>{
     try{
-        const proData = await Product.find({isBlocked : false})
-        const isAuthenticated = req.session.email;
-        console.log("auth? :",isAuthenticated);
-        console.log("home page loading");
-        res.render("user/home",{proData,})
+        const proData = await Product.find({isBlocked : false});
+        res.render("user/home",{proData})
     }catch(error){
         console.log(error.message);
     }
 };
 
 
-
-const getAccountInfo = async(req,res)=>{
-    try{
-        res.render("user/userProfile");
-    }catch(error){
+const getAccountInfo = async(req, res) => {
+    try {
+        const userId = req.session.userId;
+        const userInfo = await User.findById(userId);
+        // const orderInfo = await User.findById(userId);
+        // const addressInfo = await User.findById(userId);
+        console.log(userInfo);
+        res.render("user/userProfile", { userInfo });
+    } catch(error) {
         console.log(error.message);
     }
-}    
-
+}
 
 
 const getOtpPage = async(req,res)=>{
@@ -85,24 +85,11 @@ const getOtpPage = async(req,res)=>{
 
 
 
-const getProductDetailPage = async(req,res)=>{
-    try{
-        const proId = req.query.id;
-        console.log(proId)
-        const proDetails = await Product.findById({_id:proId})
-        console.log(proDetails)
-        res.render("user/product-details",{proDetails});
-    }catch(error){
-        console.log(error.message);
-    }
-}
-
 
 
 const signupUser = async(req,res)=>{
     try{
         const email = req.body.email;
-        console.log(email);
         const findUser = await User.findOne({email});
 
             if(!findUser){
@@ -202,38 +189,54 @@ const securePassword = async (password) => {
   }
   
 
+
+
 const userLogin = async (req, res) => {   
     try {
-        const email= req.body.email;
+        const email = req.body.email;
         const password = req.body.password;
-        // Find user by email
+
         const user = await User.findOne({email});
-        console.log(user);
-        // Check if user exists
+
         if (!user) {
             return res.render("user/login",{ message: "User not found" });
         }
-        // Check password
+
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.render({ message: 'Invalid password' });
+            return res.render("user/login", { message: 'Invalid password' });
         }     
-
-        
         req.session.email = email;
-        res.redirect("/"); // Redirect to the desired page after successful login
+        req.session.userId = user._id;
+
+        // Redirect logic
+        if (req.session.redirectTo) {
+            res.redirect(req.session.redirectTo);
+            delete req.session.redirectTo; // Clear the stored URL
+        } else {
+            res.redirect("/"); // Redirect to home page if no stored URL
+        }
     } catch (error) {
         console.error(error.message);
         res.status(500).json({ error: 'Server error' });
     }
 };
 
+const logout = async (req, res)=>{
+    try{
+        await req.session.destroy()
+        res.redirect("/")
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+
 
 
 module.exports = {
     pageNotFound,
     getLoginPage,
-    getProductDetailPage,
     getSignupPage,
     getHomePage,
     getAccountInfo,
@@ -245,6 +248,7 @@ module.exports = {
     resendOtp,
     securePassword,
     userLogin,
+    logout
 
 };
 

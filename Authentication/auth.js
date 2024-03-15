@@ -2,12 +2,13 @@ const { log } = require("console");
 const User = require("../models/userSchema");
 
 const isLogged = (req,res,next)=>{
-    console.log("logged? middleware")
     if(req.session.email){
-      next()
+      next();
     }else{
         console.log("else case");
+        req.session.redirectTo = req.originalUrl;
         res.redirect("/login");
+
     }
 }
 
