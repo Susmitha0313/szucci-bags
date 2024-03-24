@@ -1,6 +1,5 @@
 const Mongoose = require('mongoose');
 
-
 const cartSchema = new Mongoose.Schema({
     userId : {
         type :  Mongoose.Schema.Types.ObjectId,
@@ -19,15 +18,12 @@ const cartSchema = new Mongoose.Schema({
         subTotal: {
             type: Number,
             require: true,
-          },
-          image:{
-            type: [String],
-            require: true, 
           }
     }], 
 
     totalPrice : {
-        type : Number
+        type : Number,
+        require: true
     }
 },{ timestamps: true, versionKey: false })
 

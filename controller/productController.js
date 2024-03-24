@@ -10,7 +10,6 @@ const getAddProduct = async(req,res)=>{
     try{
         const catData = await Category.find({});
         const brandData = await Brand.find({});
-        console.log(catData + "<catdata" + brandData + "<brandData")
          res.render("productAdd",{catData,brandData}); 
     }catch(error){
         res.redirect("/pageerror");
@@ -23,13 +22,9 @@ const getAddProduct = async(req,res)=>{
 const getProductDetailPage = async(req,res)=>{
     try{
         const proId = req.query.id;
-        console.log("getting prod detail page od id: "+proId)
         const proDetails = await Product.findById({_id:proId})
         const catDetails = await Category.findOne({_id:proDetails.category});
         const brandDetails = await Brand.findOne({_id:proDetails.brand});
-        console.log(catDetails)
-        console.log(proDetails);
-        console.log(brandDetails);
         res.render("user/product-details",{proDetails, catDetails,brandDetails});
     }catch(error){
         console.log(error.message);

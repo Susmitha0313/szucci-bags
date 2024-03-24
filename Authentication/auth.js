@@ -2,16 +2,23 @@ const { log } = require("console");
 const User = require("../models/userSchema");
 
 const isLogged = (req,res,next)=>{
-    if(req.session.email){
+    if(req.session && req.session.email){
       next();
     }else{
         console.log("else case");
         req.session.redirectTo = req.originalUrl;
         res.redirect("/login");
-
     }
 }
 
+
+const notLog = (req,res,next)=>{
+    if(req.session.email){
+        res.redirect("/");
+    }else{
+        next();
+    }
+}
 
 const isAdmin = (req,res,next)=>{
   try{
@@ -33,5 +40,6 @@ const isAdmin = (req,res,next)=>{
 
 module.exports = {
     isLogged,
-    isAdmin
+    isAdmin,
+    notLog
 }

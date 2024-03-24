@@ -1,0 +1,223 @@
+
+ <%- include("../partials/header.ejs") %>
+
+                <div class="breadcrumb-content">
+                    <div class="breadcrumb-title">
+                        <h2>My Account</h2>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li><span> &gt; </span></li>
+                        <li class="active"> My Account </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+                <div class="my-account-area pt-100 pb-95">
+                    <div class="container">
+                        <div class="row flex-row-reverse">
+                            <div class="col-lg-12">
+                                <div class="myaccount-tab-menu nav" role="tablist">
+                                    <a href="/accountDetails"> Account Details</a>
+                                    <a href="/orders" class="show active"> Orders</a>
+                                    <a href="/address"> Address</a>
+                                    
+                                </div> 
+
+                                <div class="tab-content" id="myaccountContent">
+                                    <div class="tab-pane fade show active" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <div class="myaccount-table table-responsive text-center">
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th>Order</th>
+                                                            <th>Date</th>
+                                                            <th>Status</th>
+                                                            <th>Total</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>Aug 22, 2023</td>
+                                                            <td>Pending</td>
+                                                            <td>$3000</td>
+                                                            <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>July 22, 2023</td>
+                                                            <td>Approved</td>
+                                                            <td>$200</td>
+                                                            <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td>June 12, 2023</td>
+                                                            <td>On Hold</td>
+                                                            <td>$990</td>
+                                                            <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                        
+                            </div>
+                            
+                                
+                         
+                          
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Hide the add-address-form initially
+        $('.add-address-form').hide();
+        
+        // Toggle the add-address-form visibility when the button is clicked
+        $('.add-address-toggle').click(function(e) {
+            e.preventDefault();
+            $('.add-address-form').toggle();
+        });
+    });
+
+
+    function addNewAddress(){
+        //  const otp = document.getElementById("otp").value;
+        const alertMessage = document.getElementById("alertMessage");
+
+        
+        $.ajax({
+
+            url:"/addAddress",
+            method:"post",
+            data:{otp},
+            success:(response)=>{
+                if(response.status == "success"){
+                    
+                    //res.redirect n pakaram                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                    window.location.href = "/userProfile"
+                }else{
+                    alertMessage.style.display = "block";
+                setTimeout(()=>{
+                    alertMessage.style.display = "none";
+                },3000)
+                }
+            }
+        }) 
+    }
+
+    
+
+// const firstName = document.getElementById('firstName')
+// const phone = document.getElementById('phone')
+// const pincode = document.getElementById('pincode')
+// const locality = document.getElementById('locality')
+// const address = document.getElementById('address')
+// const city = document.getElementById('city')
+// const state = document.getElementById('state')
+// const landmark = document.getElementById('landmark')
+// const phone2 = document.getElementById('phone2')
+// const error0 = document.getElementById('error0')
+// const error1 = document.getElementById('error1')
+// const error2 = document.getElementById('error2')
+// const error3 = document.getElementById('error3')
+// const error4 = document.getElementById('error4')
+// const error5 = document.getElementById('error5')
+// const error6 = document.getElementById('error6')
+// const error7 = document.getElementById('error7')
+// const error8 = document.getElementById('error8')
+// const error9 = document.getElementById('error9')
+// const addForm = document.getElementById('addForm')
+
+
+// function nameValidateCheck(){
+//     const nameVal = firstName.value
+//     if(nameVal.trim()===""){
+//         error0.style.display = "block"
+//         error0.innerHTML="Please enter the name"
+//     }else{
+//         error0.style.display = "none"
+//         error0.innerHTML = ""
+//     }
+// }
+
+
+// function phonenumValCheck(){
+//     const mobileval = phone.value
+//     const regex = /^\d{10}$/;
+//     if(mobileval.trim()===""){
+//         error1.style.display = "block"
+//         error1.innerHTML = "Please enter the mobile number"
+//     }else if(mobileval.length < 10 || mobileval.length > 15){
+//         error1.style.display = "block"
+//         error1.innerHTML = "Number must be between 10 to 15 digits"
+//     }else if(!regex.test(mobileval)){
+//         error1.style.display = "block"
+//         error1.innerHTML = "invalid format"
+//     }else{
+//         error1.style.display="none"
+//         error1.innerHTML=""
+//     }
+// }
+
+
+
+// function phone2numValCheck(){
+//     const mobileval = phone.value
+//     const regex = /^\d{10}$/;
+//     if(mobileval.length < 10 || mobileval.length > 15){
+//         error8.style.display = "block"
+//         error8.innerHTML = "Number must be between 10 to 15 digits"
+//     }else if(!regex.test(mobileval)){
+//         error8.style.display = "block"
+//         error8.innerHTML = "invalid format"
+//     }else{
+//         error8.style.display="none"
+//         error8.innerHTML=""
+//     }
+// }
+
+
+// firstName.addEventListener("blur",nameValidateCheck)
+// phone.addEventListener("blur",phonenumValCheck)
+// phone2.addEventListener("blur",phonenumValCheck)
+
+// document.addEventListener("DOMContentLoaded", function(){
+
+//     signform.addEventListener("submit", function(e){
+//         nameValidateCheck()
+//         phonenumValCheck();
+//         phone2numValCheck();
+        
+//         console.log(firstNam, phone, pincode, locality,address,city,state,landmark,phone2, error0,error1,error2,error3,error4,error5,error6,error7,error8,error9,addForm);
+//         if(!firstNam || !phone || !pincode || !locality || !address || !city || !state || !landmark || !phone2 || !error0 || !error1 || !error2 || !error3 || !error4 || !error5 || !error6 || !error7 || !error8 || !error9 ||  !addForm){
+//             console.log("fill all boxes in there");
+//         }
+//         if (error0.innerHTML || error2.innerHTML || error1.innerHTML || error4.innerHTML || error5.innerHTML || error6.innerHTML || error7.innerHTML || error8.innerHTML || error9.innerHTML ) {
+//             e.preventDefault();
+//           }
+    
+//     });
+// });
+
+</script>
+
+        
+
+
+<%- include("../partials/footer.ejs") %>

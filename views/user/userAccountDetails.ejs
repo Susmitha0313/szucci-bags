@@ -1,0 +1,239 @@
+
+ <%- include("../partials/header.ejs") %>
+
+                <div class="breadcrumb-content text-center">
+                    <div class="breadcrumb-title">
+                        <h2>My Account</h2>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li><span> &gt; </span></li>
+                        <li class="active"> My Account </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="my-account-area pt-100 pb-95">
+            <div class="container">
+                <div class="row flex-row-reverse">
+                    <div class="col-lg-12">
+                        <div class="myaccount-tab-menu nav" role="tablist">
+                            <a href="/accountDetails"class="show active"> Account Details</a>
+                            <a href="/orders"> Orders</a>
+                            <a href="/address"> Address</a>
+                            
+                        </div> 
+                        
+                        <!-- My Account Tab Menu End -->
+                        <!-- My Account Tab Content Start -->
+                        <div class="tab-content" id="myaccountContent">   
+                            
+                           <!-- Single Tab Content Start -->
+                            <div class="tab-pane fade show active" role="tabpanel">
+                                <div  class="breadcrumb-title text-center"> 
+                                    <h2>Edit Address</h2>
+                                </div>
+                                <div class="myaccount-content">
+                                    <div class="account-details-form">
+                                        <!-- <form action="/updatePassword" method="post"> -->
+                                            <div class="row">
+                                                <div class="single-input-item">
+                                                    <label for="first-name" class="required" >Name<span>*</span></label>
+                                                    <input type="text" id="first-name" value="<%= userInfo.name %>" />
+                                                </div>
+                                            </div>
+                                            <div class="single-input-item">
+                                                <label for="email" class="required">Email Address <span>*</span></label>
+                                                <input type="email" id="email" value="<%= userInfo.email %>" />
+                                            </div>
+                                            <div class="single-input-item">
+                                                <label for="phone" class="required">Phone Number <span>*</span></label>
+                                                <input type="tel" id="phone" value="<%= userInfo.phone %>" />
+                                            </div>
+                                            <fieldset>
+                                                <legend>Password change</legend>
+                                            
+                                                <div class="single-input-item">
+                                                    <label for="current-pwd" class="required">Current password (leave blank to leave unchanged)</label>
+                                                    <input type="password" id="current-pwd" name="currentPassword" />
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="single-input-item">
+                                                            <label for="new-pwd" class="required">New password (leave blank to leave unchanged)</label>
+                                                            <input type="password" id="new-pwd" name="newPassword"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="single-input-item">
+                                                            <label for="confirm-pwd" class="required">Confirm new password</label>
+                                                            <input type="password" id="confirm-pwd" name="confirmNewPassword " />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <div class="single-input-item">
+                                                <button class="check-btn sqr-btn " type="submit" id="updatePswd">Save Changes</button>
+                                            </div>
+                                        <!-- </form> -->
+                                    </div>
+                                </div>
+                            </div> 
+                          
+                        </div>
+                                
+                    </div> 
+                           
+                                
+                         
+                            <!-- Single Tab Content End -->
+                            
+                            
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+      
+<script>
+
+
+// Add an event listener to the form submission
+document.getElementById('updatePswd').addEventListener('submit', async function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const currentPassword = document.getElementById('current-pwd').value;
+    const newPassword = document.getElementById('new-pwd').value;
+    const confirmNewPassword = document.getElementById('confirm-pwd').value;
+
+    // Send AJAX request to the server
+    try {
+        const response = await fetch('/updatePassword', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ currentPassword, newPassword, confirmNewPassword })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Password updated successfully
+            alert(data.message);
+        } else {
+            // Display error message
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        // Display a generic error message
+        alert('An error occurred while updating the password. Please try again later.');
+    }
+});
+
+    
+
+    
+
+// const firstName = document.getElementById('firstName')
+// const phone = document.getElementById('phone')
+// const pincode = document.getElementById('pincode')
+// const locality = document.getElementById('locality')
+// const address = document.getElementById('address')
+// const city = document.getElementById('city')
+// const state = document.getElementById('state')
+// const landmark = document.getElementById('landmark')
+// const phone2 = document.getElementById('phone2')
+// const error0 = document.getElementById('error0')
+// const error1 = document.getElementById('error1')
+// const error2 = document.getElementById('error2')
+// const error3 = document.getElementById('error3')
+// const error4 = document.getElementById('error4')
+// const error5 = document.getElementById('error5')
+// const error6 = document.getElementById('error6')
+// const error7 = document.getElementById('error7')
+// const error8 = document.getElementById('error8')
+// const error9 = document.getElementById('error9')
+// const addForm = document.getElementById('addForm')
+
+
+// function nameValidateCheck(){
+//     const nameVal = firstName.value
+//     if(nameVal.trim()===""){
+//         error0.style.display = "block"
+//         error0.innerHTML="Please enter the name"
+//     }else{
+//         error0.style.display = "none"
+//         error0.innerHTML = ""
+//     }
+// }
+
+
+// function phonenumValCheck(){
+//     const mobileval = phone.value
+//     const regex = /^\d{10}$/;
+//     if(mobileval.trim()===""){
+//         error1.style.display = "block"
+//         error1.innerHTML = "Please enter the mobile number"
+//     }else if(mobileval.length < 10 || mobileval.length > 15){
+//         error1.style.display = "block"
+//         error1.innerHTML = "Number must be between 10 to 15 digits"
+//     }else if(!regex.test(mobileval)){
+//         error1.style.display = "block"
+//         error1.innerHTML = "invalid format"
+//     }else{
+//         error1.style.display="none"
+//         error1.innerHTML=""
+//     }
+// }
+
+
+
+// function phone2numValCheck(){
+//     const mobileval = phone.value
+//     const regex = /^\d{10}$/;
+//     if(mobileval.length < 10 || mobileval.length > 15){
+//         error8.style.display = "block"
+//         error8.innerHTML = "Number must be between 10 to 15 digits"
+//     }else if(!regex.test(mobileval)){
+//         error8.style.display = "block"
+//         error8.innerHTML = "invalid format"
+//     }else{
+//         error8.style.display="none"
+//         error8.innerHTML=""
+//     }
+// }
+
+
+// firstName.addEventListener("blur",nameValidateCheck)
+// phone.addEventListener("blur",phonenumValCheck)
+// phone2.addEventListener("blur",phonenumValCheck)
+
+// document.addEventListener("DOMContentLoaded", function(){
+
+//     signform.addEventListener("submit", function(e){
+//         nameValidateCheck()
+//         phonenumValCheck();
+//         phone2numValCheck();
+        
+//         console.log(firstNam, phone, pincode, locality,address,city,state,landmark,phone2, error0,error1,error2,error3,error4,error5,error6,error7,error8,error9,addForm);
+//         if(!firstNam || !phone || !pincode || !locality || !address || !city || !state || !landmark || !phone2 || !error0 || !error1 || !error2 || !error3 || !error4 || !error5 || !error6 || !error7 || !error8 || !error9 ||  !addForm){
+//             console.log("fill all boxes in there");
+//         }
+//         if (error0.innerHTML || error2.innerHTML || error1.innerHTML || error4.innerHTML || error5.innerHTML || error6.innerHTML || error7.innerHTML || error8.innerHTML || error9.innerHTML ) {
+//             e.preventDefault();
+//           }
+    
+//     });
+// });
+
+</script>
+
+        
+
+
+<%- include("../partials/footer.ejs") %>

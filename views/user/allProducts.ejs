@@ -1,0 +1,283 @@
+<%- include("../partials/header.ejs") %>
+    <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
+        <div class="container-fluid">
+            <div class="breadcrumb-content text-center">
+                <div class="breadcrumb-title">
+                    <h2>All Products</h2>
+                </div>
+                <ul>
+                    <li>
+                        <a href="index.html">Home </a>
+                    </li>
+                    <li><span> &gt; </span></li>
+                    <li class="active"> All-products </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="shop-area section-padding-1 pt-100 pb-100">
+        <div class="container-fluid">
+            <div class="shop-top-bar">
+                <!-- <div class="shop-top-bar-left">
+                    <div class="shop-top-show">
+                        <span>Showing 1–12 of 39 results</span>
+                    </div>
+                    <div class="shop-page-list">
+                        <ul>
+                            <li>Show</li>
+                            <li class="active"><a href="#">12</a></li>
+                            <li><a href="#">15</a></li>
+                            <li><a href="#">30</a></li>
+                        </ul>
+                    </div>
+                </div> -->
+                <div class="shop-top-bar-right">
+                    <div class="shop-tab nav">
+                        <a href="#shop-1" class="active" data-bs-toggle="tab"><i class="dlicon ui-2_grid-45"></i><p>Grid </p></a>
+                        
+                        <a href="#shop-2" data-bs-toggle="tab"><i class="dlicon design_bullet-list-69"></i><p>List </p></a>
+                        
+                    </div>
+                    <div class="shop-filter ml-50">
+                        <a class="shop-filter-active" href="#">Filters <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></a>
+                    </div>
+                    <div class="shop-short-by ml-50">
+                        <span>Sort by <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></span>
+                        <ul>
+                            <li class="active"><a href="/allProductSort?sort=Default">Default sorting</a></li> 
+                            <li><a href="/allProductSort?sort=Latest"> latest</a></li>
+                            <li><a href="/allProductSort?sort=ZtoA"> A to Z</a></li>
+                            <li><a href="/allProductSort?sort=AtoZ"> Z to A</a></li>
+                            <li><a href="/allProductSort?sort=Lowtohigh"> price: Low to high</a></li>
+                            <li><a href="/allProductSort?sort=Hightolow"> price: High to low</a></li>
+                            <li><a href="#"> Rating</a></li> 
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="product-filter-wrapper">
+                <div class="row">
+                    <!-- Product Filter -->
+                    <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
+                        <div class="product-filter">
+                            <h5>Price</h5>
+                            <div class="price-filter">
+                                <ul>
+                                    <li><a href="#">$0.00 - $20.00</a></li>
+                                    <li><a href="#">$20.00 - $40.00</a></li>
+                                    <li><a href="#">$30.00 - $50.00</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product Filter -->
+                    <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
+                        <div class="product-filter">
+                            <h5>Size</h5>
+                            <div class="product-size">
+                                <ul>
+                                    <li><a href="#">Full Size</a></li>
+                                    <li><a href="#">L</a></li>
+                                    <li><a href="#">M</a></li>
+                                    <li><a href="#">S</a></li>
+                                    <li><a href="#">XL</a></li>
+                                    <li><a href="#">XXL</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product Filter -->
+                    <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
+                        <div class="product-filter">
+                            <h5>Color</h5>
+                            <div class="product-color">
+                                <ul>
+                                    <li><a href="#">Blue</a></li>
+                                    <li><a href="#">Brown</a></li>
+                                    <li><a href="#">Green</a></li>
+                                    <li><a href="#"> Pink</a></li>
+                                    <li><a href="#">Violet</a></li>
+                                    <li><a href="#"> White</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product Filter -->
+                    <div class="col-md-3 col-sm-6 col-xs-12 mb-20">
+                        <div class="product-filter">
+                            <h5>Brands</h5>
+                            <div class="product-brands">
+                                <ul>
+                                    <li><a href="#">Airi</a></li>
+                                    <li><a href="#">Draven</a></li>
+                                    <li><a href="#">Mango</a></li>
+                                    <li><a href="#"> Valentino</a></li>
+                                    <li><a href="#">Zara </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content jump-3 pt-30">
+                <div id="shop-1" class="tab-pane active">
+                    <div class="row">
+                          
+                        <% for(let i=0; i <proData.length ; i++){ %>
+                    
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                <div class="product-wrap mb-50">
+                                    <div class="product-img default-overlay mb-25" >
+                                        <a href="/product-details?id=<%=proData[i]._id%>">
+                                            <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="Product">
+                                        </a>
+                                        
+                                        <input type="hidden" id="proId" name="user_id" value="<%= proData[i]._id %>">
+                                        <div class="product-action product-action-position-1">
+                                            <a href="/product-details?id=<%=proData[i]._id%>"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
+                                            <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
+                                           
+                                            <a title="Add to Cart"  onclick="addToCart()"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="product-content-4 title-font-width-400 text-center">
+                                        <h4><a href="product-details"><%= proData[i].productName %></a></h4>
+                                        <div class="product-price-3">
+                                            <% if(proData[i].salePrice) {%>
+                                            <span style="color: green;" class="new-price">₹ <%= proData[i].salePrice%></span>
+                                            <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">$ <%= proData[i].regularPrice%></span>
+                                            <% if (proData[i].regularPrice && proData[i].salePrice) { %>
+                                                <% var offerPercentage = ((proData[i].regularPrice - proData[i].salePrice) / proData[i].regularPrice) * 100; %>
+                                                <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
+                                                    <span>
+                                                        <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
+                                                    </span>
+                                                </div>
+                                            <% } %>
+                                        <% } else { %>
+                                            <span>₹<%= proData[i].regularPrice %></span>
+                                        <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %> 
+                        </div>  
+                </div>
+                <div id="shop-2" class="tab-pane">  
+                    <% for(let i=0; i <proData.length ; i++){ %>
+                    <div class="shop-list-wrap mb-70">
+                        <div class="row"> 
+                            <div class="custom-col-32-shop">
+                                <div class="product-wrap">
+                                    <div class="product-img default-overlay">
+                                        <a href="/product-details?id=<%=proData[i]._id%>">
+                                            <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="Product">
+                                        </a>
+                                        <div class="shop-list-quickview">
+                                            <a data-bs-toggle="modal" data-bs-target="#exampleModal" href="/product-details?id=<%=proData[i]._id%>"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="custom-col-68-shop">
+                                <div class="shop-list-content ml-20">
+                                    <h3><a href="product-details"><%= proData[i].productName %></a></h3>
+                                    <div class="product-price-3">
+                                        <% if(proData[i].salePrice) {%>
+                                        <span style="color: green;" class="new-price">₹ <%= proData[i].salePrice%></span>
+                                        <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">$ <%= proData[i].regularPrice%></span>
+                                        <% if (proData[i].regularPrice && proData[i].salePrice) { %>
+                                            <% var offerPercentage = ((proData[i].regularPrice - proData[i].salePrice) / proData[i].regularPrice) * 100; %>
+                                            <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
+                                                <span>
+                                                    <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
+                                                </span>
+                                            </div>
+                                        <% } %>
+                                    <% } else { %>
+                                        <span>₹<%= proData[i].regularPrice %></span>
+                                    <% } %>
+                                    </div>
+                                    <p><%= proData[i].description %></p>
+                                    <div class="product-list-action">
+                                        <a title="Add to Wishlist" href="#"><i class="fa fa-heart"></i></a>
+                                        <div class="pro-list-actioncart">
+                                            <a title="Add to cart" href="#">Add to cart</a>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+function addToCart(){
+
+console.log("addToCart Ajax is working")
+const prodQuantity = 1;
+const productId = document.getElementById("proId").value
+//AJAX request
+$.ajax({
+        url: "/addToCart",
+        method: "post",
+        data: {
+            prodQuantity,
+            productId,
+            
+        },
+        success: (response) => {
+if (response.status === "success") {
+    Swal.fire({
+        icon: "success",
+        title: "Product added to cart",
+        showConfirmButton: false,
+        timer: 2000,
+    }).then((result) => {
+        document.getElementById("addToCartButton").innerText = "View Cart ";
+        window.location.href = "/productCart";
+    });
+} else if (response.status === "alreadyInCart") {
+    Swal.fire({
+        icon: "info",
+        title: "Product already in cart",
+        showConfirmButton: false,
+        timer: 2000,
+    });
+} else if (response.status === "login") {
+    Swal.fire({
+        text: "You want to login the page?!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Go to login!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "/login";
+        }
+    });
+}
+}
+
+    })
+}
+
+
+
+</script>
+<%- include("../partials/footer.ejs") %>

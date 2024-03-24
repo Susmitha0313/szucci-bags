@@ -1,6 +1,5 @@
 <%- include("../partials/header.ejs") %>
 
-
 <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
     <div class="container-fluid">
         <div class="breadcrumb-content text-center">
@@ -15,7 +14,7 @@
                 <li class="active">Checkout </li>
             </ul>
         </div>
-    </div>
+    </div> 
 </div>
 <!-- checkout start -->
 <div class="checkout-main-area pt-100 pb-100">
@@ -36,85 +35,49 @@
                     <div class="billing-info-wrap mr-100">
                         <h3>Billing Details</h3>
                         <div class="row">
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-25">
-                                    <label>First name <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div class="billing-info mb-25">
-                                    <label>Last name <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-info mb-25">
-                                    <label>Company name (optional) <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-select mb-25">
-                                    <label>Country <abbr class="required" title="required">*</abbr></label>
-                                    <select class="select-active">
-                                        <option>Azerbaijan</option>
-                                        <option>Bahamas</option>
-                                        <option>Bahrain</option>
-                                        <option>Bangladesh</option>
-                                        <option>Barbados</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-info mb-25">
-                                    <label>Street address <abbr class="required" title="required">*</abbr></label>
-                                    <input class="billing-address" placeholder="House number and street name" type="text">
-                                    <input placeholder="Apartment, suite, unit etc. (optional)" type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-info mb-25">
-                                    <label>Town / City <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="billing-select mb-25">
-                                    <label>District <abbr class="required" title="required">*</abbr></label>
-                                    <select class="select-active">
-                                        <option>Azerbaijan</option>
-                                        <option>Bahamas</option>
-                                        <option>Bahrain</option>
-                                        <option>Bangladesh</option>
-                                        <option>Barbados</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12">
-                                <div class="billing-info mb-25">
-                                    <label>Postcode / ZIP (optional) <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12">
-                                <div class="billing-info mb-25">
-                                    <label>Phone <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12">
-                                <div class="billing-info mb-25">
-                                    <label>Email Address <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text">
-                                </div>
-                            </div>
+                            <h4 style="color: #2c2c2c;"><b><cap>Deliver To</u></b></h4>
+                                <% addressInfo.forEach((element, index) => { %>
+                                   <div id="address" style="display: flex; align-items: center;">
+                                    <input  id="radio" type="radio" name="selectedAddress" value="<%= element._id %>" onclick="addressSelection(this)" style="margin-right: 10px; width: 20px; height: 20px;"<% if(index === 0) { %> checked <% } %>  >
+                                        <div class="row" style="flex: 1; border: solid; border-width: 0.5px; border-color: rgb(211, 211, 211); margin:30px 0px 25px 0px; padding: 20px 0px 20px 0px;"> 
+                                            <address>
+                                                <p style="color: #2e2e2e;"><strong><%= element.name %></strong></p>
+                                                <p style="color: #2e2e2e;">Address: <%= element.address %><br>
+                                                Locality: <%= element.locality %></p>
+                                                <p style="color: #2e2e2e;">Mobile:<%= element.phone %></p>
+                                            </address>
+                                            <a href="/editAddress" class="check-btn sqr-btn "><i class="fa fa-edit"></i> Edit Address </a>
+                                        </div>
+                                    </div>  
+                                <% }) %>
                         </div>
-                        <div class="additional-info-wrap">
+                        <script>
+                            function addressSelection(radio){
+                                let radioBtn = document.getElementsByName("selectedAddress");
+                                radioBtn.forEach((rd)=> {
+                                    if(rd !== radio){
+                                        rd.checked = false;
+                                    }
+                                })
+                            }
+                        </script>
+
+                        <div class="btn-style-1 text-center" role="tablist">
+                            <a class="btn-border" href="/address" >
+                                <div class="btn-viewmore-normal btn-ptb-1 btn-viewmore-bg-transparent btn-viewmore-common">
+                                    <span>ADD NEW ADDRESS</span>
+                                </div>
+                                <div class="btn-viewmore-hover btn-ptb-1 btn-viewmore-common btn-hover-transition">
+                                    <span>ADD NEW ADDRESS</span>
+                                </div>
+                            </a>
+                        </div>  
+                     
+                        <!-- <div class="additional-info-wrap">
                             <h3>Additional information</h3>
                             <label>Order notes (optional)</label>
                             <textarea placeholder="Notes about your order, e.g. special notes for delivery. " name="message"></textarea>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-lg-5">
@@ -125,29 +88,73 @@
                                 <div class="your-order-info">
                                     <ul>
                                         <li>Product <span>Total</span></li>
-                                    </ul>
+                                    </ul> 
                                 </div>
                                 <div class="your-order-middle">
                                     <ul>
-                                        <li>Product Name X 1 <span>$329 </span></li>
-                                        <li>Product Name X 1 <span>$329 </span></li>
+                                        <% if(cartDetails && cartDetails.length){ %>
+                                        <% cartDetails.forEach((element)=>{ %>
+                                        <% element.items.forEach((item)=>{ %>
+                                            <li>
+                                                <%= item.productName %> <br>
+                                                Quantity: <%= item.quantity %> 
+                                                <span>Subtotal: ₹<%= item.totalPrice %> </span>
+                                            </li>
+                                        <%}) %>
+                                        <%}) %>
+                                        <% } %>
                                     </ul>
                                 </div>
+                                
+
+                                <% cartInfo.forEach((element) => { %>
                                 <div class="your-order-info order-subtotal">
                                     <ul>
-                                        <li>Subtotal <span>$329 </span></li>
+                                        <li>Subtotal <span>₹ <%= element.totalPrice %></span></li>
                                     </ul>
                                 </div>
                                 <div class="your-order-info order-total">
                                     <ul>
-                                        <li>Total <span>£273.00 </span></li>
+                                        <li>Total <span id="total" style="font-weight: bold;">₹ <%= element.totalPrice %></span></li>
                                     </ul>
                                 </div>
+                                <% }) %>
                             </div>
                             <div class="payment-method">
-                                <h5>Direct Bank Transfer</h5>
-                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
-                            </div>
+                                <div class="billing-info-wrap mr-100">
+                                    <h3>Billing Details</h3>
+                                    <div class="row">
+                                        <h4 style="color: #2c2c2c;"><b><cap>Select Payment Method</u></b></h4>
+                                            
+                                               <div id="address" style="display: flex; align-items: center;">
+                                                <input  id="radio" type="radio" name="selectedAddress" value="COD" id="paymentCod"  style="margin-right: 10px; width: 20px; height: 20px;">
+                                                    <div class="row" style="flex: 1;"> 
+                                                        <address>
+                                                            <p style="color: #191919;"><strong>Cash on delivery</strong></p>
+                                                            </address>
+                                                      
+                                                    </div>
+                                                </div> 
+                                               <!-- <div id="address" style="display: flex; align-items: center;">
+                                                <input  id="radio" type="radio" name="selectedAddress" style="margin-right: 10px; width: 20px; height: 20px;">
+                                                    <div class="row" style="flex: 1;"> 
+                                                        <address>
+                                                            <p style="color: #191919;"><strong>Razor Pay</strong></p>
+                                                            </address>
+                                                      
+                                                    </div>
+                                                </div>  -->
+                                               <div id="address" style="display: flex; align-items: center;">
+                                                <input  id="radio" type="radio" name="selectedAddress" style="margin-right: 10px; width: 20px; height: 20px;">
+                                                    <div class="row" style="flex: 1;"> 
+                                                        <address>
+                                                            <p style="color: #191919;"><strong>Other methods</strong></p>
+                                                            </address>
+                                                      
+                                                    </div>
+                                                </div> 
+                                    </div>
+                                </div>
                             <div class="condition-wrap">
                                 <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a></p>
                                 <div class="condition-form mb-25">
@@ -157,7 +164,7 @@
                             </div>
                         </div>
                         <div class="Place-order mt-30">
-                            <a href="#">Place Order</a>
+                            <a onclick="placeOrder('<%= cartInfo._id %>')">Place Order</a>
                         </div>
                     </div>
                 </div>
@@ -165,6 +172,71 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Hide the add-address-form initially
+        $('.add-address-form').hide();
+        console.log("selected dsfsdfsd")
+        // Toggle the add-address-form visibility when the button is clicked
+        $('.add-address-toggle').click(function(e) {
+            e.preventDefault();
+            $('.add-address-form').toggle();
+        });
+    });
+
+
+    function addressSelection(radio) {
+        if (radio.checked) {
+            selectedAddress = radio.value;
+            alert("Address Selected : "+selectedAddress);
+        } else {
+            selectedAddress = null;
+        }
+    }
+
+
+function placeOrder(cartId){
+    const paymentMethod = document.getElementById("payment").value;
+    const total = document.getElementById("total").innerHTML;
+    alert(total);
+    $.ajax({
+        url:"/placeorder",
+        method: "post",
+        data: {
+            selectedAddress,
+            paymentMethod,
+            cartId,
+            total
+        },
+        success: (response)=>{
+            if(response.status === "true"){
+                alert("order placed successfully");
+                window.location.href = "/orders";
+            }else if(response.status === "fill"){
+                Swal.fire({
+                    icon: "error",
+                    title: "Must fill the options",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }else{
+                console.error("Unexpected response:", response);
+            }
+        },
+        error: (error) => {
+            console.error("Ajax request error:", error);
+        },
+    });
+}
+
+
+
+
+</script>
+
+        
 <!-- checkout end -->
 <%- include("../partials/footer.ejs") %>
       

@@ -1,0 +1,293 @@
+
+ <%- include("../partials/header.ejs") %>
+
+                <div class="breadcrumb-content text-center">
+                    <div class="breadcrumb-title">
+                        <h2>My Account</h2>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li><span> &gt; </span></li>
+                        <li class="active"> My Account </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="my-account-area pt-100 pb-95">
+            <div class="container">
+                <div class="row flex-row-reverse">
+                    <div class="col-lg-12">
+                        <div class="myaccount-tab-menu nav" role="tablist">
+                            <a href="/accountDetails"> Account Details</a>
+                            <a href="/orders"> Orders</a>
+                            <a href="/address" class="show active"> Address</a>
+                            
+                        </div> 
+
+                        <div class="tab-content" id="myaccountContent">
+                            <div class="tab-pane fade nav show active" id="address" role="tabpanel">
+                                <div class="myaccount-content">
+                                    <div  class="breadcrumb-title text-center"> 
+                                        <h2>Add Address</h2>
+                                    </div>
+                                    <div class="btn-style-1 text-center" role="tablist">
+                                        <a class="btn-border add-address-toggle" href="#add-address" data-bs-toggle="tab">
+                                            <div class="btn-viewmore-normal btn-ptb-1 btn-viewmore-bg-transparent btn-viewmore-common">
+                                                <span>ADD NEW ADDRESS</span>
+                                            </div>
+                                            <div class="btn-viewmore-hover btn-ptb-1 btn-viewmore-common btn-hover-transition">
+                                                <span>ADD NEW ADDRESS</span>
+                                            </div>
+                                        </a>
+                                    </div>  
+                                  
+                                    <form action="/addAddress" method="post">
+                                        <div class=" add-address-form tab-pane fade " id="add-address" role="tabpanel" >
+                                            <div class="account-details-form">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="single-input-item">
+                                                            <input type="text" id="firstName" name="name" placeholder="Name" />
+                                                            </div>
+                                                            <p><div id="error0" style="display: none;" class="alert alert-danger err"></div></p>
+
+                                                            <div class="single-input-item">
+                                                                <input type="tel" id="phone" name="phone" placeholder="10 digit mobile number " />
+                                                            </div>
+                                                            <p><div id="error1" style="display: none;" class="alert alert-danger err"></div></p>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="single-input-item" >
+                                                            <input type="text" id="pincode" name="pincode" placeholder="Pincode" />
+                                                            </div>
+                                                            <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
+
+                                                            <div class="single-input-item" >
+                                                                <input type="text" id="locality" name="locality" placeholder="Locality" />
+                                                            </div>
+                                                            <p><div id="error3" style="display: none;" class="alert alert-danger err"></div></p>
+                                                        </div>     
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="single-input-item" >
+                                                            <input type="text" id="address"   name="address" placeholder="Address(Area and Street)" />
+                                                        </div>
+                                                        <p><div id="error4" style="display: none;" class="alert alert-danger err"></div></p>
+
+                                                        <div class="single-input-item">
+                                                            <input type="text" id="city" name="city" placeholder="City/District/Town" />
+                                                        </div>
+                                                        <p><div id="error5" style="display: none;" class="alert alert-danger err"></div></p>
+
+                                                        <div class="single-input-item" style="border: 0.5px solid #a2a2a2; margin: 0px 0px 25px;" >
+                                                            <label for="state"  >State</label>
+                
+                                                        <select name="state" id="state"  style="width: 100%;  color: rgb(37, 37, 37);">
+                                                            <option value="" selected disabled>Select State</option>
+                                                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                            <option value="Assam">Assam</option>
+                                                            <option value="Bihar">Bihar</option>
+                                                            <option value="Chhattisgarh">Chhattisgarh</option>
+                                                            <option value="Goa">Goa</option>
+                                                            <option value="Gujarat">Gujarat</option>
+                                                            <option value="Haryana">Haryana</option>
+                                                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                            <option value="Jharkhand">Jharkhand</option>
+                                                            <option value="Karnataka">Karnataka</option>
+                                                            <option value="Kerala">Kerala</option>
+                                                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                            <option value="Maharashtra">Maharashtra</option>
+                                                            <option value="Manipur">Manipur</option>
+                                                            <option value="Meghalaya">Meghalaya</option>
+                                                            <option value="Mizoram">Mizoram</option>
+                                                            <option value="Nagaland">Nagaland</option>
+                                                            <option value="Odisha">Odisha</option>
+                                                            <option value="Punjab">Punjab</option>
+                                                            <option value="Rajasthan">Rajasthan</option>
+                                                            <option value="Sikkim">Sikkim</option>
+                                                            <option value="Tamil Nadu">Tamil Nadu</option>
+                                                            <option value="Telangana">Telangana</option>
+                                                            <option value="Tripura">Tripura</option>
+                                                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                            <option value="Uttarakhand">Uttarakhand</option>
+                                                            <option value="West Bengal">West Bengal</option>
+                                                            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                                            <option value="Chandigarh">Chandigarh</option>
+                                                            <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                                                            <option value="Daman and Diu">Daman and Diu</option>
+                                                            <option value="Lakshadweep">Lakshadweep</option>
+                                                            <option value="Delhi">Delhi</option>
+                                                            <option value="Puducherry">Puducherry</option>
+                                                        </select>
+                                                        </div>
+                                                        <p><div id="error6" style="display: none;" class="alert alert-danger err"></div></p>
+
+                                                        <div class="single-input-item">
+                                                            <input type="text" id="landmark" name="landmark" placeholder="Landmark(Optional)" />
+                                                        </div>
+                                                        <p><div id="error7" style="display: none;" class="alert alert-danger err"></div></p>
+
+                                                        <div class="single-input-item">
+                                                            <input type="tel" id="phone2" name="phone2" placeholder="Alternate Phone(Optional)" />
+                                                        </div>
+                                                        <p><div id="error8" style="display: none;" class="alert alert-danger err"></div></p>
+                                                    
+                                                        <div class="single-input-item">
+                                                            <button type="submit" id="addForm" class="check-btn sqr-btn ">Add Address</button>
+                                                        </div>
+                                                        <p><div id="error9" style="display: none;" class="alert alert-danger err"></div></p>
+                                                    </div>
+                                                
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                    <br>
+                                    <br>
+                                    <h4 style="color: #262626;"><b><cap>Saved Address</u></b></h4>
+                                    <% addressInfo.forEach(element => { %>
+                                        <div class="row" style="border: solid; border-width: 0.5px; border-color: rgb(211, 211, 211); margin:30px 0px 25px 0px; padding: 20px 0px 20px 0px;">
+                                        <address>
+                                            <p><strong><%= element.name %></strong></p>
+                                            <p><%= element.address %><br>
+                                              <%= element.locality %></p>
+                                            <p>Mobile:<%= element.phone %></p>
+                                        </address>
+                                     
+                                        <a href="/editadrs?id=<%= element._id %>" class="check-btn sqr-btn "><i class="fa fa-edit"></i> Edit Address </a>
+                                        </div>
+                                    <% }) %>
+                                </div>
+                                
+                            </div>
+                           
+                                
+                         
+                            <!-- Single Tab Content End -->
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Hide the add-address-form initially
+        $('.add-address-form').hide();
+        
+        // Toggle the add-address-form visibility when the button is clicked
+        $('.add-address-toggle').click(function(e) {
+            e.preventDefault();
+            $('.add-address-form').toggle();
+        });
+    });
+
+
+
+
+    
+
+// const firstName = document.getElementById('firstName')
+// const phone = document.getElementById('phone')
+// const pincode = document.getElementById('pincode')
+// const locality = document.getElementById('locality')
+// const address = document.getElementById('address')
+// const city = document.getElementById('city')
+// const state = document.getElementById('state')
+// const landmark = document.getElementById('landmark')
+// const phone2 = document.getElementById('phone2')
+// const error0 = document.getElementById('error0')
+// const error1 = document.getElementById('error1')
+// const error2 = document.getElementById('error2')
+// const error3 = document.getElementById('error3')
+// const error4 = document.getElementById('error4')
+// const error5 = document.getElementById('error5')
+// const error6 = document.getElementById('error6')
+// const error7 = document.getElementById('error7')
+// const error8 = document.getElementById('error8')
+// const error9 = document.getElementById('error9')
+// const addForm = document.getElementById('addForm')
+
+
+// function nameValidateCheck(){
+//     const nameVal = firstName.value
+//     if(nameVal.trim()===""){
+//         error0.style.display = "block"
+//         error0.innerHTML="Please enter the name"
+//     }else{
+//         error0.style.display = "none"
+//         error0.innerHTML = ""
+//     }
+// }
+
+
+// function phonenumValCheck(){
+//     const mobileval = phone.value
+//     const regex = /^\d{10}$/;
+//     if(mobileval.trim()===""){
+//         error1.style.display = "block"
+//         error1.innerHTML = "Please enter the mobile number"
+//     }else if(mobileval.length < 10 || mobileval.length > 15){
+//         error1.style.display = "block"
+//         error1.innerHTML = "Number must be between 10 to 15 digits"
+//     }else if(!regex.test(mobileval)){
+//         error1.style.display = "block"
+//         error1.innerHTML = "invalid format"
+//     }else{
+//         error1.style.display="none"
+//         error1.innerHTML=""
+//     }
+// }
+
+
+
+// function phone2numValCheck(){
+//     const mobileval = phone.value
+//     const regex = /^\d{10}$/;
+//     if(mobileval.length < 10 || mobileval.length > 15){
+//         error8.style.display = "block"
+//         error8.innerHTML = "Number must be between 10 to 15 digits"
+//     }else if(!regex.test(mobileval)){
+//         error8.style.display = "block"
+//         error8.innerHTML = "invalid format"
+//     }else{
+//         error8.style.display="none"
+//         error8.innerHTML=""
+//     }
+// }
+
+
+// firstName.addEventListener("blur",nameValidateCheck)
+// phone.addEventListener("blur",phonenumValCheck)
+// phone2.addEventListener("blur",phonenumValCheck)
+
+// document.addEventListener("DOMContentLoaded", function(){
+
+//     signform.addEventListener("submit", function(e){
+//         nameValidateCheck()
+//         phonenumValCheck();
+//         phone2numValCheck();
+        
+//         console.log(firstNam, phone, pincode, locality,address,city,state,landmark,phone2, error0,error1,error2,error3,error4,error5,error6,error7,error8,error9,addForm);
+//         if(!firstNam || !phone || !pincode || !locality || !address || !city || !state || !landmark || !phone2 || !error0 || !error1 || !error2 || !error3 || !error4 || !error5 || !error6 || !error7 || !error8 || !error9 ||  !addForm){
+//             console.log("fill all boxes in there");
+//         }
+//         if (error0.innerHTML || error2.innerHTML || error1.innerHTML || error4.innerHTML || error5.innerHTML || error6.innerHTML || error7.innerHTML || error8.innerHTML || error9.innerHTML ) {
+//             e.preventDefault();
+//           }
+    
+//     });
+// });
+
+</script>
+
+        
+
+
+<%- include("../partials/footer.ejs") %>

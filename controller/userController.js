@@ -2,6 +2,8 @@ const express = require("express");
 const User = require("../models/userSchema");
 const Product = require("../models/productSchema");
 const Category = require("../models/categorySchema");
+const Address = require("../models/addressSchema.js");
+const Order = require("../models/orderSchema.js");
 const otpController = require("../Config/Otp/otpController");
 const sentMail = require("../Config/nodemailer/sentMail.js");
 const nodemailer = require("nodemailer");
@@ -23,6 +25,18 @@ const getLoginPage = async(req,res)=>{
         res.render("user/login");
     }catch(error){
         res.redirect("/pageNotFound");
+    }
+};
+
+
+
+
+const getAllProductsPage= async(req,res)=>{
+    try{
+        const proData = await Product.find({isBlocked : false});
+        res.render("user/allProducts",{proData})
+    }catch(error){
+        console.log(error.message);
     }
 };
 
@@ -59,19 +73,6 @@ const getHomePage= async(req,res)=>{
     }
 };
 
-
-const getAccountInfo = async(req, res) => {
-    try {
-        const userId = req.session.userId;
-        const userInfo = await User.findById(userId);
-        // const orderInfo = await User.findById(userId);
-        // const addressInfo = await User.findById(userId);
-        console.log(userInfo);
-        res.render("user/userProfile", { userInfo });
-    } catch(error) {
-        console.log(error.message);
-    }
-}
 
 
 const getOtpPage = async(req,res)=>{
@@ -163,6 +164,28 @@ const verifyOtp = async(req,res)=>{
 };
 
 
+
+const saveUpdatedPassword = async(req,res)=>{
+    console.log("sdfgsdgsdf")
+    try{
+        const {currentPassword, newPassword , confirmNewPassword } = req.body;
+        const userId = req.session.user;
+        const userData = await User.findById(userId);
+        console.log(userData);
+        if(!userData){
+            return res.status(404).json({ status: "error", message: "User not found" });
+        }
+
+
+        res.json({ status: "success", message: "Password updated successfully" });
+    }catch(error){
+        console.error("Error updating password:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+}
+
+
+
 //Generate Hashed Password
 const securePassword = async (password) => {
     try {
@@ -222,8 +245,140 @@ const userLogin = async (req, res) => {
     }
 };
 
-const logout = async (req, res)=>{
+
+
+
+
+const allProductSort= async(req ,res)=>{
     try{
+        const sort = req.query.sort;
+        if(sort == "Lowtohigh"){
+            const proData = await Product.find({isBlocked : false}).sort({salePrice: 1}); 
+            res.render("user/allProducts",{proData});
+        }
+        else if(sort == "Hightolow"){
+            const proData = await Product.find({isBlocked : false}).sort({salePrice: -1}); 
+            res.render("user/allProducts",{proData});
+        }
+        else if(sort == "AtoZ"){
+            const proData = await Product.find({isBlocked : false}).sort({productName: -1}); 
+            res.render("user/allProducts",{proData});
+        }
+        else if(sort == "ZtoA"){
+            const proData = await Product.find({isBlocked : false}).sort({productName: 1}); 
+            res.render("user/allProducts",{proData});
+        }
+        else if(sort == "ZtoA"){
+            const proData = await Product.find({isBlocked : false}).sort({salePrice: 1}); 
+            res.render("user/allProducts",{proData});
+        }
+        else if(sort == "Default"){
+            const proData = await Product.find({isBlocked : false})
+            res.render("user/allProducts",{proData});
+        }
+       
+    }catch(error){
+        console.log(`error in logging all products page : ${error}`);
+    }
+}
+  
+
+
+
+
+
+
+const getuserAccountDetails = async(req, res) => {
+    try {
+        const userId = req.session.userId;
+        const userInfo = await User.findById(userId);
+        const orderInfo = await User.findById(userId);
+        // const addressInfo = await User.findById(userId);
+        res.render("user/userAccountDetails", { userInfo });
+    } catch(error) {
+        console.log(error.message);
+    }
+}
+
+   
+const getuserOrderDetails = async(req, res) => {
+    try {
+        const userId = req.session.userId;
+        const userData = await User.findOne({userId : userId});
+        const cartData = await Cart.findOne({userId : userId});
+        console.log("userId and cart"+userId, cartData);
+        res.render("user/userOrders", { orderInfo , cartData});
+    } catch(error) {
+        console.log(error.message);
+    }
+}
+  
+
+
+const getuserAddAddress = async(req, res) => {
+    try {
+        const userId = req.session.userId;
+        console.log(userId);
+        // const userInfo = await User.findById(userId);
+        // const orderInfo = await User.findById(userId);
+        const addressInfo = await Address.find({userId: userId});
+        res.render("user/userAddAddress", {addressInfo});
+    } catch(error) {
+        console.log(error.message);
+    }
+}
+
+
+const getusereditAddress = async(req,res)=>{
+    try{
+        const adressId = req.query.id;
+        const address = await Address.findById({_id : adressId});
+        console.log("adress id "+ adressId , address);
+        res.render("user/usereditAddress",{address})
+    }catch(error){
+        console.log(error.message);
+    }
+}
+
+
+
+//edit cheythit ullapost function 
+
+const addNewAddress = async(req,res)=>{
+    console.log("Adding address");
+    try{
+        const userId = req.session.userId;
+        const { name, phone, pincode, locality, city, address, state, landmark, phone2 } = req.body;
+        const newAddress = new Address({
+            userId, name, phone, pincode, locality, city, address, state, landmark, phone2
+        });
+        console.log(userId, name, phone, pincode, locality, city, address, state, landmark, phone2  )
+        await newAddress.save();
+        console.log("this is the new saved address "+newAddress)
+        res.redirect("/address");
+    }catch(error){
+        console.log(error.message)
+    }
+}
+  
+
+
+const editAddress = async(req,res)=>{
+    console.log("edit address is working");
+    try{
+        const userId = req.session.userId;
+        const adrsId = req.query.Id;
+        console.log(adrsId);
+        const { name, phone, pincode, locality, city, address, state, landmark, phone2 } = req.body;
+        const existingAddress = await Address.findById({_id:adrsId});
+        console.log("jhsgvdfjhdgsf"+existingAddress)
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+const logout = async (req, res)=>{
+    try{   
         await req.session.destroy()
         res.redirect("/")
     }catch(error){
@@ -231,15 +386,21 @@ const logout = async (req, res)=>{
     }
 }
 
-
-
-
 module.exports = {
     pageNotFound,
     getLoginPage,
     getSignupPage,
     getHomePage,
-    getAccountInfo,
+
+    getAllProductsPage,
+    getuserAccountDetails,
+    saveUpdatedPassword,
+   
+    getuserAddAddress,
+    getuserOrderDetails,
+    getusereditAddress,
+    editAddress,
+
     getOtpPage,
     getVerifyOtpPage,
     signupUser,
@@ -248,7 +409,10 @@ module.exports = {
     resendOtp,
     securePassword,
     userLogin,
-    logout
+    allProductSort,
+    addNewAddress,
+    logout,
+
 
 };
 

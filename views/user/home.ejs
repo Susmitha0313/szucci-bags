@@ -24,7 +24,7 @@
         </div>
 
 
-
+       
         <div class="product-area pt-70 pb-45 section-padding-1">
             <div class="container-fluid">
                 <div class="section-title-9 text-center">
@@ -32,107 +32,118 @@
                 </div>
                 <div class="product-tab-list-5 nav mt-20 mb-45">
                     <a class="active" href="#product-6" data-bs-toggle="tab">
-                        All
+                        Products
                     </a>
-                    <a href="#product-7" data-bs-toggle="tab">
-                        Travel
-                    </a>
-                    <a href="#product-8" data-bs-toggle="tab">
+                      
+                    <!-- <a href="#product-8" data-bs-toggle="tab">
                         HandBag
                     </a>
                     <a href="#product-9" data-bs-toggle="tab">
                         Laptop
-                    </a>
+                    </a> -->
                 </div>
                 <div class="tab-content jump-2">
                     <div id="product-6" class="tab-pane active padding-20-row-col">
                         <div class="row">
-                          
-                        <% for(let i=0; i <proData.length ; i++){ %>
-
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                <div class="product-wrap mb-50">
-                                    <div class="product-img default-overlay mb-25" >
-                                        <a href="/product-details?id=<%=proData[i]._id%>">
-                                            <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="Product">
-                                        </a>
-                                        </a>
-                                        <div class="product-action product-action-position-1">
-                                            <a href="/product-details?id=<%=proData[i]._id%>"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                            <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                           
-                                            <a title="Add to Cart" href="/productCart"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
+                            <% for(let i=0; i < Math.min(4, proData.length); i++){ %> <!-- Limiting to 4 products -->
+                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="product-wrap mb-50">
+                                        <div class="product-img default-overlay mb-25" >
+                                            <a href="/product-details?id=<%=proData[i]._id%>">
+                                                <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="Product">
+                                            </a>
+                                            <div class="product-action product-action-position-1">
+                                                <a href="/product-details?id=<%=proData[i]._id%>"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
+                                                <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
+                                                <a title="Add to Cart" href="/productCart"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="product-content-4 title-font-width-400 text-center">
-                                        <h4><a href="product-details"><%= proData[i].productName %></a></h4>
-                                        <div class="product-price-3">
-                                            <% if(proData[i].salePrice) {%>
-                                            <span style="color: green;" class="new-price">₹ <%= proData[i].salePrice%></span>
-                                            <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">$ <%= proData[i].regularPrice%></span>
-                                            <% if (proData[i].regularPrice && proData[i].salePrice) { %>
-                                                <% var offerPercentage = ((proData[i].regularPrice - proData[i].salePrice) / proData[i].regularPrice) * 100; %>
-                                                <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
-                                                    <span>
-                                                        <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
-                                                    </span>
-                                                </div>
-                                            <% } %>
-                                        <% } else { %>
-                                            <span>₹<%= proData[i].regularPrice %></span>
-                                        <% } %>
+                                        <div class="product-content-4 title-font-width-400 text-center">
+                                            <h4><a href="product-details"><%= proData[i].productName %></a></h4>
+                                            <div class="product-price-3">
+                                                <% if(proData[i].salePrice) {%>
+                                                    <span style="color: green;" class="new-price">₹ <%= proData[i].salePrice%></span>
+                                                    <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">$ <%= proData[i].regularPrice%></span>
+                                                    <% if (proData[i].regularPrice && proData[i].salePrice) { %>
+                                                        <% var offerPercentage = ((proData[i].regularPrice - proData[i].salePrice) / proData[i].regularPrice) * 100; %>
+                                                        <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
+                                                            <span>
+                                                                <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
+                                                            </span>
+                                                        </div>
+                                                    <% } %>
+                                                <% } else { %>
+                                                    <span>₹<%= proData[i].regularPrice %></span>
+                                                <% } %>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        <% } %> 
+                            <% } %> 
                         </div>       
-                    </div>
-                </div>   
-
-                <div class="tab-content jump-3">
-                    <div id="product-7" class="tab-pane active padding-20-row-col">
-                        <div class="row">
-                            <% proData.forEach(proData => { %>
-                                <% if (proData.category === 'Travel') { %>
-                
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="product-wrap mb-50">
-                                            <div class="product-img default-overlay mb-25">
-                                                <a href="/product-details?id=<%= proData._id %>">
-                                                    <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData.productImage %>" alt="Product">
-                                                </a>
-                                                <div class="product-action product-action-position-1">
-                                                    <a href="/product-details?id=<%= proData._id %>"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                                    <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                
-                                                    <!-- Add to Cart button with productId and quantity -->
-                                                    <form action="/addToCart" method="POST">
-                                                        <input type="hidden" name="productId" value="<%= proData._id %>">
-                                                        <input type="number" name="quantity" value="1" min="1">
-                                                        <button type="submit" title="Add to Cart"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></button>
-                                                    </form>
-                                                </div>   
-                                            </div>
-                                            <div class="product-content-4 title-font-width-400 text-center">
-                                                <h3><a href="product-details"><%= proData.productName %></a></h3>
-                                                <div class="product-price-3">
-                                                    <span class="new-price"> <%= proData.salePrice %></span>
-                                                    <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">$ <%= proData.regularPrice %></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <% } %>
-                            <% }) %>
-                        </div>
                     </div>
                 </div>
                 
 
+                <!-- <div class="tab-content jump-3">
+                    <div id="product-7" class="tab-pane active padding-20-row-col">
+                        <div class="row">
+                          
+                            <% for(let i=0; i <proData.length ; i++){ %>
+    
+                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                                    <div class="product-wrap mb-50">
+                                        <div class="product-img default-overlay mb-25" >
+                                            <a href="/product-details?id=<%=proData[i]._id%>">
+                                                <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="Product">
+                                            </a>
+                                            </a>
+                                            <div class="product-action product-action-position-1">
+                                                <a href="/product-details?id=<%=proData[i]._id%>"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
+                                                <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
+                                               
+                                                <a title="Add to Cart" href="/productCart"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-4 title-font-width-400 text-center">
+                                            <h4><a href="product-details"><%= proData[i].productName %></a></h4>
+                                            <div class="product-price-3">
+                                                <% if(proData[i].salePrice) {%>
+                                                <span style="color: green;" class="new-price">₹ <%= proData[i].salePrice%></span>
+                                                <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">$ <%= proData[i].regularPrice%></span>
+                                                <% if (proData[i].regularPrice && proData[i].salePrice) { %>
+                                                    <% var offerPercentage = ((proData[i].regularPrice - proData[i].salePrice) / proData[i].regularPrice) * 100; %>
+                                                    <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
+                                                        <span>
+                                                            <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
+                                                        </span>
+                                                    </div>
+                                                <% } %>
+                                            <% } else { %>
+                                                <span>₹<%= proData[i].regularPrice %></span>
+                                            <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% } %> 
+                            </div>      
+                    </div>
+                </div> -->
+                
+
             </div>
         </div>
-                
+        <div class="btn-style-1 text-center">
+            <a class="btn-border" href="/allProducts">
+                <div class="btn-viewmore-normal btn-ptb-1 btn-viewmore-bg-transparent btn-viewmore-common">
+                    <span>View all products</span>
+                </div>
+                <div class="btn-viewmore-hover btn-ptb-1 btn-viewmore-common btn-hover-transition">
+                    <span>View all products</span>
+                </div>
+            </a>
+        </div>       
         <div class="banner-area section-padding-1 padding-70-row-col pt-100">
             <div class="container-fluid">
                 <div class="row">
@@ -207,12 +218,6 @@
 
 
 
-
-
-
-
-
-
         <div class="subscribe-area pt-100 pb-100">
             <div class="container">
                 <div class="row">
@@ -264,10 +269,11 @@
                         alertMessage.style.display = "none";
                     },3000)
                     }
-                }
+                 }
             })
         }
 
+        
         </script>
         
        

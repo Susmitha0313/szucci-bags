@@ -97,4 +97,4 @@ const orderSchema = new Mongoose.Schema({
 
 }, { versionKey: false });
 
-module.exports = Mongoose.model("order", orderSchema)
+module.exports = Mongoose.model("Order", orderSchema)
