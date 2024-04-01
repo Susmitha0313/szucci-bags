@@ -1,20 +1,19 @@
 
  <%- include("../partials/header.ejs") %>
-
-                <div class="breadcrumb-content">
-                    <div class="breadcrumb-title">
-                        <h2>My Account</h2>
-                    </div>
-                    <ul>
-                        <li>
-                            <a href="/">Home</a>
-                        </li>
-                        <li><span> &gt; </span></li>
-                        <li class="active"> My Account </li>
-                    </ul>
+            <div class="breadcrumb-content text-center">
+                <div class="breadcrumb-title">
+                    <h2>My Account</h2>
                 </div>
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li><span> &gt; </span></li>
+                    <li class="active"> My Account </li>
+                </ul>
             </div>
         </div>
+    </div>
                 <div class="my-account-area pt-100 pb-95">
                     <div class="container">
                         <div class="row flex-row-reverse">
@@ -25,11 +24,12 @@
                                     <a href="/address"> Address</a>
                                     
                                 </div> 
-
+ 
                                 <div class="tab-content" id="myaccountContent">
                                     <div class="tab-pane fade show active" role="tabpanel">
                                         <div class="myaccount-content">
                                             <div class="myaccount-table table-responsive text-center">
+                                                <% if(orderInfo){ %>
                                                 <table class="table table-bordered">
                                                     <thead class="thead-light">
                                                         <tr>
@@ -41,29 +41,20 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Aug 22, 2023</td>
-                                                            <td>Pending</td>
-                                                            <td>$3000</td>
-                                                            <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>July 22, 2023</td>
-                                                            <td>Approved</td>
-                                                            <td>$200</td>
-                                                            <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>June 12, 2023</td>
-                                                            <td>On Hold</td>
-                                                            <td>$990</td>
-                                                            <td><a href="cart.html" class="check-btn sqr-btn ">View</a></td>
-                                                        </tr>
+                                                        <% orderInfo.reverse().forEach((order)=>{ %>
+                                                            <tr>
+                                                                <td><%= order.orderNumber %></td>
+                                                                <td><%= order.orderDate.toLocaleDateString() %></td>
+                                                                <td><%= order.status %></td>
+                                                                <td>$<%= order.totalAmount %></td>
+                                                                <td><a href="/viewOrder?id=<%= order._id %>" class="check-btn sqr-btn ">View</a></td>
+                                                            </tr>
+                                                        <% }) %>
                                                     </tbody>
                                                 </table>
+                                                <% } else { %>
+                                                    <a href="/productCart"> <button> Go to Cart </button></a>
+                                                    <% } %>
                                             </div>
                                         </div>
                                     </div>
@@ -119,9 +110,21 @@
                 }
             }
         }) 
-    }
+    };
+    
+//     function formatDate(date) {
+//     const orderDate = new Date(date);
+//     const month = orderDate.getMonth() + 1; // Month is zero-based, so add 1
+//     const day = orderDate.getDate();
+//     const year = orderDate.getFullYear();
+//     const formattedDate = `${month}/${day}/${year}`;
+//     return formattedDate;
+//  }
 
     
+
+
+                                                        
 
 // const firstName = document.getElementById('firstName')
 // const phone = document.getElementById('phone')

@@ -13,7 +13,8 @@ const cartSchema = new Mongoose.Schema({
             require : true,
         },
         quantity : {
-            type : Number
+            type : Number,
+            require:true,
         },
         subTotal: {
             type: Number,

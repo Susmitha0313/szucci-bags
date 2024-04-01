@@ -38,7 +38,7 @@
                             <h4 style="color: #2c2c2c;"><b><cap>Deliver To</u></b></h4>
                                 <% addressInfo.forEach((element, index) => { %>
                                    <div id="address" style="display: flex; align-items: center;">
-                                    <input  id="radio" type="radio" name="selectedAddress" value="<%= element._id %>" onclick="addressSelection(this)" style="margin-right: 10px; width: 20px; height: 20px;"<% if(index === 0) { %> checked <% } %>  >
+                                    <input  id="radio" type="radio" name="selectedAddress" value="<%= element._id %>" onclick="addressSelection(this)" style="margin-right: 10px; width: 20px; height: 20px;">
                                         <div class="row" style="flex: 1; border: solid; border-width: 0.5px; border-color: rgb(211, 211, 211); margin:30px 0px 25px 0px; padding: 20px 0px 20px 0px;"> 
                                             <address>
                                                 <p style="color: #2e2e2e;"><strong><%= element.name %></strong></p>
@@ -62,7 +62,7 @@
                             }
                         </script>
 
-                        <div class="btn-style-1 text-center" role="tablist">
+                        <div class="btn-style-1 text-center" role="tablist">  
                             <a class="btn-border" href="/address" >
                                 <div class="btn-viewmore-normal btn-ptb-1 btn-viewmore-bg-transparent btn-viewmore-common">
                                     <span>ADD NEW ADDRESS</span>
@@ -95,9 +95,8 @@
                                         <% if(cartDetails && cartDetails.length){ %>
                                         <% cartDetails.forEach((element)=>{ %>
                                         <% element.items.forEach((item)=>{ %>
-                                            <li>
-                                                <%= item.productName %> <br>
-                                                Quantity: <%= item.quantity %> 
+                                            <li style="font-weight:500;"><%= item.productName %> </li>
+                                            <li> quantity: <%= item.quantity %> 
                                                 <span>Subtotal: ₹<%= item.totalPrice %> </span>
                                             </li>
                                         <%}) %>
@@ -107,18 +106,18 @@
                                 </div>
                                 
 
-                                <% cartInfo.forEach((element) => { %>
+                              
                                 <div class="your-order-info order-subtotal">
                                     <ul>
-                                        <li>Subtotal <span>₹ <%= element.totalPrice %></span></li>
+                                        <li>Subtotal <span>₹ <%= cartInfo.totalPrice %></span></li>
                                     </ul>
                                 </div>
                                 <div class="your-order-info order-total">
                                     <ul>
-                                        <li>Total <span id="total" style="font-weight: bold;">₹ <%= element.totalPrice %></span></li>
+                                        <li>Total <span id="total" style="font-weight: bold;">₹ <%= cartInfo.totalPrice %></span></li>
                                     </ul>
                                 </div>
-                                <% }) %>
+                              
                             </div>
                             <div class="payment-method">
                                 <div class="billing-info-wrap mr-100">
@@ -127,40 +126,45 @@
                                         <h4 style="color: #2c2c2c;"><b><cap>Select Payment Method</u></b></h4>
                                             
                                                <div id="address" style="display: flex; align-items: center;">
-                                                <input  id="radio" type="radio" name="selectedAddress" value="COD" id="paymentCod"  style="margin-right: 10px; width: 20px; height: 20px;">
+                                                <input  id="checkbx" type="radio" name="selectPayment" value="COD" onclick="paymentMethod(this)" style="margin-right: 10px; width: 20px; height: 20px;">
                                                     <div class="row" style="flex: 1;"> 
                                                         <address>
                                                             <p style="color: #191919;"><strong>Cash on delivery</strong></p>
-                                                            </address>
-                                                      
+                                                        </address>
                                                     </div>
                                                 </div> 
-                                               <!-- <div id="address" style="display: flex; align-items: center;">
-                                                <input  id="radio" type="radio" name="selectedAddress" style="margin-right: 10px; width: 20px; height: 20px;">
-                                                    <div class="row" style="flex: 1;"> 
-                                                        <address>
-                                                            <p style="color: #191919;"><strong>Razor Pay</strong></p>
-                                                            </address>
-                                                      
-                                                    </div>
-                                                </div>  -->
                                                <div id="address" style="display: flex; align-items: center;">
-                                                <input  id="radio" type="radio" name="selectedAddress" style="margin-right: 10px; width: 20px; height: 20px;">
+                                                <input  id="checkbx" type="radio" name="selectPayment" value="method1" id="paymentCod" onclick="paymentMethod(this)" style="margin-right: 10px; width: 20px; height: 20px;">
                                                     <div class="row" style="flex: 1;"> 
                                                         <address>
-                                                            <p style="color: #191919;"><strong>Other methods</strong></p>
-                                                            </address>
-                                                      
+                                                            <p style="color: #191919;"><strong>method1</strong></p>
+                                                        </address>
                                                     </div>
                                                 </div> 
+                                               <div id="address" style="display: flex; align-items: center;">
+                                                <input  id="checkbx" type="radio" name="selectPayment" value="other" id="paymentCod" onclick="paymentMethod(this)" style="margin-right: 10px; width: 20px; height: 20px;">
+                                                    <div class="row" style="flex: 1;"> 
+                                                        <address>
+                                                            <p style="color: #191919;"><strong>other</strong></p>
+                                                        </address>
+                                                    </div>
+                                                </div> 
+                                              
                                     </div>
+                                    <script>
+                                        function paymentMethod(checkbx){
+                                            let radioBtn = document.getElementsByName("selectPayment");
+                                            radioBtn.forEach((rd)=> {
+                                                if(rd !== checkbx){
+                                                    rd.checked = false;
+                                                }
+                                            })
+                                        }
+                                    </script>
                                 </div>
                             <div class="condition-wrap">
                                 <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a></p>
-                                <div class="condition-form mb-25">
-                                    <input type="checkbox">
-                                    <span>I have read and agree to the website <a href="#">terms and conditions</a><span class="star">*</span></span>
-                                </div>
+                               
                             </div>
                         </div>
                         <div class="Place-order mt-30">
@@ -178,7 +182,6 @@
     $(document).ready(function() {
         // Hide the add-address-form initially
         $('.add-address-form').hide();
-        console.log("selected dsfsdfsd")
         // Toggle the add-address-form visibility when the button is clicked
         $('.add-address-toggle').click(function(e) {
             e.preventDefault();
@@ -186,51 +189,56 @@
         });
     });
 
-
+let selectedAddress
     function addressSelection(radio) {
         if (radio.checked) {
             selectedAddress = radio.value;
-            alert("Address Selected : "+selectedAddress);
         } else {
             selectedAddress = null;
         }
     }
 
+let selectPayment
+    function paymentMethod(checkbx) {
+        if (checkbx.checked) {
+            selectPayment = checkbx.value;
+        } else {
+            selectPayment = null;
+        }
+    }
 
-function placeOrder(cartId){
-    const paymentMethod = document.getElementById("payment").value;
+
+
+    function placeOrder(cartId){
     const total = document.getElementById("total").innerHTML;
-    alert(total);
+    if(!selectedAddress){
+        alert("Select the address");
+        return;
+    }
+    if(!selectPayment){
+        alert("Select the payment method");
+        return;
+    }
     $.ajax({
         url:"/placeorder",
         method: "post",
         data: {
             selectedAddress,
-            paymentMethod,
+            selectPayment,
             cartId,
             total
         },
         success: (response)=>{
-            if(response.status === "true"){
-                alert("order placed successfully");
-                window.location.href = "/orders";
-            }else if(response.status === "fill"){
-                Swal.fire({
-                    icon: "error",
-                    title: "Must fill the options",
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
-            }else{
-                console.error("Unexpected response:", response);
+            if(response.status === true){
+             
+                window.location.href = "/orderSful";
             }
         },
         error: (error) => {
             console.error("Ajax request error:", error);
-        },
-    });
+        },
+    });
 }
-
 
 
 

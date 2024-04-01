@@ -20,6 +20,11 @@
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
+                <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/ordersList"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
@@ -123,7 +128,7 @@
                             <textarea id="productDescription" name="description"  placeholder="Type here" class="form-control" ></textarea>
                         </div>
                         <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
-                        <% if(typeof errMsg !== "undefined") {%>
+                        <% if(locals.errMsg) {%>
                         <p style="color: red;"><%= errMsg %></p>
                         <% } %>
                         <div class="d-grid">

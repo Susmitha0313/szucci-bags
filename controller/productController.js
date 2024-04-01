@@ -1,6 +1,7 @@
 const Product = require("../models/productSchema");
 const Category = require("../models/categorySchema");
 const Brand = require("../models/brandSchema");
+const Cart = require("../models/cartSchema");
 const User = require("../models/userSchema");
 const fs = require("fs");
 const path = require("path");
@@ -21,11 +22,12 @@ const getAddProduct = async(req,res)=>{
 
 const getProductDetailPage = async(req,res)=>{
     try{
+        const userId = req.session.userId;
         const proId = req.query.id;
-        const proDetails = await Product.findById({_id:proId})
+        const proDetails = await Product.findById({_id:proId});
         const catDetails = await Category.findOne({_id:proDetails.category});
         const brandDetails = await Brand.findOne({_id:proDetails.brand});
-        res.render("user/product-details",{proDetails, catDetails,brandDetails});
+        res.render("user/product-details",{proDetails, catDetails,brandDetails,userId});
     }catch(error){
         console.log(error.message);
     }
@@ -37,6 +39,7 @@ const getProductDetailPage = async(req,res)=>{
 
 const geteditProduct = async (req, res) => {
     try {
+        const userId = req.session.userId;
         const productId = req.params.productId;
         const catData = await Category.find({});
         const brandData = await Brand.find({});
@@ -45,7 +48,7 @@ const geteditProduct = async (req, res) => {
         if (!product) {
             return res.status(404).send("Product not found");
         }
-        res.render("productEdit", {product,catData,brandData});
+        res.render("productEdit", {product,catData,brandData,userId});
     } catch (error) {
         console.error('Error retrieving product:', error);
         res.status(500).send('Internal Server Error');
@@ -57,13 +60,14 @@ const geteditProduct = async (req, res) => {
 const editProduct = async(req,res)=>{
     try {
         const productId = req.params.productId;
-        // Extract data from the request body
+        const existingProduct =await Product.findById(productId)
+        console.log( "existingProduct"+ existingProduct);
         const { productTitle, description, regPrice, OfferPrice , stock, category, brand } = req.body;
-        const images = req.files;   //  Assuming you're using multer or similar middleware for file uploads
+        const images = req.files;
+        console.log("imagesname ..." + images);
         const imagesofArray = images.map((x)=> x.originalname);
         const description1 = "" + description;
-        
-       const existingProduct = await Product.findById(productId);
+      
        if(!existingProduct){
         return res.status(404).json({ status: 'error', message: 'Product not found' });
        }
@@ -75,8 +79,7 @@ const editProduct = async(req,res)=>{
        existingProduct.category = category;
        existingProduct.brand = brand;
        existingProduct.productImage = imagesofArray;
-   
-       // Save the updated product to the database
+
        await existingProduct.save();
         res.redirect("/admin/products");
     } catch (error) {
@@ -85,6 +88,7 @@ const editProduct = async(req,res)=>{
         return res.status(500).json({ status: 'error', message: 'Internal server error' });
       }
 };
+
 
 
 const getProducts = async(req,res)=>{
@@ -155,6 +159,19 @@ const productBlock = async(req, res) => {
 }
 
 
+const productDelete = async(req,res)=>{
+    const productId = req.query.productId;
+    console.log("product ID "+productId);
+    const deletePro = await Product.findOneAndDelete({_id : productId});
+    const catData = await Category.find({});
+    console.log( "delete Pro" + deletePro);
+    if (!deletePro) {
+        console.log(`Product "${productName}" not found.`);
+        return;
+      }
+      const productList = await Product.find({});
+      res.render("products", { product: productList, catData });
+}
 
 
 module.exports = {
@@ -164,7 +181,9 @@ module.exports = {
     productBlock,
     geteditProduct,
     editProduct,
-    getProductDetailPage
+    getProductDetailPage,
+    productDelete,
+
       
 
     // upload,

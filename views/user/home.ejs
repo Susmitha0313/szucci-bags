@@ -8,17 +8,17 @@
                 <div class="single-product-slider text-center">
                     <a href="product-details"><img src="assets/userAssets/images/product/pro-slider-4.png" alt="product"></a>
                     <h3>Lace-up suede sneake</h3>
-                    <span>$ 49.99</span>
+                    <span>₹ 4900</span>
                 </div>
                 <div class="single-product-slider text-center">
                     <a href="product-details"><img src="assets/userAssets/images/product/pro-slider-1.png" alt="product"></a>
                     <h3>Lace-up suede sneake</h3>
-                    <span>$ 49.99</span>
+                    <span>₹ 4900</span>
                 </div>
                 <div class="single-product-slider text-center">
                     <a href="product-details"><img src="assets/userAssets/images/product/pro-slider-2.png" alt="product"></a>
                     <h3>Lace-up suede sneake</h3>
-                    <span>$ 49.99</span>
+                    <span>₹ 4900</span>
                 </div>
             </div>
         </div>
@@ -50,13 +50,20 @@
                                     <div class="product-wrap mb-50">
                                         <div class="product-img default-overlay mb-25" >
                                             <a href="/product-details?id=<%=proData[i]._id%>">
-                                                <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="Product">
+                                                <% if(proData[i].productImage[0]!== undefined && proData[i].productImage[0] !== ''){  %>
+                                                <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="img">
+                                                <% } else { %>
+                                                <img class="default-img" src="/assets/userAssets/images/logo/szucci-favicon-black.png" alt="img">
+                                                <% } %>
                                             </a>
-                                            <div class="product-action product-action-position-1">
-                                                <a href="/product-details?id=<%=proData[i]._id%>"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                                <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                                <a title="Add to Cart" href="/productCart"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                                            </div>
+
+                                                <input type="hidden" id="proId" name="user_id" value="<%= proData[i]._id %>">
+                                            <!-- <div class="product-action product-action-position-1"> -->
+                                                <!-- <a href="/product-details?id=<%=proData[i]._id%>"><i class="fa fa-eye"></i><span>Quick Shop</span></a> -->
+                                                
+                                                <!-- <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a> -->
+                                                <!-- <a title="Add to Cart" id="addToCartButton"  onclick="addToCart()"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a> -->
+                                            <!-- </div> -->
                                         </div>
                                         <div class="product-content-4 title-font-width-400 text-center">
                                             <h4><a href="product-details"><%= proData[i].productName %></a></h4>
@@ -85,53 +92,7 @@
                 </div>
                 
 
-                <!-- <div class="tab-content jump-3">
-                    <div id="product-7" class="tab-pane active padding-20-row-col">
-                        <div class="row">
-                          
-                            <% for(let i=0; i <proData.length ; i++){ %>
-    
-                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                                    <div class="product-wrap mb-50">
-                                        <div class="product-img default-overlay mb-25" >
-                                            <a href="/product-details?id=<%=proData[i]._id%>">
-                                                <img class="default-img" src="/assets/adminAssets/imgUploads/<%= proData[i].productImage[0] %>" alt="Product">
-                                            </a>
-                                            </a>
-                                            <div class="product-action product-action-position-1">
-                                                <a href="/product-details?id=<%=proData[i]._id%>"><i class="fa fa-eye"></i><span>Quick Shop</span></a>
-                                                <a title="Add to Wishlist" href="/"><i class="fa fa-heart"></i><span>Add to Wishlist</span></a>
-                                               
-                                                <a title="Add to Cart" href="/productCart"><i class="fa fa-shopping-cart"></i><span>Add to Cart</span></a>
-                                            </div>
-                                        </div>
-                                        <div class="product-content-4 title-font-width-400 text-center">
-                                            <h4><a href="product-details"><%= proData[i].productName %></a></h4>
-                                            <div class="product-price-3">
-                                                <% if(proData[i].salePrice) {%>
-                                                <span style="color: green;" class="new-price">₹ <%= proData[i].salePrice%></span>
-                                                <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">$ <%= proData[i].regularPrice%></span>
-                                                <% if (proData[i].regularPrice && proData[i].salePrice) { %>
-                                                    <% var offerPercentage = ((proData[i].regularPrice - proData[i].salePrice) / proData[i].regularPrice) * 100; %>
-                                                    <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
-                                                        <span>
-                                                            <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
-                                                        </span>
-                                                    </div>
-                                                <% } %>
-                                            <% } else { %>
-                                                <span>₹<%= proData[i].regularPrice %></span>
-                                            <% } %>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <% } %> 
-                            </div>      
-                    </div>
-                </div> -->
-                
-
+           
             </div>
         </div>
         <div class="btn-style-1 text-center">
@@ -213,11 +174,6 @@
 
 
 
-
-
-
-
-
         <div class="subscribe-area pt-100 pb-100">
             <div class="container">
                 <div class="row">
@@ -246,35 +202,7 @@
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                
-        <script>
-            function addToCart(){
-            const otp = document.getElementById("otp").value;
-            const alertMessage = document.getElementById("alertMessage");
-
-            
-            $.ajax({
-
-                url:"/verify-otp",
-                method:"post",
-                data:{otp},
-                success:(response)=>{
-                    if(response.status == "success"){
-                        
-                        //res.redirect n pakaram                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                        window.location.href = "/login"
-                    }else{
-                        alertMessage.style.display = "block";
-                    setTimeout(()=>{
-                        alertMessage.style.display = "none";
-                    },3000)
-                    }
-                 }
-            })
-        }
-
-        
-        </script>
+   
         
        
 

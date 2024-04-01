@@ -1,7 +1,6 @@
 
 <%- include("../partials/adminHeader.ejs") %>
 
-
 <body class="dark">
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
@@ -15,12 +14,12 @@
         </div>
         <nav>
             <ul class="menu-aside">
-                <li class="menu-item ">
+                <li class="menu-item "> 
                     <a class="menu-link" href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-item "> 
+                <li class="menu-item active "> 
                     <a class="menu-link " href="/admin/ordersList"> <i class="icon material-icons md-home"></i>
                         <span class="text">Orders</span>
                     </a>
@@ -37,15 +36,13 @@
                         <span class="text">Users</span>
                     </a>
                 </li>
-              
                
-                <li class="menu-item active">
+                <li class="menu-item ">
                     <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-person"></i>
                         <span class="text">Brand</span>
                     </a>
                 </li>
-
-
+                
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-category"></i>
                         <span class="text">Category</span>
@@ -98,108 +95,95 @@
                 </ul>
             </div>
         </header>
-
-<section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Brands </h2>
-            <p>Add, edit or delete a Brand</p>
-        </div>
-        <div>
-            <input type="text"  placeholder="Search Categories" class="form-control bg-white">
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">    
-            <div class="row">
-                <div class="col-md-3">
-  
-
-                    <form id="createBrand" action="/admin/brand" method="post">
-                        <div class="mb-4">
-                               <p class="form-label"><h6>Add New Brand</h6></p>
-                            <label for="brandName" class="form-label">Brand Name</label>
-                            <input id="brandName" type="text" name="brandName" placeholder="Type here" class="form-control" />
-                        </div>
-                        <p><div id="error1" style="display: none;" class="alert alert-danger err"></div></p>
-
-                        <% if(typeof errMsg !== "undefined") {%>
-                        <p style="color: red;"><%= errMsg %></p>
-                        <% } %>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Create brand</button>
-                        </div>
-                        <p><div id="message" style="display: none; color: #155724;" class="alert alert-success "></div></p>
-                        
-                    </form>
+     
+        <section class="content-main">
+            <div class="content-header">
+                <!-- <div>
+                    <h2 class="content-title card-title">Order List </h2>
+                    <p>Lorem ipsum dolor sit amet.</p>
                 </div>
-                <div class="col-md-9">
+                <div>
+                    <input type="text" placeholder="Search order ID" class="form-control bg-white">
+                </div> -->
+            </div>
+            <div class="card mb-4">
+                <!-- <header class="card-header">
+                    <div class="row gx-3">
+                        <div class="col-lg-4 col-md-6 me-auto">
+                            <input type="text" placeholder="Search..." class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-6 col-md-3">
+                            <select class="form-select">
+                                <option>Status</option>
+                                <option>Active</option>
+                                <option>Disabled</option>
+                                <option>Show all</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 col-6 col-md-3">
+                            <select class="form-select">
+                                <option>Show 20</option>
+                                <option>Show 30</option>
+                                <option>Show 40</option>
+                            </select>
+                        </div>
+                    </div>
+                </header> card-header end// -->
+                <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
-                                <tr>   
-                                    <th>Brand</th>
-                                    <th>Action</th>
-                                    <th>Delete</th>
+                                <tr>
+                                    <th>OrderId</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col" class="text-end"> Action </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% brand.forEach(bra => { %>
+                                <% orderData.forEach((order)=>{ %>
                                 <tr>
-                                    <td><b><%= bra.brandName %></b></td>
-                                    <td>
-                                        <% if (bra.isBlocked === true) { %>
-                                            <a href="/admin/brandBlock?brandName=<%= bra.brandName %>">
-                                                <button class="toggleBtn btn btn-sm font-sm btn-brand rounded">Unblock</button>
-                                            </a>
-                                        <% } else { %>
-                                            <a href="/admin/brandBlock?brandName=<%= bra.brandName %>">
-                                                <button class="toggleBtn btn btn-sm font-sm btn-brand rounded">Block</button>
-                                            </a>
-                                        <% } %>
-                                     </td>     
-                                     <td>
-                                        <button class="toggleBtn btn btn-sm font-sm btn-brand rounded" onclick="confirmDelete('<%= bra.brandName %>')">Delete</button>
+                                    <td><%= order.orderNumber %></td>
+                                    <td><b><%= order.shippingAddress.name %></b></td>
+                                    <td><%= order.userEmail %></td>
+                                    <td>₹<%= order.totalAmount %></td>
+                                    <td><span class="badge rounded-pill alert-warning"><%= order.status %></span></td>
+                                    <td><%= order.orderDate.toLocaleDateString()  %></td>
+                                    <td class="text-end">
+                                        <a href="/admin/orderEdit/?id=<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a>
+                                        <div class="dropdown">
+                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                            <div class="dropdown-menu">
+                                               
+                                                <a class="dropdown-item" href="/admin/orderEdit/?id=<%= order._id %>">View and Edit </a>
+                                                <a class="dropdown-item text-danger" href="/admin/deleteOrder/?id=<%= order._id %>">Delete</a>
+                                            </div>
+                                        </div> <!-- dropdown //end -->
                                     </td>
                                 </tr>
                                 <% }) %>
-                            </tbody>
                               
+                            </tbody>
                         </table>
-                    </div>
-                </div> <!-- .col// -->
-            </div> <!-- .row // -->
-        </div> <!-- card body .// -->
-    </div> <!-- card .// -->
-</section>
+                    </div> <!-- table-responsive //end -->
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+            <!-- <div class="pagination-area mt-15 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
 
-
-
-<script>
-    const braName = document.getElementById("brandName");
-    const error1 = document.getElementById("error1");
-    const createBrand = document.getElementById("createBrand");
-    const messageDiv = document.getElementById("message"); 
-    
-    function braNameValidation() {
-        const catName = braName.value.trim();
-        if (!catName) {
-            error1.style.display = "block";
-            error1.innerHTML = "Please enter a brand name.";
-        } else {
-            error1.style.display = "none";
-            error1.innerHTML = "";
-        }
-    }
-
-    function confirmDelete(brandName) {
-    if (confirm("Are you sure you want to delete this brand?")) {
-        // If the user confirms the deletion, redirect to the delete URL
-        window.location.href = "/admin/deleteBrand?brandName=" + encodeURIComponent(brandName);
-    }
-}
-
-    braName.addEventListener("blur", braNameValidation);
-    </script>
-
-<%- include("../partials/adminFooter.ejs") %>
+                        <!-- do using skip and limit 
+                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                        <li class="page-item"><a class="page-link" href="#">02</a></li>
+                        <li class="page-item"><a class="page-link" href="#">03</a></li>
+                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">16</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+                    </ul>
+                </nav>
+            </div> -->
+        </section> <!-- content-main end// -->
+        <%- include("../partials/adminFooter.ejs") %>

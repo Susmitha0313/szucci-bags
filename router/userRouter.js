@@ -23,33 +23,41 @@ router.get("/accountDetails",isLogged, userController.getuserAccountDetails);
 router.get("/orders",isLogged, userController.getuserOrderDetails);
 router.get("/address",isLogged, userController.getuserAddAddress);    
 router.get("/editadrs", isLogged, userController.getusereditAddress);
-router.post("/updatePassword", isLogged, userController.saveUpdatedPassword);
+router.get("/deleteAdrs", isLogged, userController.deleteAddress);
+router.post("/saveAccDetails", isLogged, userController.saveAccDetails);
 router.post("/editAddress", isLogged, userController.editAddress);
 
-router.get("/verify-otp",isLogged,notLog, userController.getVerifyOtpPage);
-router.post("/verify-otp",isLogged,notLog, userController.verifyOtp);
-router.post("/resend-otp",isLogged,notLog, userController.resendOtp);
-router.get("/product-details",isLogged, productController.getProductDetailPage);
-  
+router.post("/savePswd", isLogged, userController.savepswdChange);
+
+router.get("/verify-otp", userController.getVerifyOtpPage);
+router.post("/verify-otp", userController.verifyOtp);
+router.post("/resend-otp", userController.resendOtp);
+router.get("/product-details",isLogged, productController.getProductDetailPage); 
+router.get("/allProductSort",isLogged ,userController.allProductSort)
       
 //cart
 router.get("/productCart",isLogged, cartController.getCartPage);   
 router.post("/addToCart",isLogged, cartController.addToCart);
 router.post("/deleteCartItem",isLogged, cartController.deleteCartItem);
-router.post("/cartadd",isLogged,cartController.addCart)
-router.post("/decrement",isLogged,cartController.decrement)
+router.post("/cartadd",isLogged,cartController.increment)
+router.post("/cartsubtract",isLogged,cartController.decrement)
 
 router.get("/checkout",isLogged, orderController.getCheckoutPage);
 router.get("/orderSful",isLogged,orderController.getSfulPage);
 router.post("/placeorder",isLogged,orderController.placeOrder);
+router.get("/viewOrder",isLogged,orderController.viewOrder);
+router.post("/cancelOrder",isLogged,orderController.cancelOrder);
+
 
 
 router.get("/logout",isLogged,  userController.logout);
-router.get("/allProductSort",isLogged ,userController.allProductSort)
 router.post("/addAddress",isLogged,userController.addNewAddress);
 
-        
-// router.get("/wishlist", userController.getWishlist);
+router.get("/forgetPswd", userController.forgetPswdPage);
+router.post("/sendOtp",userController.sentOtp);
+router.get("/verify-otp-pswd",userController.getverifypage);
+router.post("/verify-otp-pswd",userController.verifyForgPswdOtp);
+router.post("/resend-otp-pswd", userController.resendOtpPswd);
 
 
 

@@ -4,8 +4,10 @@ const adminController = require("../controller/adminController.js");
 const categoryController = require("../controller/categoryController.js");
 const productController = require("../controller/productController.js");
 const brandController = require("../controller/brandController.js");
+const orderController = require("../controller/orderController.js");
 const { isAdmin } = require("../Authentication/auth")  
 const upload = require("../Config/multer folder/multer.js")
+const {adminNotLog} = require("../Authentication/auth");
 
 router.set("view engine" , "ejs")
 router.set("views" , "./views/admin")
@@ -13,13 +15,13 @@ router.set("views" , "./views/admin")
 
 router.get("/pageerror", adminController.pageNotFound);
 
-
+   
 
 router.get("/userList",isAdmin, adminController.getUserList);
 router.get("/logout",isAdmin, adminController.getLogout);
 router.post("/logout",isAdmin, adminController.getALoginpage);
 router.get("/adminlogin", adminController.getALoginpage);
-router.post("/adminlogin",adminController.adminLogin);
+router.post("/adminlogin",adminNotLog,adminController.adminLogin);
 router.get("/adminhome", adminController.getAdminHome)
 router.get("/userBlock", adminController.userBlock);
 
@@ -31,8 +33,7 @@ router.get("/editProduct/:productId", isAdmin, productController.geteditProduct)
 router.get("/productBlock", isAdmin,productController.productBlock);
 router.post("/productAdd",isAdmin,upload.array("images", 5), productController.addProduct);
 router.post("/productEdit/:productId", isAdmin, upload.array("images", 5), productController.editProduct);
-
-
+router.get("/deleteProduct",isAdmin, productController.productDelete);
 
 
 
@@ -44,7 +45,11 @@ router.post("/categoryEdit", isAdmin, categoryController.categoryEdit);
 router.post("/category",isAdmin ,categoryController.createCategory);
 router.get("/deleteCategory",isAdmin ,categoryController.deleteCategory);
 
-
+//orders routerss
+router.get("/ordersList",isAdmin,orderController.getAdminOrderPage)
+router.get("/orderEdit",isAdmin,orderController.getOrdereditPage);
+router.post("/changeOrderStatus",isAdmin,orderController.statusChange);
+router.get("/deleteOrder",isAdmin,orderController.deleteOrder);
 
 //brands routers
 router.get("/brand",isAdmin, brandController.getBrandPage);

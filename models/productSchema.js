@@ -54,7 +54,10 @@ const productSchema = Mongoose.Schema({
     productOffer:{
         type: Number,
         require: true
-    }
+    },
+    cartQuantity:{
+        type: Number
+    },
 
 })
 

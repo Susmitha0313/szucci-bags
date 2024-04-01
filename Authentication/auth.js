@@ -22,10 +22,10 @@ const notLog = (req,res,next)=>{
 
 const isAdmin = (req,res,next)=>{
   try{
-    admin = req.session.admin;
-    if(admin){
+    if(req.session.admin && req.session){
         next();
     }else{
+        req.session.redirectTo = req.originalUrl;
         res.redirect("/admin/adminLogin");
     }
 }catch(error){
@@ -35,11 +35,20 @@ const isAdmin = (req,res,next)=>{
 }
 
 
+const adminNotLog = (req,res,next)=>{
+    if(req.session.admin){
+        res.redirect("/admin/adminLogin");
+    }else{
+        next();
+    }
+}
+
 
 
 
 module.exports = {
     isLogged,
     isAdmin,
-    notLog
+    notLog,
+    adminNotLog
 }

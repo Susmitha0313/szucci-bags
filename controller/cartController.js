@@ -9,23 +9,19 @@ const objectId = require("mongoose").Types.ObjectId
 const getCartPage = async (req, res) => {
     try {
         const userId = req.session.userId;
-        console.log(req.session.userId);
         const cartData = await Cart.findOne({ userId: userId});
-        console.log("1  "+cartData)
         const prodData = [];
 
         if (cartData) {
-            console.log("2")
             const arr = cartData.items.map(item => item.productId);
-            console.log(arr+"  Dfgsdf")
             for (const productId of arr) {
                 prodData.push(await Product.findById(productId));
             }
         }
-        console.log(prodData)
+        // console.log(prodData)
         console.log("3  "+cartData)
 
-        res.render("user/cart", { prodData, cartData }); // Pass itemId to the template
+        res.render("user/cart", { prodData, cartData ,userId}); // Pass itemId to the template
     } catch (error) {
         console.log(error.message);
         res.status(500).send("Internal Server Error");
@@ -57,6 +53,7 @@ const addToCart = async (req, res) => {
                     totalPrice: proData.salePrice
                 });
                 cart = await cartData.save();
+                res.json({ status: "success", message: "Product added to cart successfully", cart });
             } else {
                 console.log("else condition cart indengil...")
                 let proIndex = -1;
@@ -99,32 +96,29 @@ const addToCart = async (req, res) => {
 
 
 
-const addCart = async(req ,res)=>{
+const increment = async(req ,res)=>{
     try{
-        const { price, proId, index, subtotal, qty } = req.body;
+        const { price, prodId,  subtotal, qty } = req.body;
         const quantity = parseInt(qty);
-        const prodId = proId.toString();
-        const proData = await Product.findById({_id:prodId });
+        const proId = prodId.toString();
+        const proData = await Product.findById({_id:proId });
         const stock = proData.quantity;
         if(stock > quantity){
             if(quantity < 10){
                 const addPrice = await Cart.findOneAndUpdate(
-                    { userId : req.session.userId, "items.productId": prodId },
+                    { userId : req.session.userId, "items.productId": proId },
                     {$inc : {
-                        "items.$.price" : price,
                         "items.$.quantity" : 1,
-                        "items.$.subtotal" : price,
-                        total: price,
+                        "items.$.subTotal" : proData.salePrice,
+                        totalPrice:  proData.salePrice,
                     }}
                 );
-
                 const findCart = await Cart.findOne({ userId: req.session.userId});
-                res.json({status : true, total: findCart.total });
+                res.json({status : true, total: findCart.totalPrice });
             }else{
                 res.json({ status: "minimum"});
             }
         }else{
-            console.log("out of stock......");
             res.json({status: "stock"})
         }
     }catch(error){
@@ -137,32 +131,26 @@ const addCart = async(req ,res)=>{
 
 const decrement = async(req ,res)=>{
     try{
-        const { price, proId, index, subtotal, qty } = req.body;
+        const { price, prodId,  subtotal, qty } = req.body;
         const quantity = parseInt(qty);
-        const prodId = proId.toString();
-        const proData = await Product.findById({_id:prodId });
+        const proId = prodId.toString();
+        const proData = await Product.findById({_id:proId });
         const stock = proData.quantity;
-        if(stock > quantity){
-            if(quantity < 10){
+            if(quantity > 1){
                 const addPrice = await Cart.findOneAndUpdate(
-                    { userId : req.session.userId, "items.productId": prodId },
+                    { userId : req.session.userId, "items.productId": proId },
                     {$inc : {
-                        "items.$.price" : -price,
                         "items.$.quantity" : -1,
-                        "items.$.subtotal" : -price,
-                        total: -price,
+                        "items.$.subTotal" : -proData.salePrice,
+                        totalPrice:  -proData.salePrice,
                     }}
                 );
-
                 const findCart = await Cart.findOne({ userId: req.session.userId});
-                res.json({status : true, total: findCart.total });
+                res.json({status : true, total: findCart.totalPrice });
             }else{
                 res.json({ status: "minimum"});
             }
-        }else{
-            console.log("out of stock......");
-            res.json({status: "stock"})
-        }
+       
     }catch(error){
         console.log(error.message);
     }
@@ -170,8 +158,11 @@ const decrement = async(req ,res)=>{
 
 
 
+
 const deleteCartItem = async (req, res) => {
     const userId = req.session.userId;
+    const sbt = req.body.sbt
+    console.log("subtotal  "+sbt);
     const { id } = req.query;
     try {
         const cart = await Cart.findOne({ userId: userId });
@@ -183,10 +174,10 @@ const deleteCartItem = async (req, res) => {
             {
                 $pull: {
                     items: { productId: id },
+                    $inc: {totalPrice:  -sbt,}
                 }
             }
         );
-        cart.totalPrice = cart.items.reduce((total, item) => total + item.subTotal, 0);
         await cart.save();
         if (deleteOne) {
             res.json({ status: true });
@@ -198,6 +189,10 @@ const deleteCartItem = async (req, res) => {
         res.status(500).json({ status: 'error', message: 'Internal server error' });
     }
 };
+
+
+
+
 
 
 const CartTotalPrice = async(req,res)=>{
@@ -219,7 +214,7 @@ const CartTotalPrice = async(req,res)=>{
 module.exports = {
     getCartPage,
     addToCart,
-    addCart,
+    increment,
     decrement,
     deleteCartItem,
     CartTotalPrice,

@@ -153,10 +153,13 @@
                                 <a href="#"><i class="fa fa-user"></i></a>
                                 <div class="dropdown-content account-dropdown-active">
                                     <ul>
+                                        <% if(!userId){ %>
                                         <li><a href="/login">Login</a></li>
                                         <li><a href="/signup">Register</a></li>
+                                        <% } else { %>
                                         <li><a href="/accountDetails">Account</a></li>
                                         <li><a href="/logout">Logout</a></li>
+                                        <% } %>
                                     </ul>
                                 </div>
                             </div>
@@ -189,15 +192,18 @@
                                         <i class="dlicon shopping_bag-20"></i>
                                         <!-- <span class="count-style">02</span> -->
                                     </a>
-                                </div>
+                                </div>   
                                 <div class="dropdown same-style">
                                     <a href="#"><i class="fa fa-user"></i></a>
                                     <div class="dropdown-content account-dropdown-active">
                                         <ul>
+                                            <% if(!userId){ %>
                                             <li><a href="/login">Login</a></li>
                                             <li><a href="/signup">Register</a></li>
+                                            <% } else{ %>
                                             <li><a href="/accountDetails">Account</a></li>
                                             <li><a href="/logout">Logout</a></li>
+                                            <% } %>
                                         </ul>
                                     </div>
                                 </div>

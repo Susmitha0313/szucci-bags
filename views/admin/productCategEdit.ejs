@@ -20,6 +20,11 @@
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
+                <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/ordersList"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
@@ -106,25 +111,27 @@
             <div class="card-body">
                 <!-- <div class="row"> -->
                     <div class="col-md-12">
-                        <form id="createCat" action="/admin/categoryEdit" method="post" type="submit">
+                        <% console.log("cat id is this ....."+category._id) %>
+                        <form id="editCatId" action="/admin/categoryEdit"   method="post">
                             <input type="hidden" name="categoryId" value="<%= category._id %>" />
-
+                            <% if(locals.errMsg) {%>
+                                <p style="color: red;"><%= errMsg %></p>
+                                <% } %>
                             <div class="mb-4">
                                 <p class="form-label"><h6>Edit Category</h6></p>
                                 <label for="product-name" class="form-label">Name</label>
-                                <input type="text" name="name" value="<%= category.name %>" placeholder="Type here" class="form-control" id="product_name" />
+                                <input type="text" name="categName" value="<%= category.name %>" placeholder="Type here" class="form-control" id="product_name" />
+                                <p><div id="error1" style="display: none;" class="alert alert-danger err">Name is required.</div></p>
                             </div>
-                            <p><div id="error1" style="display: none;" class="alert alert-danger err"></div></p>
-     
+                        
                             <div class="mb-4">
                                 <label class="form-label">Description</label>
-          
-                                <input  type="text" style="height: 100px; vertical-align: top;"  name="description" value="<%= category.description %>" placeholder="Type here" class="form-control" id="product_description">
+                                <input type="text" style="height: 100px; vertical-align: top;" name="description" value="<%= category.description %>" placeholder="Type here" class="form-control" id="product_description">
+                                <p><div id="error2" style="display: none;" class="alert alert-danger err">Description is required.</div></p>
                             </div>
-                            <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
-    
+                        
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Update Category</button>
+                                <input type="submit" class="btn btn-primary" value= "Update Category">
                             </div>
                         </form>
                    
@@ -134,6 +141,51 @@
 
 
  
+<script>
+
+    
+document.addEventListener("DOMContentLoaded", function(){
+    const editCategory = document.getElementById('editCatId');
+    const error1 = document.getElementById('error1');
+    const error2 = document.getElementById('error2');
+
+    function catValidation(){
+        const name = document.getElementById('product_name').value.trim();
+        const description = document.getElementById('product_description').value.trim();
+        error1.style.display = 'none';
+        error2.style.display = 'none';
+
+        let isValid = true;
+        if (name === '' && description === '') {
+            error1.style.display = 'block';
+            error2.style.display = 'block';
+            isValid = false;
+        }
+        if (name === '') {
+            error1.style.display = 'block';
+            isValid = false;
+        }
+        if (description === '') {
+            error2.style.display = 'block';
+            isValid = false;
+        }
+
+        return isValid; 
+    }
+
+    editCategory.addEventListener("submit", function(e){
+        if (!catValidation()) {
+            e.preventDefault(); // Prevent form submission if validation fails
+        }
+    });
+
+    document.getElementById('product_name').addEventListener("blur", catValidation);
+    document.getElementById('product_description').addEventListener("blur", catValidation);
+});
+
+       
+
+</script>
 
 
         

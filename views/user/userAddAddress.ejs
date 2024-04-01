@@ -60,7 +60,7 @@
                                                         </div>
                                                         <div class="col">
                                                             <div class="single-input-item" >
-                                                            <input type="text" id="pincode" name="pincode" placeholder="Pincode" />
+                                                            <input type="text" id="pincodeId" name="pincode" placeholder="Pincode" />
                                                             </div>
                                                             <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
 
@@ -156,8 +156,15 @@
                                               <%= element.locality %></p>
                                             <p>Mobile:<%= element.phone %></p>
                                         </address>
-                                     
-                                        <a href="/editadrs?id=<%= element._id %>" class="check-btn sqr-btn "><i class="fa fa-edit"></i> Edit Address </a>
+                                     <div class="row">
+                                        <div class="col">
+                                             <a  href="/editadrs?id=<%= element._id %>" class="check-btn sqr-btn "><i class="fa fa-edit"></i> Edit Address </a>
+                                        </div>
+                                        <div class="col"  style="text-align: right;">
+                                            <a id="delete-btn" href="/deleteAdrs?id=<%= element._id %>" class="check-btn sqr-btn "><i class="fa fa-trash"></i> Delete </a>
+                                        </div> 
+                                    </div>
+                                        
                                         </div>
                                     <% }) %>
                                 </div>
@@ -191,99 +198,160 @@
 
 
 
+
     
 
-// const firstName = document.getElementById('firstName')
-// const phone = document.getElementById('phone')
-// const pincode = document.getElementById('pincode')
-// const locality = document.getElementById('locality')
-// const address = document.getElementById('address')
-// const city = document.getElementById('city')
-// const state = document.getElementById('state')
-// const landmark = document.getElementById('landmark')
-// const phone2 = document.getElementById('phone2')
-// const error0 = document.getElementById('error0')
-// const error1 = document.getElementById('error1')
-// const error2 = document.getElementById('error2')
-// const error3 = document.getElementById('error3')
-// const error4 = document.getElementById('error4')
-// const error5 = document.getElementById('error5')
-// const error6 = document.getElementById('error6')
-// const error7 = document.getElementById('error7')
-// const error8 = document.getElementById('error8')
-// const error9 = document.getElementById('error9')
-// const addForm = document.getElementById('addForm')
+const firstName = document.getElementById('firstName')
+const phone = document.getElementById('phone')
+const pincode = document.getElementById('pincodeId')
+const locality = document.getElementById('locality')
+const address = document.getElementById('address')
+const city = document.getElementById('city')
+const state = document.getElementById('state')
+const landmark = document.getElementById('landmark')
+const phone2 = document.getElementById('phone2')
+const error0 = document.getElementById('error0')
+const error1 = document.getElementById('error1')
+const error2 = document.getElementById('error2')
+const error3 = document.getElementById('error3')
+const error4 = document.getElementById('error4')
+const error5 = document.getElementById('error5')
+const error6 = document.getElementById('error6')
+const error7 = document.getElementById('error7')
+const error8 = document.getElementById('error8')
+const error9 = document.getElementById('error9')
+const addForm = document.getElementById('addForm')
 
 
-// function nameValidateCheck(){
-//     const nameVal = firstName.value
-//     if(nameVal.trim()===""){
-//         error0.style.display = "block"
-//         error0.innerHTML="Please enter the name"
-//     }else{
-//         error0.style.display = "none"
-//         error0.innerHTML = ""
-//     }
-// }
+function nameValidateCheck(){
+    const nameVal = firstName.value
+    if(nameVal.trim()===""){
+        error0.style.display = "block"
+        error0.innerHTML="Please enter the name"
+    }else{
+        error0.style.display = "none"
+        error0.innerHTML = ""
+    }
+}
 
 
-// function phonenumValCheck(){
-//     const mobileval = phone.value
-//     const regex = /^\d{10}$/;
-//     if(mobileval.trim()===""){
-//         error1.style.display = "block"
-//         error1.innerHTML = "Please enter the mobile number"
-//     }else if(mobileval.length < 10 || mobileval.length > 15){
-//         error1.style.display = "block"
-//         error1.innerHTML = "Number must be between 10 to 15 digits"
-//     }else if(!regex.test(mobileval)){
-//         error1.style.display = "block"
-//         error1.innerHTML = "invalid format"
-//     }else{
-//         error1.style.display="none"
-//         error1.innerHTML=""
-//     }
-// }
+function localityValidateCheck(){
+    const locality = locality.value
+    if(locality.trim()===""){
+        error3.style.display = "block"
+        error3.innerHTML="Please enter the name"
+    }else{
+        error3.style.display = "none"
+        error3.innerHTML = ""
+    }
+}
 
 
+function addressValidateCheck(){
+    const address = address.value
+    if(address.trim()===""){
+        error4.style.display = "block"
+        error4.innerHTML="Please enter the address"
+    }else{
+        error4.style.display = "none"
+        error4.innerHTML = ""
+    }
+}
 
-// function phone2numValCheck(){
-//     const mobileval = phone.value
-//     const regex = /^\d{10}$/;
-//     if(mobileval.length < 10 || mobileval.length > 15){
-//         error8.style.display = "block"
-//         error8.innerHTML = "Number must be between 10 to 15 digits"
-//     }else if(!regex.test(mobileval)){
-//         error8.style.display = "block"
-//         error8.innerHTML = "invalid format"
-//     }else{
-//         error8.style.display="none"
-//         error8.innerHTML=""
-//     }
-// }
+function cityValidateCheck(){
+    const city = city.value
+    if(city.trim()===""){
+        error5.style.display = "block"
+        error5.innerHTML="Please enter the city/district/town"
+    }else{
+        error5.style.display = "none"
+        error5.innerHTML = ""
+    }
+}
 
 
-// firstName.addEventListener("blur",nameValidateCheck)
-// phone.addEventListener("blur",phonenumValCheck)
-// phone2.addEventListener("blur",phonenumValCheck)
+function phonenumValCheck(){
+    const mobileval = phone.value
+    const regex = /^\d{10}$/;
+    if(mobileval.trim()===""){
+        error1.style.display = "block"
+        error1.innerHTML = "Please enter the mobile number"
+    }else if(!regex.test(mobileval)){
+        error1.style.display = "block"
+        error1.innerHTML = "invalid format"
+    }else if(mobileval.length < 10 || mobileval.length > 15){
+        error1.style.display = "block"
+        error1.innerHTML = "Number must be between 10 to 15 digits"
+    }else{
+        error1.style.display="none"
+        error1.innerHTML=""
+    }
+}
 
-// document.addEventListener("DOMContentLoaded", function(){
+function pincodeValidCheck() {
+    const pincodeVal = pincode.value;
+    const regex = /^\d+$/;
+    if (pincodeVal.length !== 6) {
+        error2.style.display = "block";
+        error2.innerHTML = "Pincode must be 6 digits in length";
+    } else if (pincodeVal.trim() === "") {
+        error2.style.display = "block";
+        error2.innerHTML = "Please enter the pincode";
+    } else if (!regex.test(pincodeVal)) {
+        error2.style.display = "block";
+        error2.innerHTML = "Invalid format";
+    } else {
+        error2.style.display = "none";
+        error2.innerHTML = "";
+    }
+}
 
-//     signform.addEventListener("submit", function(e){
-//         nameValidateCheck()
-//         phonenumValCheck();
-//         phone2numValCheck();
+
+function phone2numValCheck(){
+    const mobileval = phone.value
+    const regex = /^\d{10}$/;
+    if(mobileval.length < 10 || mobileval.length > 15){
+        error8.style.display = "block"
+        error8.innerHTML = "Number must be between 10 to 15 digits"
+    }else if(!regex.test(mobileval)){
+        error8.style.display = "block"
+        error8.innerHTML = "invalid format"
+    }else{
+        error8.style.display="none"
+        error8.innerHTML=""
+    }
+}
+
+
+firstName.addEventListener("blur",nameValidateCheck)
+phone.addEventListener("blur",phonenumValCheck)
+pincode.addEventListener("blur",pincodeValidCheck)
+city.addEventListener("blur",cityValidateCheck)
+address.addEventListener("blur",addressValidateCheck)
+locality.addEventListener("blur",localityValidateCheck)
+phone2.addEventListener("blur",phone2numValCheck)
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    addForm.addEventListener("submit", function(e){
+        nameValidateCheck()
+        phonenumValCheck();
+        phone2numValCheck();
+        pincodeValidCheck();
+        localityValidateCheck();
+        addressValidateCheck();
+        cityValidateCheck();
         
-//         console.log(firstNam, phone, pincode, locality,address,city,state,landmark,phone2, error0,error1,error2,error3,error4,error5,error6,error7,error8,error9,addForm);
-//         if(!firstNam || !phone || !pincode || !locality || !address || !city || !state || !landmark || !phone2 || !error0 || !error1 || !error2 || !error3 || !error4 || !error5 || !error6 || !error7 || !error8 || !error9 ||  !addForm){
-//             console.log("fill all boxes in there");
-//         }
-//         if (error0.innerHTML || error2.innerHTML || error1.innerHTML || error4.innerHTML || error5.innerHTML || error6.innerHTML || error7.innerHTML || error8.innerHTML || error9.innerHTML ) {
-//             e.preventDefault();
-//           }
+       
+        if(!firstName || !phone || !pincode || !locality || !address || !city || !state || !landmark || !error0 || !error1 || !error2 || !error3 || !error4 || !error5 || !error6 || !error7 || !error8 || !error9 ||  !addForm){
+            console.log("fill all boxes in there");
+        }
+        if (error0.innerHTML || error2.innerHTML || error1.innerHTML || error4.innerHTML || error5.innerHTML || error6.innerHTML || error7.innerHTML || error8.innerHTML || error9.innerHTML ) {
+            e.preventDefault();
+          }
     
-//     });
-// });
+    });
+});
 
 </script>
 

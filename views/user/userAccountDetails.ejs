@@ -33,51 +33,70 @@
                            <!-- Single Tab Content Start -->
                             <div class="tab-pane fade show active" role="tabpanel">
                                 <div  class="breadcrumb-title text-center"> 
-                                    <h2>Edit Address</h2>
+                                    <h2>Account Details</h2>
                                 </div>
                                 <div class="myaccount-content">
                                     <div class="account-details-form">
-                                        <!-- <form action="/updatePassword" method="post"> -->
-                                            <div class="row">
+                                        <form action="/saveAccDetails" method="post">
                                                 <div class="single-input-item">
                                                     <label for="first-name" class="required" >Name<span>*</span></label>
-                                                    <input type="text" id="first-name" value="<%= userInfo.name %>" />
+                                                    <input type="text" id="first-name" name="name" value="<%= userInfo.name %>" />
                                                 </div>
-                                            </div>
-                                            <div class="single-input-item">
-                                                <label for="email" class="required">Email Address <span>*</span></label>
-                                                <input type="email" id="email" value="<%= userInfo.email %>" />
-                                            </div>
-                                            <div class="single-input-item">
-                                                <label for="phone" class="required">Phone Number <span>*</span></label>
-                                                <input type="tel" id="phone" value="<%= userInfo.phone %>" />
-                                            </div>
-                                            <fieldset>
+                                                <p><div id="error1" style="display: none;" class="alert alert-danger err"></div></p>
+                                           
+                                                <div class="single-input-item">
+                                                    <label for="phone" class="required">Phone Number <span>*</span></label>
+                                                    <input type="tel" id="phone" name="phone" value="<%= userInfo.phone %>" />
+                                                </div>
+                                                <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
+
+                                                <div class="single-input-item">
+                                                    <label for="email" class="required">Email Address <span>*</span></label>
+                                                    <input type="email" id="email"  name="email" value="<%= userInfo.email %>" />
+                                                </div>
+                                                <p><div id="error3" style="display: none;" class="alert alert-danger err"></div></p>
+                                        
+                                                <div class="single-input-item" style="padding-bottom: 50px;">
+                                                    <button style="background-color: #fc4f4f; border: none; color: white; padding: 10px 20px; text-align: center;  display: inline-block;font-size: 16px; cursor: pointer;"
+                                                        type="submit" id="saveChanges">Save Changes</button>
+                                                </div>
+                                        </form>
+                                    </div>   
+                                    <div>
+                                        <form action="/savePswd" method="post">
+                                            <fieldset >
                                                 <legend>Password change</legend>
                                             
-                                                <div class="single-input-item">
+                                                <div class="single-input-item" style="padding-top: 20px;">
                                                     <label for="current-pwd" class="required">Current password (leave blank to leave unchanged)</label>
                                                     <input type="password" id="current-pwd" name="currentPassword" />
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <div class="single-input-item">
-                                                            <label for="new-pwd" class="required">New password (leave blank to leave unchanged)</label>
-                                                            <input type="password" id="new-pwd" name="newPassword"/>
-                                                        </div>
+                                                <p><div id="error4" style="display: none;" class="alert alert-danger err"></div></p>
+                                        
+                                                    <div class="single-input-item" style="padding-top: 20px;">
+                                                        <label for="new-pwd" class="required">New password (leave blank to leave unchanged)</label>
+                                                        <input type="password" id="new-pwd" name="newPassword"/>
                                                     </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="single-input-item">
-                                                            <label for="confirm-pwd" class="required">Confirm new password</label>
-                                                            <input type="password" id="confirm-pwd" name="confirmNewPassword " />
-                                                        </div>
+                                             
+                                                <p><div id="error5" style="display: none;" class="alert alert-danger err"></div></p>
+                                        
+                                           
+                                                    <div class="single-input-item" style="padding-top: 20px;">
+                                                        <label for="confirm-pwd" class="required">Confirm new password</label>
+                                                        <input type="password" id="confirm-pwd" name="confirmNewPassword " />
                                                     </div>
-                                                </div>
+                                             
+                                                <p><div id="error6" style="display: none;" class="alert alert-danger err"></div></p>
+                                
                                             </fieldset>
-                                            <div class="single-input-item">
-                                                <button class="check-btn sqr-btn " type="submit" id="updatePswd">Save Changes</button>
+
+                                             <div class="single-input-item">
+                                                <button style="background-color: #fc4f4f; border: none; color: white; padding: 10px 20px; text-align: center;  display: inline-block;font-size: 16px; cursor: pointer;"
+                                                    type="submit" id="savePswd">Save</button>
+                                                <a href="/logout" style="background-color: #616161; border: none; color: white; padding: 10px 20px; text-align: center;  display: inline-block;font-size: 16px; cursor: pointer;"
+                                                    type="submit" id="logout">Logout</a>
                                             </div>
-                                        <!-- </form> -->
+                                        </form>
                                     </div>
                                 </div>
                             </div> 
@@ -100,136 +119,151 @@
       
 <script>
 
+    
 
-// Add an event listener to the form submission
-document.getElementById('updatePswd').addEventListener('submit', async function(event) {
-    event.preventDefault(); // Prevent the default form submission
+const currentPassword = document.getElementById('current-pwd')
+const newPassword = document.getElementById('new-pwd')
+const confirmNewPassword = document.getElementById('confirm-pwd')
 
-    const currentPassword = document.getElementById('current-pwd').value;
-    const newPassword = document.getElementById('new-pwd').value;
-    const confirmNewPassword = document.getElementById('confirm-pwd').value;
+const firstName = document.getElementById('first-name')
+const phone = document.getElementById('phone')
+const email = document.getElementById('email')
+const error1 = document.getElementById('error1')
+const error2 = document.getElementById('error2')
+const error3 = document.getElementById('error3')
+const error4 = document.getElementById('error4')
+const error5 = document.getElementById('error5')
+const error6 = document.getElementById('error6')
+const saveChanges = document.getElementById('saveChanges')
+const savePswd = document.getElementById('savePswd')
 
-    // Send AJAX request to the server
-    try {
-        const response = await fetch('/updatePassword', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ currentPassword, newPassword, confirmNewPassword })
-        });
 
-        const data = await response.json();
-
-        if (response.ok) {
-            // Password updated successfully
-            alert(data.message);
-        } else {
-            // Display error message
-            alert(data.message);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        // Display a generic error message
-        alert('An error occurred while updating the password. Please try again later.');
+function nameValidateCheck(){
+    const nameVal = firstName.value
+    if(nameVal.trim()===""){
+        error1.style.display = "block"
+        error1.innerHTML="Please enter the name"
+    }else{
+        error1.style.display = "none"
+        error1.innerHTML = ""
     }
-});
-
-    
-
-    
-
-// const firstName = document.getElementById('firstName')
-// const phone = document.getElementById('phone')
-// const pincode = document.getElementById('pincode')
-// const locality = document.getElementById('locality')
-// const address = document.getElementById('address')
-// const city = document.getElementById('city')
-// const state = document.getElementById('state')
-// const landmark = document.getElementById('landmark')
-// const phone2 = document.getElementById('phone2')
-// const error0 = document.getElementById('error0')
-// const error1 = document.getElementById('error1')
-// const error2 = document.getElementById('error2')
-// const error3 = document.getElementById('error3')
-// const error4 = document.getElementById('error4')
-// const error5 = document.getElementById('error5')
-// const error6 = document.getElementById('error6')
-// const error7 = document.getElementById('error7')
-// const error8 = document.getElementById('error8')
-// const error9 = document.getElementById('error9')
-// const addForm = document.getElementById('addForm')
+}
 
 
-// function nameValidateCheck(){
-//     const nameVal = firstName.value
-//     if(nameVal.trim()===""){
-//         error0.style.display = "block"
-//         error0.innerHTML="Please enter the name"
-//     }else{
-//         error0.style.display = "none"
-//         error0.innerHTML = ""
-//     }
-// }
-
-
-// function phonenumValCheck(){
-//     const mobileval = phone.value
-//     const regex = /^\d{10}$/;
-//     if(mobileval.trim()===""){
-//         error1.style.display = "block"
-//         error1.innerHTML = "Please enter the mobile number"
-//     }else if(mobileval.length < 10 || mobileval.length > 15){
-//         error1.style.display = "block"
-//         error1.innerHTML = "Number must be between 10 to 15 digits"
-//     }else if(!regex.test(mobileval)){
-//         error1.style.display = "block"
-//         error1.innerHTML = "invalid format"
-//     }else{
-//         error1.style.display="none"
-//         error1.innerHTML=""
-//     }
-// }
+function phonenumValCheck(){
+    const mobileval = phone.value
+    const regex = /^\d+$/;
+    if(mobileval.trim()===""){
+        error2.style.display = "block"
+        error2.innerHTML = "Please enter the mobile number"
+    }else if(mobileval.length < 10 || mobileval.length > 15){
+        error2.style.display = "block"
+        error2.innerHTML = "Number must be between 10 to 15 digits"
+    }else if(!regex.test(mobileval)){
+        error2.style.display = "block"
+        error2.innerHTML = "invalid format"
+    }else{
+        error2.style.display="none"
+        error2.innerHTML=""
+    }
+}
 
 
 
-// function phone2numValCheck(){
-//     const mobileval = phone.value
-//     const regex = /^\d{10}$/;
-//     if(mobileval.length < 10 || mobileval.length > 15){
-//         error8.style.display = "block"
-//         error8.innerHTML = "Number must be between 10 to 15 digits"
-//     }else if(!regex.test(mobileval)){
-//         error8.style.display = "block"
-//         error8.innerHTML = "invalid format"
-//     }else{
-//         error8.style.display="none"
-//         error8.innerHTML=""
-//     }
-// }
+function emailValCheck(){
+    const emailval = email.value 
+    const emailpattern = /^([a-zA-Z0-9._-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/
+    if(emailval.trim() === ""){
+        error3.style.display = "block"
+        error3.innerHTML = "Please enter the email"
+    }else if(!emailpattern.test(emailval)){
+        error3.style.display = "block"
+        error3.innerHTML = "Invalid Format"
+    }else{
+        error3.style.display = "none"
+        error3.innerHTML=""
+    }
+}
 
 
-// firstName.addEventListener("blur",nameValidateCheck)
-// phone.addEventListener("blur",phonenumValCheck)
-// phone2.addEventListener("blur",phonenumValCheck)
+function passValidateCheck(){
+    const passval = newPassword.value
+    const currentPassword = currentPassword.value
+    const alpha = /[a-zA-Z]/
+    const digit = /\d/
+    if(passval.trim()=== ""){
+        error5.style.display = "block"
+        error5.innerHTML = "Please enter the new password"
+    }else if(currentPassword.trim()=== ""){
+        error4.style.display = "block"
+        error4.innerHTML = "Please enter the current password"
+    }else if(!alpha.test(currentPassword) || !digit.test(currentPassword)){
+        error5.style.display = "block"
+        error5.innerHTML = "Should contain numbers an alphabets"
+    }else if(!alpha.test(passval) || !digit.test(passval)){
+        error4.style.display = "block"
+        error4.innerHTML = "Should contain numbers an alphabets"
+    }else if(passval.length < 6){
+        error5.style.display = "block"
+        error5.innerHTML = "Should contain atleast 6 characters"
+    }else if(passval.length < 6){
+        error4.style.display = "block"
+        error4.innerHTML = "Should contain atleast 6 characters"
+    }else{
+        error5.style.display = "none"
+        error5.innerHTML = ""
+    }
+}
 
-// document.addEventListener("DOMContentLoaded", function(){
 
-//     signform.addEventListener("submit", function(e){
-//         nameValidateCheck()
-//         phonenumValCheck();
-//         phone2numValCheck();
+
+function passwordConfirmSame() {
+    const pw1 = newPassword.value;
+    const pw2 = confirmNewPassword.value;
+    if (pw1.trim() === "" && pw2.trim() === "") {
+        error6.style.display = "none";
+        error6.innerHTML = "";
+    } else if (pw1 !== pw2) {
+        error6.style.display = "block";
+        error6.innerHTML = "Passwords did not match";
+    } else {
+        error6.style.display = "none";
+        error6.innerHTML = "";
+    }
+}
+
+firstName.addEventListener("blur",nameValidateCheck)
+phone.addEventListener("blur",phonenumValCheck)
+email.addEventListener("blur",emailValCheck)
+currentPassword.addEventListener("blur",passValidateCheck)
+newPassword.addEventListener("blur",passValidateCheck)
+confirmNewPassword.addEventListener("blur",passValidateCheck)
+confirmNewPassword.addEventListener("blur",passwordConfirmSame)
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    saveChanges.addEventListener("submit", function(e){
+        nameValidateCheck();
+        phonenumValCheck();
+        emailValCheck();                                                                                                                                          
         
-//         console.log(firstNam, phone, pincode, locality,address,city,state,landmark,phone2, error0,error1,error2,error3,error4,error5,error6,error7,error8,error9,addForm);
-//         if(!firstNam || !phone || !pincode || !locality || !address || !city || !state || !landmark || !phone2 || !error0 || !error1 || !error2 || !error3 || !error4 || !error5 || !error6 || !error7 || !error8 || !error9 ||  !addForm){
-//             console.log("fill all boxes in there");
-//         }
-//         if (error0.innerHTML || error2.innerHTML || error1.innerHTML || error4.innerHTML || error5.innerHTML || error6.innerHTML || error7.innerHTML || error8.innerHTML || error9.innerHTML ) {
-//             e.preventDefault();
-//           }
+       
+        if ( error1.innerHTML || error2.innerHTML || error3.innerHTML ) {
+            e.preventDefault();
+          }
     
-//     });
-// });
+    });
+
+    savePswd.addEventListener("submit", function(e){
+        passValidateCheck();
+        passwordConfirmSame();
+        
+       
+        if ( error4.innerHTML || error5.innerHTML || error6.innerHTML ) {
+            e.preventDefault();
+          }
+    });
+});
 
 </script>
 

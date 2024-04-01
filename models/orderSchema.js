@@ -12,32 +12,29 @@ const orderSchema = new Mongoose.Schema({
         require: true
         },
     orderNumber : {
-        type : Number
+        type : Number,
+        require:true,
+        unique:true
         },
-    subTotal: {
-        type: String,
-        require: true,
-        unique: true,
-          },
-    items : [{
-        productId: {
-            type: Mongoose.Schema.Types.ObjectId,
-            ref: "Products",
-            require: true,
-        },
-        quantity:{
-            type: Number,
-        },
-        subTotal:{
-            type: Number,
-            require: true,
-        },
-        size: {
-            type: String,
-            required: true
-        }
-    }],
-
+       
+        items: [
+            {
+              productId: {
+                type: Mongoose.Schema.Types.ObjectId,
+                ref: 'Product', // Reference to your Product model if you have one
+                required: true
+              },
+              quantity: {
+                type: Number,
+                required: true
+              },
+              subTotal: {
+                type: Number,
+                required: true
+              },
+            }
+        ],
+  
     totalAmount: {
         type : Number,
         requre : true,
@@ -46,55 +43,23 @@ const orderSchema = new Mongoose.Schema({
         type: String,
         require: true
     },
-    orderDate: {
-        type: String,
-        require: true
-
+    orderDate:{
+        type: Date,
+        require:true,
+        default: Date.now 
     },
+    
     status: {
         type: String,
-        require: true
+        require: true,
+        default: "Processing",
     },
-    shippingAddress: {
-        name: {
-            type: String,
-            require: true
-        },
-        mobile: {
-            type: Number,
-            require: true
-        },
-        pinCode: {
-            type: String,
-            require: true
-        },
-        city: {
-            type: String,
-            require: true
-        },
-        address: {
-            type: String,
-            require: true
-        },
-        district: {
-            type: String,
-            require: true
-        },
-        state: {
-            type: String,
-            require: true
-        },
-        addressType: {
-            type: String,
-            require: true
-        },
-        altrenateMobile: {
-            type: Number,
+    shippingAddress:{
+        type: Object,
+        require: true 
+    }
+   
 
-        },
+}, { versionKey: false ,timestamps:true});
 
-    },
-
-}, { versionKey: false });
-
-module.exports = Mongoose.model("Order", orderSchema)
+module.exports = Mongoose.model("Order", orderSchema)

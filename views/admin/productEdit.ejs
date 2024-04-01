@@ -31,6 +31,11 @@
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
+                <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/ordersList"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
                 <li class="menu-item active">
                     <a class="menu-link " href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
@@ -107,7 +112,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="content-header">
-                        <h2 class="content-title">Edit Product</h2>
+                        <h 2 class="content-title">Edit Product</h2>
                     </div>
                 </div>
             </div>
@@ -133,14 +138,14 @@
                                     <div class="col-lg-4">
                                         <div class="mb-4">
                                             <label for="regPrice" class="form-label">Regular price</label>
-                                            <input id="regPrice" placeholder="$" name="regPrice" type="text" value="<%= product.regularPrice %>" class="form-control">
+                                            <input id="regPrice" placeholder="₹" name="regPrice" type="text" value="<%= product.regularPrice %>" class="form-control">
                                             <div id="regularError" class="text-danger"></div>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="mb-4">
                                             <label for="offerPrice" class="form-label">Offer price</label>
-                                            <input id="offerPrice" placeholder="$" name="OfferPrice" type="text" value="<%= product.salePrice %>" class="form-control">
+                                            <input id="offerPrice" placeholder="₹" name="OfferPrice" type="text" value="<%= product.salePrice %>" class="form-control">
                                             <div id="offerPriceError" class="text-danger"></div>
                                         </div>
                                     </div>
@@ -156,9 +161,9 @@
                                     <div class="card-header">
                                         <h4>Choose images</h4>
                                     </div>
-                                    <div class="card-body">
+                                    <!-- <div class="card-body">
                                         <div class="input-upload">
-                                            <input class="form-control border" name="images" id="imageInput" type="file" multiple>
+                                            <input class="form-control border" name="images" id="imageInput" type="file" multiple value=" <%= product.productImage.length %> ">
                                         </div>  
                                         <p><div id="images-error" class="text-danger"></div></p>
                                         <div class="border row">
@@ -168,7 +173,24 @@
                                                 <% } %>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
+                                    <% for (let i=0; i < product.productImage.length; i++) { %>
+                                        <div class="col-md-12">
+                                            <div class="mb-4">
+                                                <div class="col-12">
+                                                    <td> 
+                                                        <input type="hidden" value="<%= product.productImage[i] %>" id="imageDatas">
+                                                        <img class="rounded" style="width: 50px; height: 60px;"
+                                                        src="/assets/adminAssets/imgUploads/<%= product.productImage[i] %>"
+                                                            alt="image">
+                                                        <i onclick="deleteSingleImage('<%= product.productImage[i] %>','<%= product._id %>')" style="position: absolute; margin-left: .5rem; cursor: pointer;" class="text-muted material-icons">close</i>
+                                                    </td>
+                                                </div>
+                                                
+                                            </div>
+                                        </div> <!-- col.// -->
+                                
+                                        <% } %>
                                 </div>
                                 <div class="card mb-4">
                                     <div class="card-header">
@@ -210,6 +232,27 @@
 
 
 <script>
+
+
+
+function deleteSingleImage(imageid,productId) {
+            console.log(imageid,"imageId",productId,"productId");
+    // Make an AJAX request to delete the image using the /deletesingleimage API
+    $.ajax({
+        url:'/admin/deleteImage',
+        method: 'post',
+        data: { imageNameTOserver:imageid,productIdToServer:productId }, // Replace 'YOUR_PRODUCT_ID' with the actual product ID
+        success:((response)=>{
+            console.log(response);
+            if(response.status === true){
+                window.location.reload()
+            }
+        })
+    });
+}
+
+
+
      document.getElementById('imageInput').addEventListener('change', function(event) {
             const container = document.getElementById('addedImagesContainer');
             container.innerHTML = ''; // Clear previous images
@@ -360,8 +403,8 @@
         const imageError = document.getElementById("images-error");
         // Validation logic for images
 
-            if (selectImages.length !== 5) {
-                imageError.innerHTML = "Images must need exactly 5 images";
+            if (selectImages.length !== 3) {
+                imageError.innerHTML = "Images must need exactly 3 images";
                 return false;
             }
             imageError.innerHTML = "";
@@ -395,9 +438,9 @@
     document.getElementById("productDescription").addEventListener("blur", desValidation);
     document.getElementById("regPrice").addEventListener("blur", regValidation);
     document.getElementById("offerPrice").addEventListener("blur", offerValidation);
-    document.getElementById("product_stock").addEventListener("blur", offerValidation);
-    document.getElementById("imageInput").addEventListener("blur", offerValidation);
-});
+    document.getElementById("product_stock").addEventListener("blur", stockValidation);
+    document.getElementById("imageInput").addEventListener("blur", imageValidation);
+    });
 
 </script>
 

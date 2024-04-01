@@ -1,6 +1,22 @@
 
 <%- include("../partials/header.ejs") %>
+<style>
+    .cancel-btn {
+        display: inline-block;
+        margin-left: 50px;
+        padding: 15px 20px;
+        background-color: #272727;
+        color: #ffffff;
+        border:none;
+        text-decoration: none;
+        cursor: pointer;
+    }
 
+    .cancel-btn:hover {
+        background-color: #494949;
+        color: #ffffff;
+    }
+</style>
 <div class="breadcrumb-content text-center">
     <div class="breadcrumb-title">
         <h2>My Account</h2>
@@ -55,7 +71,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="single-input-item" >
-                                            <input type="text" id="pincode" name="pincode" placeholder="Pincode" value="<%= address.pincode %>"/>
+                                            <input type="text" id="pincodeId" name="pincode" placeholder="Pincode" value="<%= address.pincode %>"/>
                                             </div>
                                             <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
 
@@ -66,7 +82,7 @@
                                         </div>     
                                     </div>
                                         <div class="single-input-item" >
-                                            <input type="text" id="address"  style="height: 100px;" name="address" placeholder="Address(Area and Street)" value="<%= address.address %>" />
+                                            <input type="text" id="addressId"  style="height: 100px;" name="address" placeholder="Address(Area and Street)" value="<%= address.address %>" />
                                         </div>
                                         <p><div id="error4" style="display: none;" class="alert alert-danger err"></div></p>
                                        
@@ -124,13 +140,15 @@
                                         <p><div id="error8" style="display: none;" class="alert alert-danger err"></div></p>
                                     </div>
                                 </div>
-                                <div class="row" style="padding                                      : 150px;">
-                                        <div class="single-input-item col" >
-                                            <button type="submit" id="addForm" class="check-btn sqr-btn ">Save Address</button>
-                                        </div>
-                                        <div class="single-input-item col">
-                                            <a href="/address" style=" color:rgb(255, 255, 255); background-color:#262626; padding: 17px 32px;">Cancel</a>
-                                        </div>
+                                <div class="row" style="padding: 150px;">
+                                       
+                                    <div class="single-input-item col">
+                                        <button type="submit" id="addForm" class="check-btn sqr-btn">Save Address</button>
+                                        <a href="javascript:history.back()" class="cancel-btn sqr-btn">Cancel</a>
+                                    </div>
+                                    
+                                    
+                                    
                                 </div>
                                         
                                         <p><div id="error9" style="display: none;" class="alert alert-danger err"></div></p>
@@ -154,113 +172,165 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// $(document).ready(function() {
-// // Hide the add-address-form initially
-// $('.add-address-form').hide();
-
-// // Toggle the add-address-form visibility when the button is clicked
-// $('.add-address-toggle').click(function(e) {
-// e.preventDefault();
-// $('.add-address-form').toggle();
-// });
-// });
 
 
 
 
 
+    
 
-// const firstName = document.getElementById('firstName')
-// const phone = document.getElementById('phone')
-// const pincode = document.getElementById('pincode')
-// const locality = document.getElementById('locality')
-// const address = document.getElementById('address')
-// const city = document.getElementById('city')
-// const state = document.getElementById('state')
-// const landmark = document.getElementById('landmark')
-// const phone2 = document.getElementById('phone2')
-// const error0 = document.getElementById('error0')
-// const error1 = document.getElementById('error1')
-// const error2 = document.getElementById('error2')
-// const error3 = document.getElementById('error3')
-// const error4 = document.getElementById('error4')
-// const error5 = document.getElementById('error5')
-// const error6 = document.getElementById('error6')
-// const error7 = document.getElementById('error7')
-// const error8 = document.getElementById('error8')
-// const error9 = document.getElementById('error9')
-// const addForm = document.getElementById('addForm')
-
-
-// function nameValidateCheck(){
-//     const nameVal = firstName.value
-//     if(nameVal.trim()===""){
-//         error0.style.display = "block"
-//         error0.innerHTML="Please enter the name"
-//     }else{
-//         error0.style.display = "none"
-//         error0.innerHTML = ""
-//     }
-// }
+const firstName = document.getElementById('firstName')
+const phone = document.getElementById('phone')
+const pincode = document.getElementById('pincodeId')
+const locality = document.getElementById('locality')
+const address = document.getElementById('address')
+const city = document.getElementById('city')
+const state = document.getElementById('state')
+const landmark = document.getElementById('landmark')
+const phone2 = document.getElementById('phone2')
+const error0 = document.getElementById('error0')
+const error1 = document.getElementById('error1')
+const error2 = document.getElementById('error2')
+const error3 = document.getElementById('error3')
+const error4 = document.getElementById('error4')
+const error5 = document.getElementById('error5')
+const error6 = document.getElementById('error6')
+const error7 = document.getElementById('error7')
+const error8 = document.getElementById('error8')
+const error9 = document.getElementById('error9')
+const addForm = document.getElementById('addForm')
 
 
-// function phonenumValCheck(){
-//     const mobileval = phone.value
-//     const regex = /^\d{10}$/;
-//     if(mobileval.trim()===""){
-//         error1.style.display = "block"
-//         error1.innerHTML = "Please enter the mobile number"
-//     }else if(mobileval.length < 10 || mobileval.length > 15){
-//         error1.style.display = "block"
-//         error1.innerHTML = "Number must be between 10 to 15 digits"
-//     }else if(!regex.test(mobileval)){
-//         error1.style.display = "block"
-//         error1.innerHTML = "invalid format"
-//     }else{
-//         error1.style.display="none"
-//         error1.innerHTML=""
-//     }
-// }
+function nameValidateCheck(){
+    const nameVal = firstName.value
+    if(nameVal.trim()===""){
+        error0.style.display = "block"
+        error0.innerHTML="Please enter the name"
+    }else{
+        error0.style.display = "none"
+        error0.innerHTML = ""
+    }
+}
 
 
-
-// function phone2numValCheck(){
-//     const mobileval = phone.value
-//     const regex = /^\d{10}$/;
-//     if(mobileval.length < 10 || mobileval.length > 15){
-//         error8.style.display = "block"
-//         error8.innerHTML = "Number must be between 10 to 15 digits"
-//     }else if(!regex.test(mobileval)){
-//         error8.style.display = "block"
-//         error8.innerHTML = "invalid format"
-//     }else{
-//         error8.style.display="none"
-//         error8.innerHTML=""
-//     }
-// }
+function localityValidateCheck(){
+    const locality = locality.value
+    if(locality.trim()===""){
+        error3.style.display = "block"
+        error3.innerHTML="Please enter the name"
+    }else{
+        error3.style.display = "none"
+        error3.innerHTML = ""
+    }
+}
 
 
-// firstName.addEventListener("blur",nameValidateCheck)
-// phone.addEventListener("blur",phonenumValCheck)
-// phone2.addEventListener("blur",phonenumValCheck)
+function addressValidateCheck(){
+    const address = address.value
+    if(address.trim()===""){
+        error4.style.display = "block"
+        error4.innerHTML="Please enter the address"
+    }else{
+        error4.style.display = "none"
+        error4.innerHTML = ""
+    }
+}
 
-// document.addEventListener("DOMContentLoaded", function(){
+function cityValidateCheck(){
+    const city = city.value
+    if(city.trim()===""){
+        error5.style.display = "block"
+        error5.innerHTML="Please enter the city/district/town"
+    }else{
+        error5.style.display = "none"
+        error5.innerHTML = ""
+    }
+}
 
-//     signform.addEventListener("submit", function(e){
-//         nameValidateCheck()
-//         phonenumValCheck();
-//         phone2numValCheck();
 
-//         console.log(firstNam, phone, pincode, locality,address,city,state,landmark,phone2, error0,error1,error2,error3,error4,error5,error6,error7,error8,error9,addForm);
-//         if(!firstNam || !phone || !pincode || !locality || !address || !city || !state || !landmark || !phone2 || !error0 || !error1 || !error2 || !error3 || !error4 || !error5 || !error6 || !error7 || !error8 || !error9 ||  !addForm){
-//             console.log("fill all boxes in there");
-//         }
-//         if (error0.innerHTML || error2.innerHTML || error1.innerHTML || error4.innerHTML || error5.innerHTML || error6.innerHTML || error7.innerHTML || error8.innerHTML || error9.innerHTML ) {
-//             e.preventDefault();
-//           }
+function phonenumValCheck(){
+    const mobileval = phone.value
+    const regex = /^\d{10}$/;
+    if(mobileval.trim()===""){
+        error1.style.display = "block"
+        error1.innerHTML = "Please enter the mobile number"
+    }else if(!regex.test(mobileval)){
+        error1.style.display = "block"
+        error1.innerHTML = "invalid format"
+    }else if(mobileval.length < 10 || mobileval.length > 15){
+        error1.style.display = "block"
+        error1.innerHTML = "Number must be between 10 to 15 digits"
+    }else{
+        error1.style.display="none"
+        error1.innerHTML=""
+    }
+}
 
-//     });
-// });
+function pincodeValidCheck() {
+    const pincodeVal = pincode.value;
+    const regex = /^\d+$/;
+    if (pincodeVal.length !== 6) {
+        error2.style.display = "block";
+        error2.innerHTML = "Pincode must be 6 digits in length";
+    } else if (pincodeVal.trim() === "") {
+        error2.style.display = "block";
+        error2.innerHTML = "Please enter the pincode";
+    } else if (!regex.test(pincodeVal)) {
+        error2.style.display = "block";
+        error2.innerHTML = "Invalid format";
+    } else {
+        error2.style.display = "none";
+        error2.innerHTML = "";
+    }
+}
+
+
+function phone2numValCheck(){
+    const mobileval = phone.value
+    const regex = /^\d{10}$/;
+    if(mobileval.length < 10 || mobileval.length > 15){
+        error8.style.display = "block"
+        error8.innerHTML = "Number must be between 10 to 15 digits"
+    }else if(!regex.test(mobileval)){
+        error8.style.display = "block"
+        error8.innerHTML = "invalid format"
+    }else{
+        error8.style.display="none"
+        error8.innerHTML=""
+    }
+}
+
+
+firstName.addEventListener("blur",nameValidateCheck)
+phone.addEventListener("blur",phonenumValCheck)
+pincode.addEventListener("blur",pincodeValidCheck)
+city.addEventListener("blur",cityValidateCheck)
+address.addEventListener("blur",addressValidateCheck)
+locality.addEventListener("blur",localityValidateCheck)
+phone2.addEventListener("blur",phone2numValCheck)
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    addForm.addEventListener("submit", function(e){
+        nameValidateCheck()
+        phonenumValCheck();
+        phone2numValCheck();
+        pincodeValidCheck();
+        localityValidateCheck();
+        addressValidateCheck();
+        cityValidateCheck();
+        
+       
+        if(!firstName || !phone || !pincode || !locality || !address || !city || !state || !landmark || !error0 || !error1 || !error2 || !error3 || !error4 || !error5 || !error6 || !error7 || !error8 || !error9 ||  !addForm){
+            console.log("fill all boxes in there");
+        }
+        if (error0.innerHTML || error2.innerHTML || error1.innerHTML || error4.innerHTML || error5.innerHTML || error6.innerHTML || error7.innerHTML || error8.innerHTML || error9.innerHTML ) {
+            e.preventDefault();
+          }
+    
+    });
+});
+
 
 </script>
 

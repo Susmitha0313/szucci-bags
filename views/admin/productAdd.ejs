@@ -31,6 +31,11 @@
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
+                <li class="menu-item "> 
+                    <a class="menu-link " href="/admin/ordersList"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                </li>
                 <li class="menu-item active">
                     <a class="menu-link " href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
@@ -137,7 +142,7 @@
                                             
                                             <div class="row gx-2">
                                                 <label for="regPrice" class="form-label">Regular price</label>
-                                                <input id="regPrice" placeholder="$" name="regPrice" type="text" class="form-control">
+                                                <input id="regPrice" placeholder="₹" name="regPrice" type="text" class="form-control">
                                                 <p><div id="regularError" class=" text-danger"></div></p>
                                             </div>
         
@@ -146,7 +151,7 @@
                                     <div class="col-lg-4">
                                         <div class="mb-4">
                                             <label for="offerPrice" class="form-label">Offer price</label>
-                                            <input id="offerPrice" placeholder="$" name="OfferPrice" type="text" class="form-control">
+                                            <input id="offerPrice" placeholder="₹" name="OfferPrice" type="text" class="form-control">
                                         <p><div id="offerPriceError" class=" text-danger"></div></p>
                                     </div>
                                     </div>
@@ -377,8 +382,8 @@
         const imageError = document.getElementById("images-error");
         // Validation logic for images
 
-            if (selectImages.length !== 5) {
-                imageError.innerHTML = "Images must need exactly 5 images";
+            if (selectImages.length !== 3) {
+                imageError.innerHTML = "Images must need exactly 3 images";
                 return false;
             }
             imageError.innerHTML = "";
@@ -412,8 +417,8 @@
     document.getElementById("productDescription").addEventListener("blur", desValidation);
     document.getElementById("regPrice").addEventListener("blur", regValidation);
     document.getElementById("offerPrice").addEventListener("blur", offerValidation);
-    document.getElementById("product_stock").addEventListener("blur", offerValidation);
-    document.getElementById("imageInput").addEventListener("blur", offerValidation);
+    document.getElementById("product_stock").addEventListener("blur", stockValidation);
+    document.getElementById("imageInput").addEventListener("blur", imageValidation);
 });
 
 </script>
