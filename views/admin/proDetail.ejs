@@ -1,0 +1,174 @@
+
+<%- include("../partials/adminHeader.ejs") %>
+<style>
+    .thumbnails-container {
+           display: flex;
+           flex-wrap: wrap;
+       }
+       .thumbnail {
+           margin: 5px;
+           width: 100px;
+           height: 100px;
+           object-fit: cover;
+       }
+</style>
+
+<body class="dark">
+   <div class="screen-overlay"></div>
+   <aside class="navbar-aside" id="offcanvas_aside">
+       <div class="aside-top">
+           <a href="/admin" class="brand-wrap">
+               <img src="/assets/adminAssets/imgs/icons/logo.png" class="logo" alt="Evara Dashboard">
+           </a>
+           <div>
+               <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+           </div>
+       </div>
+       <nav>
+           <ul class="menu-aside">
+               <li class="menu-item ">
+                   <a class="menu-link" href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
+                       <span class="text">Dashboard</span>
+                   </a>
+               </li>
+               <li class="menu-item "> 
+                   <a class="menu-link" href="/admin/ordersList"> <i class="icon material-icons md-home"></i>
+                       <span class="text">Orders</span>
+                   </a>
+               </li>
+               <li class="menu-item active">
+                   <a class="menu-link " href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
+                       <span class="text">Products</span>
+                   </a>
+                  
+               </li>
+
+               <li class="menu-item ">
+                   <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
+                       <span class="text">Users</span>
+                   </a>
+               </li>
+               
+              
+               <li class="menu-item ">
+                   <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-person"></i>
+                       <span class="text">Brand</span>
+                   </a>
+               </li>
+               
+               <li class="menu-item">
+                   <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-category"></i>
+                       <span class="text">Category</span>
+                   </a>
+               </li>
+               
+           <br>
+           <br>
+       </nav>
+   </aside>
+   <main class="main-wrap">
+       <header class="main-header navbar">
+           <div class="col-search">
+               <form class="searchform">
+                   <div class="input-group">
+                       <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                       <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
+                   </div>
+                   <datalist id="search_terms">
+                       <option value="Products">
+                       <option value="New orders">
+                       <option value="Apple iphone">
+                       <option value="Ahmed Hassan">
+                   </datalist>
+               </form>
+           </div>
+           <div class="col-nav">
+               <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+               <ul class="nav">
+                   <li class="nav-item">
+                       <a class="nav-link btn-icon" href="#">
+                           <i class="material-icons md-notifications animation-shake"></i>
+                           <span class="badge rounded-pill">3</span>
+                       </a>
+                   </li>
+                   <li class="nav-item">
+                       <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                   </li>
+                 
+                   <li class="dropdown nav-item">
+                       <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/assets/adminAssets/imgs/people/testi-7.png" alt="User"></a>
+                       <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                           <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                           <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+
+                           <div class="dropdown-divider"></div>
+                           <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                       </div>
+                   </li>
+               </ul>
+           </div>
+       </header>
+       <section class="content-main">
+           <div class="row">
+               <div class="col-12">
+                   <div class="content-header">
+                       <h 2 class="content-title">Account Info</h2>
+                   </div>
+               </div>
+           </div>
+           <div class="row">
+               <div class="col-lg-12">
+                   <div class="card mb-4">
+                  
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Product Details</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="row">
+                                    <!-- Product Images --> 
+                                    <% for(let i=0; i < product.productImage.length; i++) { %>
+                                    <div class="product-images col-md-2 col-lg-2">
+                                        <img src="/assets/adminAssets/imgUploads/<%= product.productImage[i] %>" class="d-block mb-3" alt="Product Image">
+                                     </div>   
+                                    <% } %>
+                                </div>
+                                <div class="row">
+                                    <!-- Product Information -->
+                                    <div class="product-info">
+                                        <h2><%= product.productName %></h2>
+                                        <p class="text-muted"><%= product.description %></p>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p><strong>Regular Price:</strong> <%= product.regularPrice %></p>
+                                                <p><strong>Offer Price:</strong> <%= product.salePrice %></p>
+                                                <p><strong>Stock:</strong> <%= product.quantity %></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Category:</strong> <%= catData.name%></p>
+                                                <p><strong>Brand:</strong> <%= brandData.brandName %></p>
+                                            </div>
+                                        </div>
+                                        <a href="/admin/editProduct/<%= product._id %>">
+                                            <button class="btn btn-primary">Edit Product</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    </div>
+                              
+                       </div>
+                   </div>
+               </div>
+           </div>
+              
+       </section>
+
+
+
+<%- include("../partials/adminFooter.ejs") %>

@@ -42,6 +42,11 @@
                     </a>
                    
                 </li>
+                <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Coupon</span>
+                    </a>
+                </li>
 
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
@@ -157,41 +162,27 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <h4>Choose images</h4>
                                     </div>
-                                    <!-- <div class="card-body">
-                                        <div class="input-upload">
-                                            <input class="form-control border" name="images" id="imageInput" type="file" multiple value=" <%= product.productImage.length %> ">
-                                        </div>  
-                                        <p><div id="images-error" class="text-danger"></div></p>
-                                        <div class="border row">
-                                            <div id="addedImagesContainer" class="thumbnails-container">
-                                                <% for(let i=0; i<product.productImage.length; i++) { %>
-                                                    <img src="/assets/adminAssets/imgUploads/<%= product.productImage[i] %>" class="img-sm , thumbnail" alt="Product">
-                                                <% } %>
+                                    <div class="card-body ">
+                                        <div class="row"> 
+                                            <% for(let i=0; i < product.productImage.length; i++) { %>
+                                            <div class="input-upload col-md-4">
+                                                <img src="/assets/adminAssets/imgUploads/<%= product.productImage[i] %>" class="img-sm , thumbnail" alt="Product">
+                                                <span id="delete" onclick="deleteImage('<%= product._id %>','<%= i %>')" ><i class="icon material-icons md-remove_circle_outline "></i></span>
                                             </div>
+                                            <% } %>
+
                                         </div>
-                                    </div> -->
-                                    <% for (let i=0; i < product.productImage.length; i++) { %>
-                                        <div class="col-md-12">
-                                            <div class="mb-4">
-                                                <div class="col-12">
-                                                    <td> 
-                                                        <input type="hidden" value="<%= product.productImage[i] %>" id="imageDatas">
-                                                        <img class="rounded" style="width: 50px; height: 60px;"
-                                                        src="/assets/adminAssets/imgUploads/<%= product.productImage[i] %>"
-                                                            alt="image">
-                                                        <i onclick="deleteSingleImage('<%= product.productImage[i] %>','<%= product._id %>')" style="position: absolute; margin-left: .5rem; cursor: pointer;" class="text-muted material-icons">close</i>
-                                                    </td>
-                                                </div>
-                                                
-                                            </div>
-                                        </div> <!-- col.// -->
-                                
-                                        <% } %>
+                                       
+                                        <input name="images" class="form-control" type="file" accept="image/*" multiple>
+                                    </div>
+                                    <p><div id="images-error" class="text-danger"></div></p>
                                 </div>
+
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <h4>Organization</h4>
@@ -222,6 +213,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-md rounded font-sm hover-up">Save Product</button>
+                                <a href="javascript:history.back()" style="padding: 11px 20px; background-color: rgb(255, 255, 255); border-radius: 5px;">Cancel</a>
                             </form>
                         </div>
                     </div>
@@ -233,22 +225,21 @@
 
 <script>
 
-
-
-function deleteSingleImage(imageid,productId) {
-            console.log(imageid,"imageId",productId,"productId");
-    // Make an AJAX request to delete the image using the /deletesingleimage API
+function deleteImage(prodId,index){
+    alert("inside delete img");
     $.ajax({
-        url:'/admin/deleteImage',
-        method: 'post',
-        data: { imageNameTOserver:imageid,productIdToServer:productId }, // Replace 'YOUR_PRODUCT_ID' with the actual product ID
-        success:((response)=>{
-            console.log(response);
+        url: "/admin/deleteImage",
+        method:"post",
+        data : {
+            prodId : prodId,
+            index : index,
+        },
+        success:(async(response)=>{
             if(response.status === true){
-                window.location.reload()
+                window.location.reload();
             }
         })
-    });
+    })
 }
 
 

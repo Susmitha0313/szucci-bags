@@ -1,0 +1,364 @@
+<%- include("../partials/adminHeader.ejs") %>
+    <style>
+        .thumbnails-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            margin: 5px;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+    </style>
+
+    <body class="dark">
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="/admin" class="brand-wrap">
+                    <img src="/assets/adminAssets/imgs/icons/logo.png" class="logo" alt="Evara Dashboard">
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"> <i
+                            class="text-muted material-icons md-menu_open"></i> </button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item ">
+                        <a class="menu-link " href="/admin/ordersList"> <i class="icon material-icons md-home"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+                    <li class="menu-item ">
+                        <a class="menu-link " href="/admin/products"> <i
+                                class="icon material-icons md-shopping_bag"></i>
+                            <span class="text">Products</span>
+                        </a>
+
+                    </li>
+                    <li class="menu-item active ">
+                        <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-home"></i>
+                            <span class="text">Coupon</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-person"></i>
+                            <span class="text">Brand</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-category"></i>
+                            <span class="text">Category</span>
+                        </a>
+                    </li>
+
+                    <br>
+                    <br>
+            </nav>
+        </aside>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                            <button class="btn btn-light bg" type="button"> <i
+                                    class="material-icons md-search"></i></button>
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products">
+                            <option value="New orders">
+                            <option value="Apple iphone">
+                            <option value="Ahmed Hassan">
+                        </datalist>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                            class="material-icons md-apps"></i> </button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i
+                                    class="material-icons md-nights_stay"></i> </a>
+                        </li>
+
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                                aria-expanded="false"> <img class="img-xs rounded-circle"
+                                    src="/assets/adminAssets/imgs/people/testi-7.png" alt="User"></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit
+                                    Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account
+                                    Settings</a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                        class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <section class="content-main">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="content-header">
+                            <h2 class="content-title">Add new Coupon</h2>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-12 ">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form id="couponAddForm" action="/admin/couponAdd" method="post">
+                                    <div class="mb-4">
+                                        <label for="coupon_name" class="form-label">Coupon Name</label>
+                                        <input id="coupon_name" name="couponName" type="text" placeholder="name of the coupon" class="form-control">
+                                        <p>
+                                        <div id="nameError" class=" text-danger"></div>
+                                        </p>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="startDate" class="form-label">Starting Date</label>
+                                        <input id="startDate" name="startDate" placeholder="when should the coupon offer start" type="date" class="form-control"></input>
+                                        <p>
+                                        <div id="startDateErr" class=" text-danger"></div>
+                                        </p>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="endDate" class="form-label">Ending Date</label>
+                                        <input id="endDate" name="endDate" placeholder="when should the offer end" type="date" class="form-control"></input>
+                                        <p>
+                                        <div id="endDateErr" class=" text-danger"></div>
+                                        </p>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <div class="row gx-2">
+                                                    <label for="minimumBuyRate" class="form-label">Minimum buying price</label>
+                                                    <input id="minimumBuyRate" placeholder="₹" name="minBuyRate" type="text" class="form-control">
+                                                    <p>
+                                                    <div id="minErr" class=" text-danger"></div>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="mb-4">
+                                                <label for="maximumBuyRate" class="form-label">Maximum buying price</label>
+                                                <input id="maximumBuyRate" placeholder="₹" name="maxBuyRate" type="text" class="form-control">
+                                                <p>
+                                                <div id="maxErr" class=" text-danger"></div>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="discountPercent" class="form-label">Discount %</label>
+                                            <input id="discountPercent" name="discountPercent" placeholder="Type here" type="number"
+                                                class="form-control"></input>
+                                            <p>
+                                            <div id="discerror" class=" text-danger"></div>
+                                            </p>
+                                        </div>
+                                    </div>
+                            </div>
+                            <button type="submit" class="btn btn-md rounded font-sm hover-up"> Save Coupon </button>
+
+                            </form>
+                        </div>
+
+                    </div>
+            </section>
+
+
+            <script>
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const couponAddForm = document.getElementById("couponAddForm");
+
+                    function nameValidation() {
+                        const coupName = document.getElementById("coupon_name").value;
+                        const nameError = document.getElementById("nameError");
+                        // Validation logic for product name
+                        if (coupName.trim() === "") {
+                            nameError.innerHTML = "Please enter valid name"
+                            return false
+                        } else if (coupName.length <= 3) {
+                            nameError.innerHTML = "Name must need atleast 3 character"
+                            return false
+                        } else if (coupName.length >= 20) {
+                            nameError.innerHTML = "Name can't exceed 20 character"
+                            return false
+                        } else if ((!/^[A-Za-z\s]+$/.test(coupName))) {
+                            nameError.innerHTML = "Name can't contain characters other than alphabets, underscore and &"
+                            return false
+                        }
+                        nameError.innerHTML = "";
+                        return true
+                    }
+
+                    function dateValidation() { 
+                        const startDate = document.getElementById("startDate").value;
+                        const endDate = document.getElementById("endDate").value;
+                        const startDateErr = document.getElementById("startDateErr");
+                        const endDateErr = document.getElementById("endDateErr");
+                        if (startDate.trim() === "") {
+                            startDateErr.innerHTML = "Please enter a valid start date";
+                            return false;
+                        }
+                        if (endDate.trim() === "") {
+                            endDateErr.innerHTML = "Please enter a valid end date";
+                            return false;
+                        }
+                        const startDateObj = new Date(startDate);
+                        const endDateObj = new Date(endDate);
+                        const currentDate = new Date();
+                        if (startDateObj < currentDate) {
+                            startDateErr.innerHTML = "Start date cannot be in the past";
+                            return false;
+                        }
+                        if (endDateObj <= startDateObj) {
+                            endDateErr.innerHTML = "End date must be after start date";
+                            return false;
+                        }
+                        startDateErr.innerHTML = "";
+                        endDateErr.innerHTML = "";
+                    
+                        return true;
+                    }
+                        
+                        
+                    function rateValidation() {
+                        const minRateInput = document.getElementById("minimumBuyRate");
+                        const maxRateInput = document.getElementById("maximumBuyRate");
+                        const minRate = minRateInput.value.trim();
+                        const maxRate = maxRateInput.value.trim();
+                        const minErr = document.getElementById("minErr");
+                        const maxErr = document.getElementById("maxErr");
+                        if (minRate === "") {
+                            minErr.innerHTML = "Please enter a valid amount";
+                            maxErr.innerHTML = ""; 
+                            return false;
+                        }
+                        if (maxRate === "") {
+                            maxErr.innerHTML = "Please enter a valid amount";
+                            minErr.innerHTML = ""; 
+                            return false;
+                        }
+                        if (!/^\d+$/.test(minRate)) {
+                            minErr.innerHTML = "Price cannot contain characters other than numbers";
+                            maxErr.innerHTML = ""; 
+                            return false;
+                        }
+                        if (!/^\d+$/.test(maxRate)) {
+                            maxErr.innerHTML = "Price cannot contain characters other than numbers";
+                            minErr.innerHTML = ""; 
+                            return false;
+                        }
+                        const minRateValue = parseInt(minRate);
+                        const maxRateValue = parseInt(maxRate);
+                        if (minRateValue < 100 || minRateValue > 100000) {
+                            minErr.innerHTML = "Price must be between 100 and 100,000";
+                            maxErr.innerHTML = ""; 
+                            return false;
+                        }
+                        if (maxRateValue < 100 || maxRateValue > 100000) {
+                            maxErr.innerHTML = "Price must be between 100 and 100,000";
+                            minErr.innerHTML = ""; 
+                            return false;
+                        }
+                        if (maxRateValue < minRateValue) {
+                            maxErr.innerHTML = "maximum price cannot exceed minimum price";
+                            minErr.innerHTML = ""; 
+                            return false;
+                        }
+                        minErr.innerHTML = "";
+                        maxErr.innerHTML = "";
+                        return true;
+                    }
+
+
+                    function discountValidation() {
+                        const discount = document.getElementById("discountPercent").value;
+                        const discerror = document.getElementById("discerror");
+                        
+                        // Validation logic for product discount
+                        if (discount.trim() === "") {
+                            discerror.innerHTML = "Please enter a valid product discount";
+                            return false;
+                        } else if (!/^\d+(\.\d{1,2})?$/.test(discount)) {
+                            discerror.innerHTML = "Discount should be a positive number with up to two decimal places";
+                            return false;
+                        } else {
+                            const discountValue = parseFloat(discount);
+                            if (discountValue <= 0) {
+                                discerror.innerHTML = "Product discount should be greater than 0";
+                                return false;
+                            } else if (discountValue > 100) {
+                                discerror.innerHTML = "Product discount cannot exceed 100%";
+                                return false;
+                            }
+                            discerror.innerHTML = ""; // Clear the error message here
+                            return true; // Return true for valid input
+                        }
+                    }
+
+
+
+                    couponAddForm.addEventListener("submit", function (e) {
+                        nameValidation();
+                        dateValidation();
+                        rateValidation();
+                        discountValidation();
+                       
+                        if (
+                            nameError.innerHTML ||
+                            startDateErr.innerHTML ||
+                            minErr.innerHTML ||
+                            maxErr.innerHTML ||
+                            discerror.innerHTML ||
+                            imageError.innerHTML) {
+                            e.preventDefault();
+                        }
+                    });
+
+                    document.getElementById("coupon_name").addEventListener("blur", nameValidation);
+                    document.getElementById("startDate").addEventListener("blur", dateValidation);
+                    document.getElementById("endDate").addEventListener("blur", dateValidation);
+                    document.getElementById("minimumBuyRate").addEventListener("blur", rateValidation);
+                    document.getElementById("maximumBuyRate").addEventListener("blur", rateValidation);
+                    document.getElementById("discountPercent").addEventListener("blur", discountValidation);
+                });
+
+            </script>
+
+            <%- include("../partials/adminFooter.ejs") %>

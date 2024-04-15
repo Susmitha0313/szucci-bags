@@ -1,22 +1,84 @@
 <%- include("../partials/header.ejs") %>
-
 <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
     <div class="container-fluid">
         <div class="breadcrumb-content text-center">
             <div class="breadcrumb-title">
-                <h2>Order Details</h2>
+                <h2>Order detail</h2>
             </div>
-            <ul>
-                <li>
-                    <a href="/">home </a>
-                </li>
-                <li><span> &gt; </span></li>
-                <li class="active"> Shopping Cart </li>
-            </ul>
         </div>
     </div>
 </div>
-<!-- cart start -->
+<!-- cart start -->   
+<div style="padding: 20px;">
+<% orderData.forEach(element=>{%>
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order detail</h2>
+            <p>Details for Order ID: <%=element.orderNumber  %></p>
+        </div>
+    </div>
+    <div class="card">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                    <span>
+                        <i class="fa fa-calendar"></i> <b><%=element.orderDate.toLocaleDateString()  %></b>
+                    </span> <br>
+                    <small class="text-muted">Order ID: <%=element.orderNumber  %></small>
+                </div>
+               
+            </div>
+        </header> <!-- card-header end// -->
+        <div class="card-body">
+            <div class="row mb-50 mt-20 order-info-wrap">
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="fa fa-user fa-2x"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Customer</h6>
+                            <p class="mb-1">
+                               <%= element.shippingAddress.name %><br> <%= element.userEmail %><br>
+                            </p>
+                            <br>
+                            <!-- <a href="#">View profile</a> -->
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="fa fa-truck fa-2x"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Order info</h6>
+                            <p class="mb-1">
+                                Shipping: Fargo express <br> Pay method: <%= element.orderType %><br> Status: <%= element.status  %>
+                            </p>
+                            <!-- <a href="#">Download info</a> -->
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="fa fa-map-marker fa-2x"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Deliver to</h6>
+                            <p class="mb-1">
+                                City: <%= element.shippingAddress.city %><br> <%= element.shippingAddress.address %><br>
+                            </p>
+                            <!-- <a href="#">View profile</a> -->
+                        </div>
+                    </article>
+                </div> <!-- col// -->
+            </div> <!-- row // -->
+</div>
+
+
+
 <div class="cart-main-area pt-90 pb-100">
     <div class="container">
         <div class="row">
@@ -48,7 +110,7 @@
                                                 <% } %>
                                             </td>
                                             <td class="product-name"><a href="/product-details?:id="<%=item.productId._id %>><%= item.productId.productName %></a></td>
-                                            <td class="product-price"><span class="amount">₹ <%= item.productId.salePrice %></span></td>
+                                            <td class="product-price"><span class="amount">₹ <%= item.totalPrice %></span></td>
                                             <td class="cart-quality"><span class="amount"><%= item.quantity %></span></td>
                                             
                                               
@@ -61,21 +123,38 @@
                                     </tbody>
                                 </table>
                             </div>
-            
+                        </div>
+                        <div class="row">
+                            <% orderData.forEach(element=>{ %> 
+                                <% if(element.status == "Cancelled"){ %> 
+                                    <h4 style="color: #fc4f4f;">Order is Cancelled</h4>
+                                <% } else { %>
+                                    <% if(element.status !== "Delivered" && element.status !== "RequestProcessing" && element.status !== "Returned" ){ %>
+                            <div class="col-md-3">
+                                <button style="border: none; background-color: rgb(169, 35, 35); color: white; padding: 10px 15px; margin: 10px;" onclick="CancelButton('<%= element._id %>')"   id="cancelButton">Cancel Order</button>
+                            </div>
+                                    <% } %>
+                                <% } %>
+                            <% }) %>
+
+                            <% orderData.forEach(element => { %>
+                                <% if(element.status === "Delivered"){ %>
+                                    <div class="col-md-4">
+                                        <button style="border: none; background-color: rgb(73, 73, 73); color: white; padding: 10px 15px; margin: 10px;" onclick="requestReturn('<%= element._id %>')" id="returnButton<%= element._id %>">Return Order</button>
+                                    </div>
+                                <% } else if(element.status === "Returned"){ %>
+                                    <h3 class="alert-warning text-warning">Returned</3>
+                                <% } else if (element.status === "RequestProcessing"){ %>
+                                    <h3 class="alert-danger text-danger">Request for returning processing...</h3>
+                                    <% } %>
+                            <% }) %>
+                            
+                         
                             
                         </div>
-                        <% orderData.forEach(element=>{ %> 
-                            <% if(element.status == "Cancelled"){ %> 
-                                <p>Order is Cancelled</p>
-                            <% } else { %>
-                        <div>
-                            <button onclick="CancelButton(' <%= element._id %> ')"   id="cancelButton">Cancel Order</button>
-                        </div>
-                           <% } %>
-                        <% }) %>
+                       
 
-
-                        <!-- <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="grand-total-wrap">
                                 <% orderData.forEach(element=>{ %> 
                                 <div class="grand-total-content">
@@ -86,79 +165,156 @@
                                 </div>
                                 <% }) %>
                                 <div class="grand-btn">
-                                    <a href="#">Download Invoice</a>
-                                </div>
+                                    <button onclick="DownloadInvoice('<%= element._id %>')">Download Invoice</button>
+                                </div> 
+                                
                             </div>
-                        </div> -->
+                        </div>
                     </div>
             </div>
         </div>
     </div>
 </div>
-
+<% }) %>
+<style>
+    .swal-input-border{
+        border: 2px solid #000 !important; /* Black border */
+        border-radius: 5px;
+    }
+</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-  function CancelButton(id) {
-    alert("canceling"+ id);
+function CancelButton(orderId) {
     Swal.fire({
-        title: 'Are You Sure You Want to Cancel the Order?',
+        title: "Cancel Order",
+        text: 'Are You Sure You Want to Cancel the Order?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'OK',
-        cancelButtonText: 'Cancel'
-    }).then(async (result) => {
+        cancelButtonText: 'Cancel',
+    }).then((result) => {
         if (result.isConfirmed) {
+            // Show loading indicator
             Swal.fire({
-                title: 'Reason for Cancelling',
-                html: '<input id="cancelationReason" class="swal2-input" placeholder="Reason for cancellation">',
-                icon: 'warning',
-                confirmButtonText: 'Submit',
-                preConfirm: () => {
-                    const cancellationReason = document.getElementById('cancelationReason').value;
-                    if (!cancellationReason) {
-                        Swal.showValidationMessage('Cancellation reason cannot be empty');
-                    } else if(!isNaN(cancellationReason)) {
-                        Swal.showValidationMessage('Cancellation reason must be a string');
-                    }
-                    // Add more validation logic here if needed
-                    return cancellationReason;
-                }
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    const cancellationReason = result.value; // Retrieve cancellation reason entered by the user
-                    try {
-                        const response = await fetch('/orderCancel/' + id, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                reason: cancellationReason
-                            })
+                title: 'Processing',
+                html: 'Please wait...',
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
+                },
+            });
+
+            $.ajax({
+                url: `/cancelorder?orderId=${orderId}`,
+                method: "POST",
+                success: async (response) => {
+                    if (response.status === true) {
+                        window.location.reload();
+                        Swal.fire({
+                            icon: "success",
+                            title: "Order Cancelled Successfully",
+                            showConfirmButton: false,
+                            timer: 2000,
                         });
-                        const data = await response.json();
-                        console.log(response);
-                        if (data.success) {
-                            Swal.fire('Success', data.message, 'success');
-                            location.reload();
-                        } else {
-                            Swal.fire('Error', data.message, 'error');
-                            console.error('Item not canceled');
-                        }
-                    } catch (error) {
-                        Swal.fire('Error', 'Failed to cancel order', 'error');
-                        console.log('Fetch Error:', error);
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Failed to cancel order",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
                     }
+                },
+                error: (xhr, status, error) => {
+                    console.log("Error: ", error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to cancel order. Please try again later.",
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                },
+                complete: () => {
+                    Swal.close();
                 }
             });
-        } else {
-            // Handle cancellation by the user
-            console.log('Action canceled by the user');
         }
     });
 }
+
+function toggleReturn(orderId) {
+    const returnInfo = document.getElementById("returnInfo" + orderId);
+    if (returnInfo.style.display === "none") {
+        returnInfo.style.display = "block";
+    } else {
+        returnInfo.style.display = "none";
+    }
+}
+
+function requestReturn(orderId) {
+    Swal.fire({
+        title: "Return Order",
+        text: 'Are You Sure You Want to return the Order?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        input: 'select',
+        inputOptions: {
+            'Damaged': 'Damaged',
+            'Wrong Item': 'Wrong Item',
+            'Not as Expected': 'Not as Expected',
+            'Other': 'Other'
+        },
+        inputPlaceholder: 'Select a reason',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'You need to select a reason';
+            }
+        },
+        customClass:{
+            input:'swal-input-border'
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const reason = result.value;
+            $.ajax({
+                url: `/returnorder?orderId=${orderId}&reason=${reason}`,
+                method: "POST",
+                success: async (response) => {
+                    if (response.status === true) {
+                        window.location.reload();
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Failed to submit return request. Please try again later.",
+                        });
+                    }
+                },
+                error: (xhr, status, error) => {
+                    console.log("Error: ", error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to submit return request. Please try again later.",
+                    });
+                },
+                complete: () => {
+                    Swal.close();
+                }
+            });
+        }
+    });
+}
+
+
+
 
 </script>
 <%- include("../partials/footer.ejs") %>

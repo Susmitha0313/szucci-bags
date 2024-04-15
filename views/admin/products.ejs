@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="card mb-4">
-                <header class="card-header">
+             <!--   <header class="card-header">
                     <div class="row align-items-center">
                         <div class="col col-check flex-grow-0">
                             <div class="form-check ms-2">
@@ -134,11 +134,11 @@
                                 <option>Electronics</option>
                                 <option>Clothes</option>
                                 <option>Automobile</option>
-                            </select> -->
+                            </select> 
                         </div>
                         <!-- <div class="col-md-2 col-6">
                             <input type="date" value="02.05.2022" class="form-control">
-                        </div> -->
+                        </div> 
                         <div class="col-md-2 col-6">
                             <select class="form-select">
                                 <option selected>Status</option>
@@ -148,18 +148,13 @@
                             </select>
                         </div>
                     </div>
-                </header> <!-- card-header end// -->
+                </header> card-header end// -->
                 <div class="card-body">
                     <% for(let i=0; i<product.length; i++) { %>
                     <article class="itemlist">
                         <div class="row align-items-center">
-                            <div class="col col-check flex-grow-0">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox">
-                                </div>
-                            </div>
                             <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-                                <a class="itemside" href="#">
+                                <a class="itemside" href="/admin/productInfo/<%= product[i]._id %>">
                                     <div class="left">
                                         <img  src="/assets/adminAssets/imgUploads/<%= product[i].productImage[0] %>" class="img-sm img-thumbnail" alt="Product">
                                     </div>
@@ -168,7 +163,7 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-lg-2 col-sm-2 col-4 col-price"> <span>₹<%= product[i].regularPrice %></span> </div>
+                            <div class="col-lg-2 col-sm-2 col-4 col-price"> <span>₹<%= product[i].salePrice %></span> </div>
                             <div class="col-lg-1 col-sm-1 col-4 col-status">
                                 <span class="badge rounded-pill alert-success">Active</span>
                             </div>

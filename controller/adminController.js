@@ -72,13 +72,13 @@ const adminLogin = async (req, res) => {
         const admin = await User.findOne({email , isAdmin:"1"});
         // Check if user exists
         if (!admin) {
-            return res.status(404).json({ message: "Admin not found" });
+            return res.render("adminLogin",{ errmessage: "Admin not found" });
         }
         
         // Check password
         const isPasswordValid = await bcrypt.compare(password, admin.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Invalid password' });
+            return res.render("adminLogin",{ errmessage: 'Invalid password' });
         }
   
         // Password is correct, set up user session or generate JWT token
@@ -86,15 +86,21 @@ const adminLogin = async (req, res) => {
         req.session.save();
         console.log(req.session.admin);
         console.log("admin logging in");
-
-        res.redirect("/admin/adminHome"); // Redirect to the desired page after successful login
+        if(req.session.redirectTo){
+            res.redirect(req.session.redirectTo);
+            delete req.session.redirectTo;
+        } else {
+             res.redirect("/admin/adminHome"); // Redirect to the desired page after successful login
         
-       
+        }
     } catch (error) {
         console.error("/pageerror");
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+
+
 
 const userBlock = async(req,res)=>{
     try{

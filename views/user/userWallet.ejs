@@ -1,0 +1,271 @@
+
+ <%- include("../partials/header.ejs") %>
+            <div class="breadcrumb-content text-center">
+                <div class="breadcrumb-title">
+                    <h2>My Account</h2>
+                </div>
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li><span> &gt; </span></li>
+                    <li class="active"> My Account </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+                <div class="my-account-area pt-100 pb-95">
+                    <div class="container">
+                        <div class="row flex-row-reverse">
+                            <div class="col-lg-12">
+                                <div class="myaccount-tab-menu nav" role="tablist">
+                                    <a href="/accountDetails"> Account Details</a>
+                                    <a href="/orders"> Orders</a>
+                                    <a href="/address"> Address</a>
+                                    <a href="/wallet" class="show active"> Wallet</a>
+                                    
+                                </div> 
+ 
+                                <div class="tab-content" id="myaccountContent">
+                                    <div class="tab-pane fade show active" role="tabpanel">
+                                        <div class="myaccount-content">
+                                            <% if(walletInfo){ %>
+                                                <div>
+                                                    <div class="row" style="border: solid; border-width: 0.5px; border-color: rgb(211, 211, 211); margin: 30px 0px 25px 0px; padding: 20px 0px 20px 0px; display: flex; justify-content: space-between; align-items: center;">
+                                                        <div class="col-lg-6 col-md-6 ">
+                                                            <h2>₹<%= walletInfo.balance %></h2>
+                                                            <p>Current Szucci wallet balance</p>
+                                                        </div>
+                                                        <div class="text-end col-lg-6 col-md-6">
+                                                            <button onclick="addMoney('<%= walletInfo._id%>')" class="btn btn-pink">+Add Money</button>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <style>
+                                                .btn-pink {
+                                                    background-color:#fc4f4f; 
+                                                    color: white;
+                                                    border: none;
+                                                    padding: 8px 16px;
+                                                    border-radius: 4px;
+                                                }
+                                                    
+                                                </style>
+                                              
+                                  
+                                            <% } else { %>
+                                                <p>ssssssssssssssss</p>
+                                            <% } %>
+                                            
+                                            <div class="myaccount-table table-responsive text-center">
+
+                                                <h3 class="text-start">Your Transaction details</h3>
+                                                <div>
+                                                    <% if(transInfo){ %>
+                                                        <table class="table table-bordered">
+                                                            <thead class="thead-light">
+                                                                <tr>
+                                                                    <th>Date</th>
+                                                                    <th>Type</th>
+                                                                    <th>Amount</th>
+                                                                    <th>Reason</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <% transInfo.forEach((trans)=>{ %>
+                                                                    <tr>
+                                                                        <td><%= trans.timestamp.toLocaleDateString() %></td>
+                                        
+                                                                        <td><%= trans.type %></td>
+                                                                        <% if(trans.type === "Delivered"){ %>
+                                                                        <td style="color:blue;"><%= trans.status %></td>
+                                                                        <% } %>
+                                                                        <% if(trans.type === "Shipped"){ %>
+                                                                        <td style="color: rgb(38, 161, 226);"><%= trans.status %></td>
+                                                                        <% } %>
+                                                                        <% if(trans.type === "Confirmed"){ %>
+                                                                        <td style="color:green;"><%= trans.status %></td>
+                                                                        <% } %>
+        
+                                                                        <td>$<%= trans.amount %></td>
+                                                                        <td><%= trans.description %></td>
+                                                                       
+                                                                    </tr>
+                                                                <% }) %>
+                                                            </tbody>
+                                                        </table>
+                                                    <% } else { %>
+                                                            <a href="/productCart"> <button> Go to Cart </button></a>
+                                                    <% } %>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                        
+                            </div>
+                            
+                                
+                         
+                          
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Hide the add-address-form initially
+        $('.add-address-form').hide();
+        
+        // Toggle the add-address-form visibility when the button is clicked
+        $('.add-address-toggle').click(function(e) {
+            e.preventDefault();
+            $('.add-address-form').toggle();
+        });
+    });
+
+
+    function addNewAddress(){
+        //  const otp = document.getElementById("otp").value;
+        const alertMessage = document.getElementById("alertMessage");
+
+        
+        $.ajax({
+
+            url:"/addAddress",
+            method:"post",
+            data:{otp},
+            success:(response)=>{
+                if(response.status == "success"){
+                    
+                    //res.redirect n pakaram                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                    window.location.href = "/userProfile"
+                }else{
+                    alertMessage.style.display = "block";
+                setTimeout(()=>{
+                    alertMessage.style.display = "none";
+                },3000)
+                }
+            }
+        }) 
+    };
+    
+//     function formatDate(date) {
+//     const orderDate = new Date(date);
+//     const month = orderDate.getMonth() + 1; // Month is zero-based, so add 1
+//     const day = orderDate.getDate();
+//     const year = orderDate.getFullYear();
+//     const formattedDate = `${month}/${day}/${year}`;
+//     return formattedDate;
+//  }
+
+    
+
+
+                                                        
+
+// const firstName = document.getElementById('firstName')
+// const phone = document.getElementById('phone')
+// const pincode = document.getElementById('pincode')
+// const locality = document.getElementById('locality')
+// const address = document.getElementById('address')
+// const city = document.getElementById('city')
+// const state = document.getElementById('state')
+// const landmark = document.getElementById('landmark')
+// const phone2 = document.getElementById('phone2')
+// const error0 = document.getElementById('error0')
+// const error1 = document.getElementById('error1')
+// const error2 = document.getElementById('error2')
+// const error3 = document.getElementById('error3')
+// const error4 = document.getElementById('error4')
+// const error5 = document.getElementById('error5')
+// const error6 = document.getElementById('error6')
+// const error7 = document.getElementById('error7')
+// const error8 = document.getElementById('error8')
+// const error9 = document.getElementById('error9')
+// const addForm = document.getElementById('addForm')
+
+
+// function nameValidateCheck(){
+//     const nameVal = firstName.value
+//     if(nameVal.trim()===""){
+//         error0.style.display = "block"
+//         error0.innerHTML="Please enter the name"
+//     }else{
+//         error0.style.display = "none"
+//         error0.innerHTML = ""
+//     }
+// }
+
+
+// function phonenumValCheck(){
+//     const mobileval = phone.value
+//     const regex = /^\d{10}$/;
+//     if(mobileval.trim()===""){
+//         error1.style.display = "block"
+//         error1.innerHTML = "Please enter the mobile number"
+//     }else if(mobileval.length < 10 || mobileval.length > 15){
+//         error1.style.display = "block"
+//         error1.innerHTML = "Number must be between 10 to 15 digits"
+//     }else if(!regex.test(mobileval)){
+//         error1.style.display = "block"
+//         error1.innerHTML = "invalid format"
+//     }else{
+//         error1.style.display="none"
+//         error1.innerHTML=""
+//     }
+// }
+
+
+
+// function phone2numValCheck(){
+//     const mobileval = phone.value
+//     const regex = /^\d{10}$/;
+//     if(mobileval.length < 10 || mobileval.length > 15){
+//         error8.style.display = "block"
+//         error8.innerHTML = "Number must be between 10 to 15 digits"
+//     }else if(!regex.test(mobileval)){
+//         error8.style.display = "block"
+//         error8.innerHTML = "invalid format"
+//     }else{
+//         error8.style.display="none"
+//         error8.innerHTML=""
+//     }
+// }
+
+
+// firstName.addEventListener("blur",nameValidateCheck)
+// phone.addEventListener("blur",phonenumValCheck)
+// phone2.addEventListener("blur",phonenumValCheck)
+
+// document.addEventListener("DOMContentLoaded", function(){
+
+//     signform.addEventListener("submit", function(e){
+//         nameValidateCheck()
+//         phonenumValCheck();
+//         phone2numValCheck();
+        
+//         console.log(firstNam, phone, pincode, locality,address,city,state,landmark,phone2, error0,error1,error2,error3,error4,error5,error6,error7,error8,error9,addForm);
+//         if(!firstNam || !phone || !pincode || !locality || !address || !city || !state || !landmark || !phone2 || !error0 || !error1 || !error2 || !error3 || !error4 || !error5 || !error6 || !error7 || !error8 || !error9 ||  !addForm){
+//             console.log("fill all boxes in there");
+//         }
+//         if (error0.innerHTML || error2.innerHTML || error1.innerHTML || error4.innerHTML || error5.innerHTML || error6.innerHTML || error7.innerHTML || error8.innerHTML || error9.innerHTML ) {
+//             e.preventDefault();
+//           }
+    
+//     });
+// });
+
+</script>
+
+        
+
+
+<%- include("../partials/footer.ejs") %>

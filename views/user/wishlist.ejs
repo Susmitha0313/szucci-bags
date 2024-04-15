@@ -1,0 +1,190 @@
+<%- include("../partials/header.ejs") %>
+
+
+<div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
+    <div class="container-fluid">
+        <div class="breadcrumb-content text-center">
+            <div class="breadcrumb-title">
+                <h2>Wishlist</h2>
+            </div>
+            <ul>
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                <li><span> &gt; </span></li>
+                <li class="/wishlit"> Wishlist </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="wishlist-main-area pt-100 pb-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <form action="#">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-content table-responsive wishlist-table-content">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th>Product</th>
+                                            <th>Stock  </th>
+                                            <th> Price</th>
+                                            <th class="wishlist-cart-none"><span>Add to cart</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% wishData.forEach((wishlistItem) => { %>
+                                            <% wishlistItem.products.forEach((product) => { %>
+                                                <tr id="removeProd<%=product.productId._id %>">
+                                                    <input type="hidden" id="proId" name="user_id" value="<%= product.productId._id %>"> 
+                                                    <td class="wishlist-remove">
+                                                        <a onclick="deleteCartItem('<%=product.productId._id %>')"><i class="dlicon ui-1_simple-remove"></i></a>
+                                                    </td>
+                                                    <td class="wishlist-img">
+                                                        <a href="#"><img src="assets/adminAssets/imgUploads/<%= product.productId.productImage[1] %>" alt="image" style="height: 100px;"></a>
+                                                    </td>
+                                                    <td class="wishlist-name">
+                                                        <a href="#"><%= product.productId.productName %></a>
+                                                    </td>
+                                                    <td class="wishlist-stock">
+                                                        <% if(product.productId.quantity == 0){ %>
+                                                        <span style="color: rgb(175, 175, 175);">Out of Stock</span>
+                                                        <% } else { %>
+                                                        <span>In Stock</span>
+                                                        <% } %>
+                                                    </td>
+                                                    <td class="wishlist-price"><span class="amount">₹ <%= product.productId.salePrice %></span></td>
+                                                    <td class="wishlist-cart">
+                                                        <a title="Add to cart" id="addToCartButton"  onclick="addToCart()">Add to cart</a>
+                                                    </td>
+                                                </tr>
+                                            <% }) %>
+                                        <% }) %>
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+
+function addToCart() {
+    console.log("addToCart Ajax is working")
+    const prodQuantity =1;
+    const productId = document.getElementById("proId").value
+    //AJAX request
+    $.ajax({
+        url: "/addToCart",
+        method: "post",
+        data: {
+            prodQuantity,
+            productId,
+        },
+        success: (response) => {
+            if (response.status === "success") {
+                Swal.fire({
+                    icon: "success",
+                    title: "Product added to cart",
+                    showConfirmButton: false,
+                    timer: 2000,
+                })
+                .then((result) => {
+                //     document.getElementById("addToCartButton").innerText = "View Cart ";
+                    window.location.href = "/productCart";
+                });
+            } else if (response.status === "alreadyInCart") {
+                Swal.fire({
+                    icon: "info",
+                    title: "Product already in cart",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+            }
+        }
+
+    })
+}
+
+
+
+
+
+function deleteCartItem(productId){
+    console.log("hiiiiiiiiii")
+    //confirmation before deleting
+  
+    // const ttl = document.getElementById("total").innerHTML;
+    // alert(ttl)
+    // const prc = document.getElementById("price" + index).innerHTML;
+    // alert(prc)
+
+    Swal.fire({
+        title: "Are you sure?",
+        text:"You are about to remove this item froim your cart!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor:  '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, remove it!'
+    }).then((result)=>{
+        if(result.isConfirmed){
+            $.ajax({
+                url: `/deleteCartItem?id=${productId}`,
+                method: "post",
+                success:(async(response)=>{
+                    if(response.status === true){
+                        console.log(response)
+                        console.log(response.cartUpdate.totalPrice)
+                        window.location.reload()
+                        document.getElementById("cartSub").innerHTML = response.cartUpdate.totalPrice;
+                        Swal.fire({
+                            icon: "success",
+                            title: "Product removed from cart",
+                            showConfirmButton: false,
+                            timer: 2000
+                        }).then((result)=>{
+                        document.getElementById("removeProd"+ productId).remove();
+                        });
+                    }else{Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Failed to remove product from cart",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    }
+                }),
+                error: (xhr, status, error) => {
+                    console.error("Error:", error);
+                    // Show error alert
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to remove product from cart",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            });
+        }
+    })
+ }
+</script>
+
+
+<%- include("../partials/footer.ejs") %>
+      
+

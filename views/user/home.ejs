@@ -3,7 +3,7 @@
 
     
 
-        <div class="product-slider-area bg-gray-2 " >
+      <div class="product-slider-area bg-gray-2 " >
             <div class="product-slider-active-5" >
                 <div class="single-product-slider text-center">
                     <a href="product-details"><img src="assets/userAssets/images/product/pro-slider-4.png" alt="product"></a>
@@ -107,71 +107,46 @@
         </div>       
         <div class="banner-area section-padding-1 padding-70-row-col pt-100">
             <div class="container-fluid">
+               
                 <div class="row">
+                    <% for(let i=0; i< couponData.length ; i++){ %>
                     <div class="col-lg-4">
                         <div class="banner-wrap default-overlay-2 banner-zoom mb-30">
                             <div class="banner-img">
                                 <a href="product-details"><img src="assets/userAssets/images/banner/banner-16.jpg" alt="banner"></a>
                             </div>
                             <div class="banner-content-9 banner-position-8 text-center">
-                                <h3>Suede monk-strap shoes</h3>
-                                <h2>Sale 30%</h2>
-                                <span class="banner-badge">
-                                only 
-                                <strong>39.99$</strong>
-                            </span>
+                                <h3>Use <%= couponData[i].couponName %> in this festival season</h3>
+                                <h2>Sale <%= couponData[i].discountPercentage  %>%</h2>
+                                <!-- Updated code for coupon code -->
+                                <div class="banner-content-9 banner-position-8 text-center">
+                                    <div class="coupon-code-container"  style="color: white; background-color: rgba(255, 255, 255, 0.313); height: 50px; ">
+                                        <span id="couponCode"><%= couponData[i].coupencode %></span>
+                                        <button style="border: 0px solid ; background-color: rgba(255, 255, 255, 0.782);" onclick="copyCouponCode()">Copy</button>
+                                    </div>
+                                </div>
                             </div>
                             <div class="btn-style-2 btn-style-2-position mt-25">
-                                <a class="btn-2-border-black btn-2-bg-color" href="product-details">
-                                    Shop now
-                                </a>
+                                <a class="btn-2-border-black btn-2-bg-color" href="/allProducts">Shop now</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="banner-wrap default-overlay-2 banner-zoom mb-30">
-                            <div class="banner-img">
-                                <a href="product-details"><img src="assets/userAssets/images/banner/banner-17.jpg" alt="banner"></a>
-                            </div>
-                            <div class="banner-content-9 banner-position-8 text-center">
-                                <h3>Suede monk-strap shoes</h3>
-                                <h2>Sale 50%</h2>
-                                <span class="banner-badge">
-                                only 
-                                <strong>39.99$</strong>
-                            </span>
-                            </div>
-                            <div class="btn-style-2 btn-style-2-position mt-25">
-                                <a class="btn-2-border-black btn-2-bg-color" href="product-details">
-                                    Shop now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="banner-wrap default-overlay-2 banner-zoom mb-30">
-                            <div class="banner-img">
-                                <a href="product-details"><img src="assets/userAssets/images/banner/banner-18.jpg" alt="banner"></a>
-                            </div>
-                            <div class="banner-content-9 banner-position-9">
-                                <h3>Heel sock boots</h3>
-                                <h2>Sale 50%</h2>
-                                <span class="banner-badge-2">
-                                only 
-                                <strong>39.99$</strong>
-                            </span>
-                            </div>
-                            <div class="btn-style-2 btn-style-2-position mt-25">
-                                <a class="btn-2-border-black btn-2-bg-color" href="product-details">
-                                    Shop now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    <% } %>
                 </div>
             </div>
         </div>        
-
+        <script>
+            function copyCouponCode() {
+                const couponCode = document.getElementById("couponCode");
+                const tempInput = document.createElement("input");
+                tempInput.value = couponCode.innerText;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+                alert("Coupon code copied!");
+            }
+        </script>
 
 
         <div class="subscribe-area pt-100 pb-100">

@@ -28,7 +28,11 @@
                     <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
-                   
+                </li>
+                <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Coupon</span>
+                    </a>
                 </li>
 
                 <li class="menu-item ">
@@ -98,13 +102,11 @@
      
         <section class="content-main">
             <div class="content-header">
-                <!-- <div>
-                    <h2 class="content-title card-title">Order List </h2>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                </div>
                 <div>
-                    <input type="text" placeholder="Search order ID" class="form-control bg-white">
-                </div> -->
+                    <h2 class="content-title card-title">Order List </h2>
+                    
+                    <!-- <input type="text" id="searchInput" placeholder="Search order ID" class="form-control "> -->
+                </div>
             </div>
             <div class="card mb-4">
                 <!-- <header class="card-header">
@@ -131,7 +133,7 @@
                 </header> card-header end// -->
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table id="orderTable" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th>OrderId</th>
@@ -144,13 +146,31 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <% orderData.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)); %>
+                            
                                 <% orderData.forEach((order)=>{ %>
                                 <tr>
                                     <td><%= order.orderNumber %></td>
                                     <td><b><%= order.shippingAddress.name %></b></td>
                                     <td><%= order.userEmail %></td>
                                     <td>₹<%= order.totalAmount %></td>
-                                    <td><span class="badge rounded-pill alert-warning"><%= order.status %></span></td>
+                                    <% if(order.status === "Cancelled") {%>
+                                    <td><span class="badge rounded-pill bg-danger"><%= order.status %></span></td>
+                                    <% } else if(order.status === "Confirmed"){ %>
+                                    <td><span class="badge rounded-pill bg-success"><%= order.status %></span></td>
+                                    <% } else if(order.status === "Shipped"){ %>
+                                    <td><span class="badge rounded-pill bg-info text-dark"><%= order.status %></span></td>
+                                    <% } else if(order.status === "Delivered"){ %>
+                                    <td><span class="badge rounded-pill bg-primary"><%= order.status %></span></td>
+                                    <% } else if(order.status === "Processing"){ %>
+                                    <td><span class="badge rounded-pill bg-secondary"><%= order.status %></span></td>
+                                    <% } else if(order.status === "Returned"){ %>
+                                    <td><span class="badge rounded-pill bg-dark"><%= order.status %></span></td>
+                                    <% } else if(order.status === "RequestProcessing"){ %>
+                                    <td><span class="badge rounded-pill text-danger bg-secondary"><%= order.status %></span></td>
+
+                                    <% } %>  
+                                    
                                     <td><%= order.orderDate.toLocaleDateString()  %></td>
                                     <td class="text-end">
                                         <a href="/admin/orderEdit/?id=<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a>
@@ -186,4 +206,28 @@
                 </nav>
             </div> -->
         </section> <!-- content-main end// -->
+
+
+
+        <!-- <script>
+   document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById('searchInput');
+    const orderTable = document.getElementById('orderTable');
+    const rows = orderTable.getElementsByTagName('tr');
+    console.log(searchInput,orderTable,rows);
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        for (let i = 0; i < rows.length; i++) {
+            const orderNumber = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+            if (orderNumber.includes(searchTerm)) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    });
+});
+
+        </script> -->
         <%- include("../partials/adminFooter.ejs") %>

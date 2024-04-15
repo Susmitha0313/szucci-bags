@@ -22,6 +22,7 @@
                                     <a href="/accountDetails"> Account Details</a>
                                     <a href="/orders" class="show active"> Orders</a>
                                     <a href="/address"> Address</a>
+                                    <a href="/wallet"> Wallet</a>
                                     
                                 </div> 
  
@@ -45,7 +46,28 @@
                                                             <tr>
                                                                 <td><%= order.orderNumber %></td>
                                                                 <td><%= order.orderDate.toLocaleDateString() %></td>
-                                                                <td><%= order.status %></td>
+                                                                <% if(order.status === "Cancelled"){ %>
+                                                                <td style="color: red;"><%= order.status %></td>
+                                                                <% } %>
+                                                                <% if(order.status === "Delivered"){ %>
+                                                                <td style="color:blue;"><%= order.status %></td>
+                                                                <% } %>
+                                                                <% if(order.status === "Processing"){ %>
+                                                                <td style="color:grey;"><%= order.status %></td>
+                                                                <% } %>
+                                                                <% if(order.status === "Shipped"){ %>
+                                                                <td style="color: rgb(38, 161, 226);"><%= order.status %></td>
+                                                                <% } %>
+                                                                <% if(order.status === "Confirmed"){ %>
+                                                                <td style="color:green;"><%= order.status %></td>
+                                                                <% } %>
+                                                                <% if(order.status === "Returned"){ %>
+                                                                <td style="color:rgb(83, 83, 83);"><%= order.status %></td>
+                                                                <% } %>
+                                                                <% if(order.status === "RequestProcessing"){ %>
+                                                                <td style="color:rgb(177, 0, 0);"><%= order.status %></td>
+                                                                <% } %>
+
                                                                 <td>$<%= order.totalAmount %></td>
                                                                 <td><a href="/viewOrder?id=<%= order._id %>" class="check-btn sqr-btn ">View</a></td>
                                                             </tr>

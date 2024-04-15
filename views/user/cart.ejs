@@ -18,12 +18,12 @@
     </div>
 </div>
 <div class="cart-main-area pt-90 pb-100">
-    <div class="container">
+    <div class="container" style="height: 300px;">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="row">
                         <div class="col-lg-9">
-                            <div class="table-content table-responsive cart-table-content">
+                            <div class="table-content table-responsive cart-table-content" >
                                 <table>
                                     <% if(cartData){ %>
                                     <thead>
@@ -68,7 +68,13 @@
                                                     <td class="product-total" style="padding-left: 12px; width:100px" name="subTotal" >₹<span id="subtotal<%=i%>"> <%= cartData.items[i].subTotal %></span></td>
                                                 </tr>
                                                 <% } %>
-                                            <% } %>
+                                            <% } else { %>
+                                                <tr>
+                                                    <td style="font-size: medium; font-weight: bold; border: solid; border-width: 2px; padding: 12px;"><a  href="/allProducts" >Add products to cart
+                                                    </a></td>
+                                                    
+                                                </tr>
+                                                <% } %>
                                         <% } else { %>
                                             <tr>
                                                 <td style="font-size: medium; font-weight: bold; border: solid; border-width: 2px; padding: 12px;"><a  href="/allProducts" >Add products to cart
@@ -79,20 +85,17 @@
                                     </tbody>
                                 </table>   
                             </div>
+                            
                              <% if(cartData){ %>
                             <div class="cart-shiping-update-wrapper">
-                                <div class="discount-code">
-                                    <input type="text" required="" name="name" placeholder="Coupon code">
-                                    <button class="coupon-btn" type="submit">Apply coupon</button>
-                                </div>
-                                <div class="cart-clear">
-                                    <a href="#">Clear Cart</a>
-                                </div>
-                            </div>
+                                <form action="/clearCartItems?cartId=<%= cartData._id %>" method="post" class="cart-clear">
+                                    <button style="border: none; font-weight: bold;">Clear Cart</button>
+                                </form>
+                            </div>  
                             <% } %>
                         </div>
                         <div class="col-lg-3">
-                            <% if(prodData && cartData){ %>
+                            <% if(prodData.length > 0) {%>
                             <div class="grand-total-wrap">
                                 <h4>Cart totals</h4>
                                
@@ -118,11 +121,15 @@
 </div>
 
 
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
+
+
+
+
 
 function increment(prodId, quantity, index, price, subtotal) {
     // alert(prodId)
@@ -223,8 +230,14 @@ function decrement(prodId, quantity, index, price, subtotal) {
 
 
 
- function deleteCartItem(productId,cartSub,total, index){
+ function deleteCartItem(productId){
+    console.log("hiiiiiiiiii")
     //confirmation before deleting
+  
+    // const ttl = document.getElementById("total").innerHTML;
+    // alert(ttl)
+    // const prc = document.getElementById("price" + index).innerHTML;
+    // alert(prc)
 
     Swal.fire({
         title: "Are you sure?",
@@ -239,9 +252,12 @@ function decrement(prodId, quantity, index, price, subtotal) {
             $.ajax({
                 url: `/deleteCartItem?id=${productId}`,
                 method: "post",
-                
-                success:(response)=>{
+                success:(async(response)=>{
                     if(response.status === true){
+                        console.log(response)
+                        console.log(response.cartUpdate.totalPrice)
+                        window.location.reload()
+                        document.getElementById("cartSub").innerHTML = response.cartUpdate.totalPrice;
                         Swal.fire({
                             icon: "success",
                             title: "Product removed from cart",
@@ -249,10 +265,8 @@ function decrement(prodId, quantity, index, price, subtotal) {
                             timer: 2000
                         }).then((result)=>{
                         document.getElementById("removeProd"+ productId).remove();
-                        
                         });
-                    }else{
-                        Swal.fire({
+                    }else{Swal.fire({
                             icon: "error",
                             title: "Error",
                             text: "Failed to remove product from cart",
@@ -260,7 +274,7 @@ function decrement(prodId, quantity, index, price, subtotal) {
                             timer: 2000
                         });
                     }
-                },
+                }),
                 error: (xhr, status, error) => {
                     console.error("Error:", error);
                     // Show error alert
@@ -277,7 +291,47 @@ function decrement(prodId, quantity, index, price, subtotal) {
     })
  }
    
-
+ function clearCart(cartId){
+    console.log(cartId)
+    Swal.fire({
+        title: "Clear Cart",
+        text: "Are You Sure To Clear All Items In Cart",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor:  '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Clear'
+    }).then((result)=> {
+        if(result.isConfirmed){
+            $.ajax({
+                url: `/clearCartItems?cartId=${cartId}`,
+                method: "POST",
+                success:(async(response)=>{
+                    if(response.status === true){
+                        window.location.reload();
+                        Swal.fire({
+                            icon: "success",
+                            title:"Cart Cleared",
+                            showConfirmButton: false,
+                            timer: 2000,
+                        })
+                    }
+                }),
+                error: (xhr, status, error) => {
+                    console.error("Error:", error);
+                    // Show error alert
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "Failed to clear cart",
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            })
+        }
+    })
+}
 
 
 

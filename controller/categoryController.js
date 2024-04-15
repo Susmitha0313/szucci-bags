@@ -43,7 +43,7 @@ const getCategory = async(req,res)=>{
 
 const createCategory = async(req,res)=>{
   try{
-    const catName = req.body.name;
+    const catName = req.body.name.toLowerCase();
     const catDesc = req.body.description;
     const catdupe = await Category.findOne({name : catName});
     const catData = await Category.find({});
@@ -83,33 +83,28 @@ const getCatEdit = async(req,res)=>{
   }
 }
                                                                        
-
-
-
 const categoryEdit = async (req, res) => {
   console.log("update Cat post working ")
   try { 
-    const catName = req.body.categName;
-    const catDesc = req.body.description;
-    const catId = req.body.categoryId;
-    const existingCategory = await Category.findById(catId); 
-    console.log(catName, catDesc, catId, existingCategory)
-    const allCategories = await Category.find({});
-    console.log("Exist cat......" + existingCategory);
-
-    if (!existingCategory) {
+    const { categName, description, categoryId } = req.body;
+    const category = await Category.findById(categoryId);
+    if (!category) {
       return res.status(404).send("Category not found");
     }
-    if (catName !== existingCategory.name) {
-      const categoryWithName = await Category.findOne({ name: catName });
-      if (categoryWithName) {
-        return res.render("productCategEdit", { errMsg: "Category name already exists", category: allCategories });
-      }
+
+    const existingCategory = await Category.findOne({ name: categName.toLowerCase(), _id: { $ne: categoryId } });
+    console.log(categName, description, categoryId, existingCategory);
+    const allCategories = await Category.find({});
+    console.log("Exist cat......", existingCategory);
+
+    if (existingCategory) {
+      return res.render("productCategEdit", { errMessage: "Category Already exists", category });
+    } else {
+      category.name = categName;
+      category.description = description;
+      await category.save();
+      res.redirect("/admin/category");
     }
-    existingCategory.name = catName;
-    existingCategory.description = catDesc;
-    await existingCategory.save();
-    res.redirect("/admin/category");
   } catch (error) {
     console.error(`Error in updateCategory: ${error.message}`);
     return res.status(500).json({ status: 'error', message: 'Internal server error' });
@@ -121,13 +116,14 @@ const categoryEdit = async (req, res) => {
 
 
 
+
 const categoryBlock = async (req, res) => {
   try {
       console.log("CatBlock");
       const nameCat = req.query.categoryName; // Corrected query parameter name
-      const categoryName = await Category.findOne({ name: nameCat });
+      const categ = await Category.findOne({ name: nameCat });
 
-      if (categoryName.isBlocked === true) {
+      if (categ.isBlocked === true) {
           const blocked = await Category.findOneAndUpdate({ name: nameCat }, { $set: { isBlocked: false } });
       } else {
           const unblocked = await Category.findOneAndUpdate({ name: nameCat }, { $set: { isBlocked: true } });
@@ -145,29 +141,16 @@ const categoryBlock = async (req, res) => {
 const deleteCategory = async (req, res) => {
   try {
     const categoryName = req.query.categoryName;
-    
-    // Assuming Category is the Mongoose model for categories
     const deletedCategory = await Category.findOneAndDelete({ name: categoryName });
 
     if (!deletedCategory) {
-      // Handle case where the category does not exist
       console.log(`Category "${categoryName}" not found.`);
-      // Redirect or render an error page
-      // Example: res.redirect("/error");
       return;
     }
-
-    // After deletion, you may want to update related data or perform other actions.
-
-    // Fetch the updated category list after deletion
     const categoryList = await Category.find({});
-
-    // Render the page with the updated category list
     res.render("productCategory", { category: categoryList });
   } catch (error) {
     console.error("Error deleting category:", error);
-    // Render an error page or redirect to an error page
-    // Example: res.redirect("/error");
   }
 };
 

@@ -28,7 +28,16 @@
                     <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
-                   
+                </li>
+                <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Coupon</span>
+                    </a>
+                </li>
+                <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Coupon</span>
+                    </a>
                 </li>
 
                 <li class="menu-item ">
@@ -112,12 +121,12 @@
                             </span> <br>
                             <small class="text-muted">Order ID: <%=element.orderNumber  %></small>
                         </div>
-                        
                         <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                        <% if(element.status !== "Cancelled" && element.status!== "Delivered" && element.status!== "RequestProcessing" && element.status!== "Returned"){ %>
                             <form id="statusForm" action="/admin/changeOrderStatus?id=<%= element._id  %>" method="post">
                                 <select id="statusoption" name="statusname" class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
                                     <option value ="Processing">Processing</option>
-                                    <option value="Cancelled">Canceled</option>
+                                    <option value="Cancelled">Cancelled</option>
                                     <option value="Confirmed">Confirmed</option>
                                     <option value="Shipped">Shipped</option>
                                     <option value="Delivered">Delivered</option>
@@ -125,8 +134,16 @@
                                 <button class="btn btn-primary" type="submit">Save</button>
                                 <!-- <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a> -->
                             </form>
-                        </div>
-                    
+                        <% } else if(element.status === "Cancelled") { %>
+                            <h4 style="color: red;">Order Cancelled</h4>
+                        <% } else if(element.status === "Delivered") { %>
+                            <h4 style="color: rgb(0, 89, 255);">Order Delivered</h4>
+                        <% } else if(element.status === "RequestProcessing") { %>
+                            <h4 style="color: rgb(238, 255, 0);">Order requesting for return</h4>
+                        <% } else if(element.status === "Returned") { %>
+                            <h4 style="color: rgb(163, 163, 163);">Order Returned</h4>
+                        <% } %>
+                    </div>
                     </div>
                 </header> <!-- card-header end// -->
                 <div class="card-body">
@@ -226,8 +243,13 @@
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt class="text-muted">Status:</dt>
+                                                        
                                                         <dd>
+                                                            <% if(element.orderType !== "COD"){ %>
                                                             <span class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                            <% }else{ %>
+                                                            <span class="badge rounded-pill alert-warning text-warning">Payment pending</span>
+                                                            <% } %>
                                                         </dd>
                                                     </dl>
                                                 </article>
@@ -250,17 +272,56 @@
                                     <%= element.orderType%>
                                 </p>
                             </div>
-                            <!-- <div class="h-25 pt-4">
+                            <% if(element.status === 'RequestProcessing'){ %>
+                            <div class="h-25 pt-4">
                                 <div class="mb-3">
-                                    <label>Notes</label>
-                                    <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
+                                    <label>Reason for returning</label>
+                                    <textarea class="form-control" name="notes" id="notes" readonly>The Product is <%= element.returningReason%></textarea>
                                 </div>
-                                <button class="btn btn-primary">Save note</button>
-                            </div> -->
-                        </div> <!-- col// -->
+                                <div class="row">
+                                    <button onclick="AcceptorReject('<%=element._id%>','accept')" style=" padding: 5px 8px; margin: 5px 10px;" class="btn btn-primary col-lg-3 col-md-4 col-sm-6">Accept</button>
+                                    <button onclick="AcceptorReject('<%=element._id%>','reject')" style="padding: 5px 8px; margin: 5px 10px;" class="btn btn-secondary col-lg-3 col-md-4 col-sm-6">Reject</button>
+                                </div>
+                            </div>
+                            <% } else if(element.status === "Returned") { %>
+                               <p style="margin: 20px;" class="badge rounded-pill alert-success text-success"> Product Returned</p>
+                            <% } %>
+
+                        </div> 
                     </div>
-                </div> <!-- card-body end// -->
-            </div> <!-- card end// -->
+                </div> 
+            </div> 
             <%}) %>
-        </section> <!-- content-main end// -->
+        </section> 
+
+
+        <script>
+function AcceptorReject(orderId, response) {
+    $.ajax({
+        url: "/admin/acceptorReject",
+        method: "POST",
+        data:{
+            orderId: orderId,
+            response: response,
+        },
+        success: async (response) => {
+            if (response.status === true) {
+                console.log(response);
+                alert(response.message); // Display success message from server
+                window.location.reload();
+            } else {
+                console.error("Error processing request");
+                alert(response.message); // Display error message from server
+            }
+        },
+        error: (xhr, status, error) => {
+            console.error("Error:", error);
+            alert("Error processing request"); // Display generic error message
+        }
+    });
+}
+
+
+       
+        </script>
         <%- include("../partials/adminFooter.ejs") %>

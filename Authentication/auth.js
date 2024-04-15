@@ -44,6 +44,9 @@ const adminNotLog = (req,res,next)=>{
 }
 
 
+const isBlocked = (req,res,next)=>{
+    
+}
 
 
 module.exports = {

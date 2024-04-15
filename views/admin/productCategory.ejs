@@ -31,6 +31,11 @@
                     </a>
                    
                 </li>
+                <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Coupon</span>
+                    </a>
+                </li>
 
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
@@ -151,9 +156,10 @@
                                     
                                     <th>Name</th>
                                     <th>Description</th>
+                                    <th>Status</th>
                                     <th>Edit </th>
                                     <th>Block/Unblock</th>
-                                    <th>Delete</th>
+                                    <!-- <th>Delete</th> -->
                                 </tr>
                             </thead>    
 
@@ -162,10 +168,19 @@
                                 <tr>
                                     <td><b><%= cat.name %></b></td>
                                     <td><%= cat.description %></td>
+
+                                        <% if (cat.isBlocked === true) { %>
+                                        <td><span class="badge rounded-pill bg-secondary">Blocked</span></td>
+                                        <% } else { %>
+                                        <td><span class="badge rounded-pill bg-primary">Active</span></td>
+                                        <% } %>
+                                        
                                     <td><a href="/admin/categoryEdit/<%= cat._id %>">
                                         <button class="toggleBtn btn btn-sm font-sm rounded" style="background-color: rgb(49, 103, 100);">Edit</button>
                                     </a>
-                                    </td>
+                                    </td>  
+                                    
+                                   
                                     <td>
                                         <% if (cat.isBlocked === true) { %>
                                             <a href="/admin/categoryBlock?categoryName=<%= cat.name %>">
@@ -177,9 +192,11 @@
                                             </a>
                                         <% } %>
                                     </td>
-                                    <td>
+                                  
+                                    
+                                    <!-- <td>
                                         <button class="toggleBtn btn btn-sm font-sm btn-brand rounded" onclick="confirmDelete('<%= cat.name %>')">Delete</button>
-                                    </td>
+                                    </td> -->
                                             
                                     
                                 </tr>

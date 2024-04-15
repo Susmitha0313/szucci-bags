@@ -5,7 +5,10 @@ const Category = require("../models/categorySchema");
 const Address = require("../models/addressSchema.js");
 const Order = require("../models/orderSchema.js");
 const Cart = require("../models/cartSchema.js");
-const otpController = require("../Config/Otp/otpController");
+const Coupon = require("../models/couponSchema.js");
+const Wishlist = require("../models/wishlistSchema.js");
+const {Wallet , Transaction} = require("../models/walletSchema.js")
+const otpController = require("../Config/Otp/otpController.js");
 const sentMail = require("../Config/nodemailer/sentMail.js");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
@@ -15,7 +18,7 @@ env.config();
 
 
 const pageNotFound = async (req, res) => {
-   res.render("user/page-404")
+   res.render("user/page-404")   
 };
 
 
@@ -73,7 +76,8 @@ const getHomePage= async(req,res)=>{
     try{
         const userId = req.session.userId;
         const proData = await Product.find({isBlocked : false});
-        res.render("user/home",{proData,userId})
+        const couponData = await Coupon.find({isBlocked : false});
+        res.render("user/home",{proData, couponData, userId})
     }catch(error){
         console.log(error.message);
     }
@@ -89,7 +93,7 @@ const getOtpPage = async(req,res)=>{
         console.log(error.message);
     }
 };
-
+   
 
 
 
@@ -97,30 +101,18 @@ const getOtpPage = async(req,res)=>{
 
 const signupUser = async(req,res)=>{
     try{
-        const email = req.body.email;
+        const {name , email, phone, password} = req.body;
         const findUser = await User.findOne({email});
         const userId = req.session.userId;
 
             if(!findUser){
-                let otp = otpController.generateOtp();
-                const otpDuration = 5 * 60 * 1000;
+                const otp = otpController.generateOtp();
                 sentMail(email, otp);
-                const otpData = {otp, expiryTime:Date.now() + otpDuration};
-                otpController.otpExpiryTimer(otpData, otpDuration);
-                const newUser={
-                    name:req.body.name,
-                    email:req.body.email,
-                    phone:req.body.phone,
-                    password:req.body.password,
-                    otp
-                }
-                console.log(newUser);
-                req.session.data = req.session.data || {};
-                Object.assign(req.session.data, newUser);
-                req.session.save();
-
-                res.render("user/verify-otp",{userId});
+                otpController.otpExpiryTimer(req , otp);
                 
+                req.session.data={name,email,phone,password,otp};
+                req.session.save();
+                return res.render("user/verify-otp",{userId});
             }else{
                 console.log("User already Exists");
                 return res.render("user/signup",{
@@ -132,7 +124,23 @@ const signupUser = async(req,res)=>{
         return res.status(500).json({ error: error.message });
     }
 };
-
+  
+const resendOtp = async(req,res)=>{
+    try{
+        const {email, otp} = req.session.data;
+        console.log("1  "+ otp);
+        const newOtp = otpController.generateOtp();
+        console.log("newOtp" + newOtp);
+        req.session.data.otp = newOtp;
+        req.session.save();
+        otpController.otpExpiryTimer(req , newOtp);
+        sentMail(email, newOtp);
+        console.log("2  "+newOtp);
+    }catch(error){
+        console.error("Error in resending OTP:", error);
+        return res.status(500).json({ error: error.message });// this too
+    }
+}
 
 
 
@@ -172,9 +180,7 @@ const verifyOtp = async(req,res)=>{
 };
 
 
-
 const saveAccDetails = async(req,res)=>{
-    console.log("sdfgsdgsdf")
     try{
         const {name , phone, email} = req.body;
         console.log(name, phone, email);
@@ -214,7 +220,7 @@ const savepswdChange = async (req, res) => {
         } else {
             console.log("pswd match an")
             userData.password = passHashed;
-            await userData.save();
+            // await userData.save();
             return res.status(200).json({ status: "success", message: "Password updated successfully" });
         }
     } catch (error) {
@@ -222,9 +228,6 @@ const savepswdChange = async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 };
-
-
-
 
 //Generate Hashed Password
 const securePassword = async (password) => {
@@ -238,19 +241,26 @@ const securePassword = async (password) => {
 
 
 
-  const resendOtp = async(req,res)=>{
-    try{
-       const email = req.session.data.email;
-       console.log(email);
-        const newOtp = otpController.generateOtp();
-        await sentMail(email, otp);
-        req.session.data.otp = newOtp;
-        res.render("user/verify-otp")
-    }catch(error){
-        console.log("Error in resending OTP ");
-    }
-  }
+
+//   const resendOtp = async(req,res)=>{
+//     try{
+//        const email = req.session.data.email;
+//        console.log(email);
+//         const newOtp = otpController.generateOtp();
+
+//         const otpData = {newOtp, expiryTime:Date.now() };
+//         otpController.otpExpiryTimer(otpData);
+//         console.log(newOtp);
+//         await sentMail(email, newOtp);
+//         req.session.data.otp = newOtp;
+//         res.render("user/verify-otp")
+//     }catch(error){
+//         console.error("Error in resending OTP:", error);
+
+//     }
+//   }
   
+
 
 
 
@@ -262,12 +272,15 @@ const userLogin = async (req, res) => {
         const user = await User.findOne({email});
 
         if (!user) {
-            return res.render("user/login",{ message: "User not found",userId });
+            return res.render("user/login",{ errmessage: "User not found",userId });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.render("user/login", { message: 'Invalid password' ,userId});
+            return res.render("user/login", { errmessage: 'Invalid password' ,userId});
+        }
+        if(user.isBlocked == true){
+            return res.render("user/login", { errmessage: 'Sorry, this user is blocked' ,userId});
         }     
         req.session.email = email;
         req.session.userId = user._id;
@@ -344,7 +357,6 @@ const getuserOrderDetails = async(req, res) => {
         console.log("order loading")
         const userId = req.session.userId;
         const orderInfo = await Order.find({userId : userId});
-        console.log(orderInfo+ "Order Infoooooo")
         const cartData = await Cart.findOne({userId : userId});
         res.render("user/userOrders", {orderInfo , cartData,  userId});
     } catch(error) {
@@ -365,6 +377,27 @@ const getuserAddAddress = async(req, res) => {
         console.log(error.message);
     }  
 }
+   
+
+
+const getuserWallet = async(req, res) => {
+    try {
+        const userId = req.session.userId;
+        console.log(userId);
+        // const userInfo = await User.findById(userId);
+        const orderInfo = await Order.find({userId : userId});
+        console.log(orderInfo)
+        const walletInfo = await Wallet.findOne({userId: userId});
+        const walletId = walletInfo._id;
+        console.log(walletId);
+        const transInfo = await Transaction.find({walletId: walletId});
+        console.log(walletInfo, transInfo);
+        res.render("user/userWallet", {orderInfo,transInfo,walletInfo,userId});
+    } catch(error) {
+        console.log(error.message);
+    }  
+}
+
 
 
 const getusereditAddress = async(req,res)=>{
@@ -489,10 +522,9 @@ const sentOtp = async (req, res)=>{
         const findUser = await User.findOne({email : email});
         if(findUser){
             let otp = otpController.generateOtp();
-            const otpDuration = 5 * 60 * 1000;
             sentMail(email, otp);
-            const otpData = {otp, expiryTime:Date.now() + otpDuration};
-            otpController.otpExpiryTimer(otpData, otpDuration);
+            const otpData = {otp, expiryTime:Date.now()};
+            otpController.otpExpiryTimer(otpData);
             const data ={
                 email,
                 password,
@@ -520,7 +552,7 @@ const resendOtpPswd = async(req,res)=>{
        const email = req.session.email;
        console.log(email);
         const newOtp = otpController.generateOtp();
-        await sentMail(email, otp);
+        await sentMail(email, newOtp);
         req.session.data.otp = newOtp;
         res.render("user/verify-otp")
     }catch(error){
@@ -556,6 +588,53 @@ const verifyForgPswdOtp = async (req, res) => {
 };
 
 
+const getWishlist = async(req,res)=>{
+    try{
+        const userId = req.session.userId;
+        const wishData = await Wishlist.find({userId : userId}).populate("products.productId");
+        console.log(wishData);
+        res.render("user/wishlist",{userId, wishData});
+    }catch(error){
+        console.log(error.message);  
+    }
+}
+
+
+    
+const addToWishlist = async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        const { productId } = req.body;
+
+        const proData = await Product.findById(productId);
+        if (!proData) {
+            return res.json({ status: "error", message: "Product not found" });
+        }
+
+        let wishData = await Wishlist.findOne({ userId: userId });
+        if (!wishData) {
+            const newWish = new Wishlist({
+                userId: userId,
+                products: [{ productId: productId }],
+            });
+            wishData = await newWish.save();
+            return res.json({ status: "success", message: "Product added to wishlist successfully", wishData });
+        }
+
+        const proInWish = wishData.products.find(item => item.productId.toString() === productId);
+        if (proInWish) {
+            return res.json({ status: "alreadyAdded", message: "Product is already in the wishlist" });
+        }
+
+        wishData.products.push({ productId: productId });
+        await wishData.save();
+        res.json({ status: "success", message: "Product added to wishlist successfully", wishData });
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ status: "error", message: "Internal server error" });
+    }
+};
+
 
 module.exports = {
     pageNotFound,
@@ -571,6 +650,7 @@ module.exports = {
    
     getuserAddAddress,
     getuserOrderDetails,
+    getuserWallet,
     getusereditAddress,
     editAddress,
     deleteAddress,
@@ -593,6 +673,8 @@ module.exports = {
     resendOtpPswd,
     verifyForgPswdOtp,
     
+    getWishlist,
+    addToWishlist,
 
 
 

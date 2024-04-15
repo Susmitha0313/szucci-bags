@@ -1,157 +1,180 @@
 <%- include("../partials/header.ejs") %>
-   
-        <!-- mini cart start -->
-        <div class="sidebar-cart-active">
-            <div class="sidebar-cart-all">
-                <a class="cart-close" href="#"><i class="dlicon ui-1_simple-remove"></i></a>
-                <div class="cart-content">
-                    <h3>Shopping Cart</h3>
-                    <ul>
-                        <li class="single-product-cart">
-                            <div class="cart-img">
-                                <a href="#"><img src="assets/userAssets/images/cart/cart-1.jpg" alt=""></a>
-                            </div>
-                            <div class="cart-title">
-                                <h4><a href="#">Bejewelled velvet sandals</a></h4>
-                                <span> 1 × $49.00	</span>
-                            </div>
-                            <div class="cart-delete">
-                                <a href="#">×</a>
-                            </div>
-                        </li>
-                        <li class="single-product-cart">
-                            <div class="cart-img">
-                                <a href="#"><img src="assets/userAssets/images/cart/cart-2.jpg" alt=""></a>
-                            </div>
-                            <div class="cart-title">
-                                <h4><a href="#">Contrast faux fur jacket</a></h4>
-                                <span> 1 × $49.00	</span>
-                            </div>
-                            <div class="cart-delete">
-                                <a href="#">×</a>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="cart-total">
-                        <h4>Subtotal: <span>$170.00</span></h4>
-                    </div>
-                    <div class="cart-checkout-btn">
-                        <a class="btn-hover cart-btn-style" href="cart.html">view cart</a>
-                        <a class="no-mrg btn-hover cart-btn-style" href="checkout.html">checkout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="breadcrumb-area border-top-3 section-padding-1 " style="margin-top: 120px; margin-bottom: 20px;">
-            <div class="container-fluid" >
-                <div class="breadcrumb-content text-center">
-                    <div class="breadcrumb-title">
-                        <h2>Email Verification</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="login-register-area pt-95 pb-100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12">
-                        <div class="login-register-wrap mr-70">
-                            <h3 style="display: flex; justify-content:center; align-items: center;"><i class="fa fa-user-o"></i> Verify OTP</h3>
-                            <div class="login-register-form">
 
-
-
-
-                                <!-- <form action="/verify-otp" method="post"> -->
-    
-                                    <div id="alertMessage" style="display: none;" class="alert alert-danger">Incorrect OTP</div>
-                                   
-                                    <div class="sin-login-register">
-                                        <label>Enter OTP sent in your mail id:</label>
-                                        <input id="otp" type="text" name="otp">
-                                    </div>
-                                    <div>Time left: <span style="color: red;" id="timer"></span></div>
-                                    
-                                    <div class="login-register-btn-remember"  style="display: flex; justify-content:center; align-items: center; padding-top: 10px;">
-                                        <div class="login-register-btn">
-                                            <button onclick="verifyOtp()">Verify OTP</button>
-                                        </div>  
-                                   </div>
-                                               <!-- </form> -->
-
-
-
-
-                                <div style=" display: flex; justify-content:center; align-items: center;">
-                                <form action="/resend-otp" method="post" id="resendOTP" style="display: none;  ">
-                                    <button  style="background-color: rgb(162, 35, 0); color: whitesmoke; padding: 10px; box-shadow: none;  border-style: none;" type="submit" type="submit">Resend OTP</button>
-                                </form>
-                               </div>
-                            </div>
-                            <a style="align-content: center;">Already verified? </a> <a href="login">Login Now</a>
+    <!-- mini cart start -->
+    <div class="sidebar-cart-active">
+        <div class="sidebar-cart-all">
+            <a class="cart-close" href="#"><i class="dlicon ui-1_simple-remove"></i></a>
+            <div class="cart-content">
+                <h3>Shopping Cart</h3>
+                <ul>
+                    <li class="single-product-cart">
+                        <div class="cart-img">
+                            <a href="#"><img src="assets/userAssets/images/cart/cart-1.jpg" alt="" /></a>
                         </div>
-                    </div>
+                        <div class="cart-title">
+                            <h4><a href="#">Bejewelled velvet sandals</a></h4>
+                            <span> 1 × $49.00 </span>
+                        </div>
+                        <div class="cart-delete">
+                            <a href="#">×</a>
+                        </div>
+                    </li>
+                    <li class="single-product-cart">
+                        <div class="cart-img">
+                            <a href="#"><img src="assets/userAssets/images/cart/cart-2.jpg" alt="" /></a>
+                        </div>
+                        <div class="cart-title">
+                            <h4><a href="#">Contrast faux fur jacket</a></h4>
+                            <span> 1 × $49.00 </span>
+                        </div>
+                        <div class="cart-delete">
+                            <a href="#">×</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="cart-total">
+                    <h4>Subtotal: <span>$170.00</span></h4>
+                </div>
+                <div class="cart-checkout-btn">
+                    <a class="btn-hover cart-btn-style" href="cart.html">view cart</a>
+                    <a class="no-mrg btn-hover cart-btn-style" href="checkout.html">checkout</a>
+                </div>
             </div>
-        </div> 
+        </div>
+    </div>
+    <div class="breadcrumb-area border-top-3 section-padding-1" style="margin-top: 120px; margin-bottom: 20px">
+        <div class="container-fluid">
+            <div class="breadcrumb-content text-center">
+                <div class="breadcrumb-title">
+                    <h2>Email Verification</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="login-register-area pt-95 pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <div class="login-register-wrap mr-70">
+                        <h3 style="display: flex; justify-content: center; align-items: center">
+                            <i class="fa fa-user-o"></i> Verify OTP
+                        </h3>
+                        <div class="login-register-form">
+                            <!-- <form action="/verify-otp" method="post"> -->
 
+                            <div id="alertMessage" style="display: none" class="alert alert-danger">
+                                Incorrect OTP
+                            </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                            <div class="sin-login-register">
+                                <label>Enter OTP sent in your mail id:</label>
+                                <input id="otp" type="text" name="otp" />
+                            </div>
+                            <div>Resend in <span style="color: red" id="timer"></span></div>
 
-<script>
-    function callmycount(){
-        const timer = document.getElementById("timer");
-        const resendOTP = document.getElementById("resendOTP");
+                            <div class="login-register-btn-remember" style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding-top: 10px;
+              ">
+                                <div class="login-register-btn">
+                                    <button onclick="verifyOtp()">Verify OTP</button>
+                                </div>
+                            </div>
+                            <!-- </form> -->
 
-        timer.innerHTML = "00" + ":" + "30";
-        let myTimer = setInterval(startTimer, 1000);
+                            <div style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              ">
+                                <form action="/resend-otp" method="post" id="resendOTP" style="display: none">
+                                    <button onclick="callmycount()" style="
+                    background-color: rgb(162, 35, 0);
+                    color: whitesmoke;
+                    padding: 10px;
+                    box-shadow: none;
+                    border-style: none;
+                  " type="submit">
+                                        Resend OTP
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <a style="align-content: center">Already verified? </a>
+                        <a href="login">Login Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        function startTimer(){
-            var presentTime = timer.innerHTML;
-            var timeArray = presentTime.split(/[:]+/);
-            var m = parseInt(timeArray[0]);
-            var s = checkSecond((parseInt(timeArray[1]) - 1));
-            if( m === 0 && s === "00"){
-                clearTimeout(myTimer);
-                timer.innerHTML = "00:00";
-                resendOTP.style.display = "block";
-            }else{
-            if(s==59){m=m-1}
-            if(m<0 && s==59){alert("Timeout for otp");clearTimeout(myTimer)}
-            timer.innerHTML =  m + ":" + s;
-            }
-        } 
-        function checkSecond(sec){
-                if (sec < 10 && sec>= 0){sec = "0" + sec}
-                if(sec< 0){sec = "59"}
-                return sec;}
-    }
-    callmycount();
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+        <script>
+            function callmycount() {
+                const timer = document.getElementById("timer");
+                const resendOTP = document.getElementById("resendOTP");
 
-    function verifyOtp(){
-        const otp = document.getElementById("otp").value;
-        const alertMessage = document.getElementById("alertMessage");
+                timer.innerHTML = "00" + ":" + "30";
+                let myTimer = setInterval(startTimer, 1000);
 
-        
-        $.ajax({
-
-            url:"/verify-otp",
-            method:"post",
-            data:{otp},
-            success:(response)=>{
-                if(response.status == "success"){
-                    
-                    //res.redirect n pakaram                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-                    window.location.href = "/login"
-                }else{
-                    alertMessage.style.display = "block";
-                setTimeout(()=>{
-                    alertMessage.style.display = "none";
-                },3000)
+                function startTimer() {
+                    var presentTime = timer.innerHTML;
+                    var timeArray = presentTime.split(/[:]+/);
+                    var m = parseInt(timeArray[0]);
+                    var s = checkSecond(parseInt(timeArray[1]) - 1);
+                    if (m === 0 && s === "00") {
+                        clearTimeout(myTimer);
+                        timer.innerHTML = "00:00";
+                        resendOTP.style.display = "block";
+                    } else {
+                        if (s == 59) {
+                            m = m - 1;
+                        }
+                        if (m < 0 && s == 59) {
+                            alert("Timeout for otp");
+                            clearTimeout(myTimer);
+                        }
+                        timer.innerHTML = m + ":" + s;
+                    }
+                }
+                function checkSecond(sec) {
+                    if (sec < 10 && sec >= 0) {
+                        sec = "0" + sec;
+                    }
+                    if (sec < 0) {
+                        sec = "59";
+                    }
+                    return sec;
                 }
             }
-        })
-    }
-</script>
+            callmycount();
 
-    <%- include("../partials/footer.ejs") %>
+            function verifyOtp() {
+                const otp = document.getElementById("otp").value;
+                const alertMessage = document.getElementById("alertMessage");
+
+                $.ajax({
+                    url: "/verify-otp",
+                    method: "post",
+                    data: { otp },
+                    success: (response) => {
+                        if (response.status == "success") {
+                            //res.redirect n pakaram
+                            window.location.href = "/login";
+                        } else {
+                            alertMessage.style.display = "block";
+                            setTimeout(() => {
+                                alertMessage.style.display = "none";
+                            }, 3000);
+                        }
+                    },
+                });
+            }
+        </script>
+
+        <%- include("../partials/footer.ejs") %>
+    </div>

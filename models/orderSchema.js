@@ -37,7 +37,7 @@ const orderSchema = new Mongoose.Schema({
   
     totalAmount: {
         type : Number,
-        requre : true,
+        require : true,
     },
     orderType: {
         type: String,
@@ -54,9 +54,23 @@ const orderSchema = new Mongoose.Schema({
         require: true,
         default: "Processing",
     },
+    returningReason: {
+        type: String,
+        default: "nil",
+    },   
+    key_id:{
+        type: String,
+
+    },
     shippingAddress:{
         type: Object,
         require: true 
+    },
+    coupon:{
+        type: String,
+    },
+    discount:{
+        type: Number,
     }
    
 

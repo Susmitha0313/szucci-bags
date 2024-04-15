@@ -29,17 +29,8 @@ app.use(express.urlencoded({extended:true}));
 
 app.set("view engine", "ejs");
 app.use("/assets",express.static(path.join(__dirname,"/assets")))
-// app.use(express.static('assets'))
-// app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname,"views")))
-// app.use((req,res)=>{
-//   res.status(404).render('page-404');
-// });
 
-
-
-
-//set up session middlewares
 app.use(
     session({
         secret: process.env.SESSION_KEY,
@@ -53,7 +44,6 @@ app.use(
 );
 
 app.use("/", nocache());
-// app.use("/userRouter",router);
 
 
 app.use("/",userRouter);

@@ -5,6 +5,7 @@ const categoryController = require("../controller/categoryController.js");
 const productController = require("../controller/productController.js");
 const brandController = require("../controller/brandController.js");
 const orderController = require("../controller/orderController.js");
+const couponController = require("../controller/couponController.js");
 const { isAdmin } = require("../Authentication/auth")  
 const upload = require("../Config/multer folder/multer.js")
 const {adminNotLog} = require("../Authentication/auth");
@@ -28,12 +29,14 @@ router.get("/userBlock", adminController.userBlock);
 
 //product routerss
 router.get("/products",isAdmin, productController.getProducts);
+router.get("/productInfo/:productId",isAdmin, productController.getProInfoPage);
 router.get("/productAdd",isAdmin, productController.getAddProduct);
 router.get("/editProduct/:productId", isAdmin, productController.geteditProduct);
 router.get("/productBlock", isAdmin,productController.productBlock);
 router.post("/productAdd",isAdmin,upload.array("images", 5), productController.addProduct);
 router.post("/productEdit/:productId", isAdmin, upload.array("images", 5), productController.editProduct);
 router.get("/deleteProduct",isAdmin, productController.productDelete);
+router.post("/deleteImage",isAdmin, productController.deleteOne);
 
 
 
@@ -50,6 +53,13 @@ router.get("/ordersList",isAdmin,orderController.getAdminOrderPage)
 router.get("/orderEdit",isAdmin,orderController.getOrdereditPage);
 router.post("/changeOrderStatus",isAdmin,orderController.statusChange);
 router.get("/deleteOrder",isAdmin,orderController.deleteOrder);
+router.post("/acceptorReject",isAdmin,orderController.acceptorReject);
+
+//coupon routers
+router.get("/couponPage",isAdmin,couponController.getCouponPage);
+router.get("/couponAdd",isAdmin,couponController.addNewCoupon);
+router.post("/couponAdd",isAdmin,couponController.createCoupon);
+
 
 //brands routers
 router.get("/brand",isAdmin, brandController.getBrandPage);

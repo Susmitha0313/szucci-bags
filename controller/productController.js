@@ -44,7 +44,6 @@ const geteditProduct = async (req, res) => {
         const catData = await Category.find({});
         const brandData = await Brand.find({});
         const product = await Product.findById(productId);
-        console.log(product)
         if (!product) {
             return res.status(404).send("Product not found");
         }
@@ -56,38 +55,39 @@ const geteditProduct = async (req, res) => {
 };
 
 
-
-const editProduct = async(req,res)=>{
+const editProduct = async (req, res) => {
     try {
         const productId = req.params.productId;
-        const existingProduct =await Product.findById(productId)
-        console.log( "existingProduct"+ existingProduct);
-        const { productTitle, description, regPrice, OfferPrice , stock, category, brand } = req.body;
+        const existingProduct = await Product.findById(productId);
+        console.log("existingProduct" + existingProduct);
+        if (!existingProduct) {
+            return res.status(404).json({ status: 'error', message: 'Product not found' });
+        }
+        const { productTitle, description, regPrice, OfferPrice, stock, category, brand } = req.body;
         const images = req.files;
         console.log("imagesname ..." + images);
-        const imagesofArray = images.map((x)=> x.originalname);
         const description1 = "" + description;
-      
-       if(!existingProduct){
-        return res.status(404).json({ status: 'error', message: 'Product not found' });
-       }
-       existingProduct.productName = productTitle;
-       existingProduct.description = description1;
-       existingProduct.regularPrice = regPrice;
-       existingProduct.salePrice = OfferPrice;
-       existingProduct.quantity = stock;
-       existingProduct.category = category;
-       existingProduct.brand = brand;
-       existingProduct.productImage = imagesofArray;
-
-       await existingProduct.save();
+        const cat = await Category.findById({ _id: category });
+        const brandd = await Brand.findById({ _id: brand });
+        existingProduct.productName = productTitle;
+        existingProduct.description = description1;
+        existingProduct.regularPrice = regPrice;
+        existingProduct.salePrice = OfferPrice;
+        existingProduct.quantity = stock;
+        existingProduct.category = cat._id;
+        existingProduct.brand = brandd._id;
+        if (images && images.length > 0) {
+            const imagesofArray = images.map((x) => x.originalname);
+            existingProduct.productImage = existingProduct.productImage.concat(imagesofArray);
+        }
+        await existingProduct.save();
         res.redirect("/admin/products");
     } catch (error) {
-        // Handle any errors that occur during product creation or saving
-        console.error(`Error in addProduct: ${error.message}`);
+        console.error(`Error in editProduct: ${error.message}`);
         return res.status(500).json({ status: 'error', message: 'Internal server error' });
-      }
+    }
 };
+
 
 
 
@@ -103,19 +103,36 @@ const getProducts = async(req,res)=>{
 };
 
 
+const getProInfoPage = async(req,res)=>{
+    try{
+        const productId = req.params.productId;
+        const product = await Product.findById(productId);
+        const catId = product.category;
+        const brandId = product.brand;
+        const catData = await Category.findById(catId);
+        const brandData = await Brand.findById(brandId);
+        console.log(catData);
+        res.render("proDetail",{product, catData, brandData});
+    }catch(error){
+        res.redirect("/pageerror");
+    }
+};
+
+
 
 
 const addProduct = async (req, res) => {
     console.log("add product working");
   try {
-    // Extract data from the request body
     const { productTitle, description, regPrice, OfferPrice , stock, category, brand } = req.body;
     const imagesofArray = req.files.map((x)=> x.originalname)
     const description1 = ""+description;
     const cat = await Category.findById({_id: category});
     const brandd = await Brand.findById({_id: brand});
-    // Create a new product instance
-    const newProduct = new Product({
+    const product = await Product.find({productName : productTitle });
+    console.log(product);
+    if(!product){
+        const newProduct = new Product({
         productName: productTitle,
         description: description1,
         regularPrice: regPrice,
@@ -124,14 +141,13 @@ const addProduct = async (req, res) => {
         quantity: stock,
         category: cat._id,
         brand: brandd._id,
-        productImage: imagesofArray // Assuming images are stored as URLs in the database
+        productImage: imagesofArray 
     });
-    // Save the new product to the database
     await newProduct.save();
     console.log(newProduct)
     res.redirect("/admin/products");
+    }
 } catch (error) {
-    // Handle any errors that occur during product creation or saving
     console.error(`Error in addProduct: ${error.message}`);
     return res.status(500).json({ status: 'error', message: 'Internal server error' });
   }
@@ -174,8 +190,33 @@ const productDelete = async(req,res)=>{
 }
 
 
+const deleteOne = async(req,res)=>{
+    console.log("aaaaaaaaaaaaaa")
+    try{
+        console.log("ggggg")
+        const {prodId , index}= req.body;
+        console.log(index , prodId);
+        const product = await Product.findById({_id : prodId});
+        const deleteImg = product.productImage[index];
+        console.log(deleteImg)
+        fs.unlink(deleteImg, (err)=>{
+            if(err){
+                console.log(err.messag);
+            }else{
+                console.log('set');
+            }
+        })
+        product.productImage.splice(index, 1)
+        await product.save();
+        return res.json({ status: true, product});
+    }catch(error){
+        console.error("/pageerror", error);
+    }
+}
+
 module.exports = {
     getAddProduct,
+    getProInfoPage,
     addProduct,
     getProducts,
     productBlock,
@@ -183,6 +224,8 @@ module.exports = {
     editProduct,
     getProductDetailPage,
     productDelete,
+    deleteOne,
+
 
       
 

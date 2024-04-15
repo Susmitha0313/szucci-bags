@@ -31,6 +31,11 @@
                     </a>
                    
                 </li>
+                <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Coupon</span>
+                    </a>
+                </li>
 
                 <li class="menu-item ">
                     <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
@@ -114,8 +119,8 @@
                         <% console.log("cat id is this ....."+category._id) %>
                         <form id="editCatId" action="/admin/categoryEdit"   method="post">
                             <input type="hidden" name="categoryId" value="<%= category._id %>" />
-                            <% if(locals.errMsg) {%>
-                                <p style="color: red;"><%= errMsg %></p>
+                            <% if(locals.errMessage) {%>
+                                <p style="color: red;"><%= errMessage %></p>
                                 <% } %>
                             <div class="mb-4">
                                 <p class="form-label"><h6>Edit Category</h6></p>
