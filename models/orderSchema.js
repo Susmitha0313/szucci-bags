@@ -71,7 +71,8 @@ const orderSchema = new Mongoose.Schema({
     },
     discount:{
         type: Number,
-    }
+    },
+    
    
 
 }, { versionKey: false ,timestamps:true});

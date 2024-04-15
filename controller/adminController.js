@@ -11,9 +11,20 @@ const pageNotFound = async (req, res) => {
 
 //load adminLoginPage
 const getAdminHome = async(req,res)=>{
+    try{
     console.log("its loagningdg");
-       try{
-         res.render("adminHome");
+    const orderData = await Order.find({});
+    let overallAmount = 0;
+    for(let i=0 ; i<orderData.length; i++){
+         overallAmount += orderData.totalAmount;
+    }
+    return overallAmount;
+    let overallDiscount = 0
+    for(let i=0; i<orderData.length; i++){
+         overallDiscount += orderData.discount
+    }
+    
+         res.render("adminHome",{orderData,overallAmount,overallDiscount});
        
     }catch(error){
         res.redirect("/pageerror");
