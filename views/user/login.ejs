@@ -1,6 +1,326 @@
- <%- include("../partials/header.ejs") %>
-    
-      
+<!doctype html>
+<html class="no-js" lang="en">
+
+<style>
+
+     /* Dropdown container */
+     .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown link */
+        /* .dropdown a {
+            color: black;
+            text-decoration: none;
+            padding: 10px;
+            display: inline-block;
+        } */
+
+        /* Dropdown content */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            z-index: 1;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
+
+        /* Show dropdown when hovered */
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+       
+
+        /* Dropdown list items */
+        .dropdown-content ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dropdown-content ul li {
+            padding: 10px;
+        }
+
+        /* Arrow icon */
+        .fa-angle-down {
+            margin-left: 5px;
+        }
+</style>
+
+<!-- Mirrored from template.hasthemes.com/toro/toro/index-9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Feb 2024 11:17:51 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Szucci bags</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/userAssets/images/favicon.png">
+
+    <!-- All CSS is here
+	============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/userAssets/css/vendor/bootstrap.min.css">
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="assets/userAssets/css/vendor/font-awesome.css">
+    <link rel="stylesheet" href="assets/userAssets/css/vendor/dlicon.css">
+    <!-- Others CSS -->
+    <link rel="stylesheet" href="assets/userAssets/css/plugins/owl-carousel.css">
+    <link rel="stylesheet" href="assets/userAssets/css/plugins/slick.css">
+    <link rel="stylesheet" href="assets/userAssets/css/plugins/magnific-popup.css">
+    <link rel="stylesheet" href="assets/userAssets/css/plugins/jarallax.css">
+    <link rel="stylesheet" href="assets/userAssets/css/plugins/easyzoom.css">
+    <link rel="stylesheet" href="assets/userAssets/css/plugins/animate.css">
+    <link rel="stylesheet" href="assets/userAssets/css/plugins/fullpage.css">
+    <link rel="stylesheet" href="assets/userAssets/css/plugins/jquery-ui.css">
+    <link rel="stylesheet" href="assets/userAssets/css/plugins/select2.min.css">
+    <link rel="stylesheet" href="assets/userAssets/css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+        <header class="header-area transparent-bar section-padding-1">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-xl-2 col-lg-2">
+                        <div class="logo logo-width">
+                            <a href="/">
+                                <img src="assets/userAssets/images/logo/logo.png" alt="logo">
+                            </a>                            
+                        </div>
+                    </div>
+                    <div class="col-xl-8 col-lg-8 d-flex justify-content-center position-static">
+                        <div class="main-menu menu-lh-1 main-menu-padding-1">
+                            <nav>
+                                <ul>
+                                    <li class="position-static"><a href="/">Home</a>
+                                        
+                                    </li>
+                                    <li><a href="#">Pages <i class="fa fa-angle-down"></i></a>
+                                        <ul class="sub-menu-width">
+                                            <li><a href="/accountDetails">Accounts</a></li>
+                                            <li><a href="/productCart">Cart</a></li>
+                                            <li><a href="/viewOrder">Orders</a></li>
+                                        </ul>
+                                    </li>
+                                    
+                                    <li><a href="/allProducts">All Products</a></li>
+                                    <!-- <li><a href="shop-fullwide.html">Brands <i class="fa fa-angle-down"></i></a>
+                                        <ul class="sub-menu-width">
+                                            <li><a href="shop-fullwide.html">Nike</a></li>
+                                            <li><a href="shop-sidebar.html">American Tourister</a></li>
+                                            <li><a href="shop-metro.html">Passenger</a></li>
+                                            <li><a href="shop-3-col.html">Miraggio</a></li>
+                                            <li><a href="shop-2-col.html">Puma</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="shop-collection-1.html">Collections</i> </a></li> -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-lg-2">
+                        <div class="header-right-wrap header-right-flex">
+                           
+                            <div class="same-style header-off-canvas">
+                                <ul class="sub-menu-width position-static" >
+                                    <li><a href="login">Login</a></li>
+                                    <li><a href="signup">SignUp</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown same-style">
+                                <a href="#"><i class="fa fa-user"></i></a>
+                                <div class="dropdown-content account-dropdown-active">
+                                    <ul>
+                                        <% if(!userId){ %>
+                                        <li><a href="/login">Login</a></li>
+                                        <li><a href="/signup">Register</a></li>
+                                        <% } else { %>
+                                        <li><a href="/accountDetails">Account</a></li>
+                                        <li><a href="/logout">Logout</a></li>
+                                        <% } %>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="same-style header-off-canvas">
+                                <a class="header-aside-button" href="#">
+                                    <i class="dlicon ui-3_menu-left"></i>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="header-small-mobile section-padding-1">
+            <div class="container-fluid">   
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <div class="mobile-logo logo-width">
+                            <a href="/">
+                                <img alt="" src="assets/userAssets/images/logo/logo.png">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mobile-header-right-wrap">
+                            <div class="header-right-wrap header-right-flex">
+                               
+                                <div class="dropdown same-style">
+                                    <a href="#"><i class="fa fa-user"></i></a>
+                                    <div class="dropdown-content account-dropdown-active">
+                                        <ul>
+                                            <% if(!userId){ %>
+                                            <li><a href="/login">Login</a></li>
+                                            <li><a href="/signup">Register</a></li>
+                                            <% } else{ %>
+                                            <li><a href="/accountDetails">Account</a></li>
+                                            <li><a href="/logout">Logout</a></li>
+                                            <% } %>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="same-style header-off-canvas">
+                                    <a class="header-aside-button" href="#">
+                                        <i class="dlicon ui-3_menu-left"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- search start -->
+        <div class="search-content-wrap main-search-active">
+            <a class="search-close"><i class="dlicon ui-1_simple-remove"></i></a>
+            <div class="search-content">
+                <p>Start typing and press Enter to search</p>
+                <form class="search-form" action="#">
+                    <input type="text" placeholder="Search">
+                    <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
+                </form>
+            </div>
+        </div>
+
+        <!-- mini cart start -->
+        <div class="sidebar-cart-active">
+            <div class="sidebar-cart-all">
+                <a class="cart-close" href="/productCart"><i class="dlicon ui-1_simple-remove"></i></a>
+                <div class="cart-content">
+                    <!-- <h3>Shopping Cart</h3> -->
+                    <!-- <ul>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="assets/userAssets/images/cart/cart-1.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h4><a href="#">Bejewelled velvet sandals</a></h4>
+                                <span> 1 × $49.00	</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#">×</a>
+                            </div>
+                        </li>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="assets/userAssets/images/cart/cart-2.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h4><a href="#">Contrast faux fur jacket</a></h4>
+                                <span> 1 × $49.00	</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#">×</a>
+                            </div>
+                        </li>
+                    </ul> -->
+                    <!-- <div class="cart-total">
+                        <h4>Subtotal: <span>$170.00</span></h4>
+                    </div> -->
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- aside start -->
+        <div class="header-aside-active">
+            <div class="header-aside-wrap">
+                <a class="aside-close"><i class="dlicon ui-1_simple-remove"></i></a>
+                <div class="header-aside-content">
+
+                    <div class="mobile-menu-area">
+                        <div class="mobile-search">
+                            <form class="search-form" action="#">
+                                <input type="text" placeholder="Search entire store…">
+                                <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
+                            </form>
+                        </div>
+                       
+                        <div class="mobile-curr-lang-wrap">
+                            <div class="single-mobile-curr-lang">
+                                <li class="menu-item-has-children"><a href="/">Home</a></li>
+                                <a class="mobile-account-active" href="#">My Account <i class="fa fa-angle-down"></i></a>
+                                <div class="lang-curr-dropdown account-dropdown-active">
+                                    <ul>
+                                        <li><a href="/login">Login</a></li>
+                                        <li><a href="/signup">Creat Account</a></li>
+                                        <li><a href="/userProfile">My Account</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header-aside-menu">
+                        <nav>
+                            <ul>
+                                <li><a href="#">About Toro</a></li>
+                                <li><a href="#">Help Center</a></li>
+                                <li><a href="#">Collection</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">New Look</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <img src="assets/userAssets/images/icon-img/payments.png" alt="payment">
+                    <p>Pellentesque mollis nec orci id tincidunt. Sed mollis risus eu nisi aliquet, sit amet fermentum justo dapibus.</p>
+                    <div class="aside-contact-info">
+                        <ul>
+                            <li><i class="dlicon ui-2_time-clock"></i>Monday - Friday: 9:00 - 19:00</li>
+                            <li><i class="dlicon ui-1_email-84"></i>Info@la-studioweb.com</li>
+                            <li><i class="dlicon tech-2_rotate"></i>(+55) 254. 254. 254</li>
+                            <li><i class="dlicon ui-1_home-minimal"></i>Helios Tower 75 Tam Trinh Hoang - Ha Noi - Viet Nam</li>
+                        </ul>
+                    </div>
+                    <div class="social-icon-style mb-25">
+                        <a class="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                        <a class="twitter" href="#"><i class="fa fa-twitter"></i></a>
+                        <a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a>
+                        <a class="behance" href="#"><i class="fa fa-behance"></i></a>
+                    </div>
+                    <div class="copyright">
+                        <p>© 2021 <a href="https://hasthemes.com/">Szucci.</a> All rights reserved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
         <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
             <div class="container-fluid">
                 <div class="breadcrumb-content text-center">

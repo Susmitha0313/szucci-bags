@@ -1,6 +1,39 @@
 
 <%- include("../partials/adminHeader.ejs") %>
+<style>
+ 
+    #downloadBtn {
+        padding: 10px 20px;
+        background-color: #007bff; /* Blue color as an example */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
 
+    /* Style the button on hover */
+    #downloadBtn:hover {
+        background-color: #0056b3; /* Darker shade of blue on hover */
+    }
+
+ /* Flexbox styles for alignment */
+ .stats-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px; /* Optional: Adjust as needed */
+    }
+
+    .stats-item {
+        flex-basis: 30%; /* Optional: Adjust as needed */
+    }
+
+    /* Bold styles for values */
+    .stats-value {
+        font-weight: bold;
+    }
+</style>
 <body class="dark">
     <div class="screen-overlay"></div>
     <aside class="navbar-aside" id="offcanvas_aside">
@@ -119,7 +152,7 @@
     <div class="content-header">
         <div>
             <h2 class="content-title card-title">Sales Report </h2>
-            <p>Whole data about your sales here</p>
+            <p>filter and download sales report as needed</p>
         </div>
        
     </div>
@@ -128,99 +161,104 @@
     
        <div class="card mb-4">
         <header class="card-header">
-            <div class="row align-items-center">
-                <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                    <div class="custom_select">
-                        <p>Overall order Amount : <h4><%= overallAmount %></h4></p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                    <div class="custom_select">
-                        <p>Overall sales count : <h4><%= orderData.length %></h4></p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-12 me-auto mb-md-0 mb-3">
-                    <div class="custom_select">
-                        <p>Overall order Discount : <h4><%= overallDiscount %></h4></p>
-
-                    </div>
-                </div>
-                <!-- <div class="col-md-2 col-6">
-                    <input type="date" value="02.05.2022" class="form-control">
+            <div class="row align-items-center col-md-6">
+              
+                <div class="col-md-2 col-6">
+                    <input type="date" class="form-control">
                 </div>
                 <div class="col-md-2 col-6">
                     <div class="custom_select">
-                        <select class="form-select select-nice">
-                            <option selected>Status</option>
-                            <option>All</option>
-                            <option>Paid</option>
-                            <option>Chargeback</option>
-                            <option>Refund</option>
+                        <select id="filterSelect" class="form-select " >
+                            <option selected>All</option>
+                            <option>Day</option>
+                            <option>Month</option>
+                            <option>Year</option>
                         </select>
                     </div>
-                </div> -->
+                </div>
             </div>
+           
         </header>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="orderTable" class="table table-hover">
-                    <thead>
-                        <tr>
+        <div class="card-body" id="orderTable" style="color: black; background-color: rgb(255, 255, 255);">
+            <div class="table-responsive" >
+                <table  class="table">
+                    <h2 class="text-center" style="color: black; padding: 12px;">Sales Report</h2>
+            
+                    <thead  >
+                        <tr style="color: black; background-color: bisque;">
                             <th>OrderId</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Total</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Date</th>
-                            <th scope="col" class="text-end"> Action </th>
+                            <th scope="col">Delivery Date</th>
+                            <th scope="col">Coupon-code</th>
+                            <th scope="col">Coupon-discount</th>
+                            <th scope="col">Payment Method</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    <% orderData.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)); %>
+                    <tbody  style="color: black; background-color:rgb(251, 246, 239)">
+                   
+                          
+            
                     
                         <% orderData.forEach((order)=>{ %>
+                            <% if(order.status === 'Delivered'){ %>
                         <tr>
                             <td><%= order.orderNumber %></td>
                             <td><b><%= order.shippingAddress.name %></b></td>
                             <td><%= order.userEmail %></td>
                             <td>₹<%= order.totalAmount %></td>
-                            <% if(order.status === "Cancelled") {%>
-                            <td><span class="badge rounded-pill bg-danger"><%= order.status %></span></td>
-                            <% } else if(order.status === "Confirmed"){ %>
-                            <td><span class="badge rounded-pill bg-success"><%= order.status %></span></td>
-                            <% } else if(order.status === "Shipped"){ %>
-                            <td><span class="badge rounded-pill bg-info text-dark"><%= order.status %></span></td>
-                            <% } else if(order.status === "Delivered"){ %>
-                            <td><span class="badge rounded-pill bg-primary"><%= order.status %></span></td>
-                            <% } else if(order.status === "Processing"){ %>
-                            <td><span class="badge rounded-pill bg-secondary"><%= order.status %></span></td>
-                            <% } else if(order.status === "Returned"){ %>
-                            <td><span class="badge rounded-pill bg-dark"><%= order.status %></span></td>
-                            <% } else if(order.status === "RequestProcessing"){ %>
-                            <td><span class="badge rounded-pill text-danger bg-secondary"><%= order.status %></span></td>
-
-                            <% } %>  
-                            
                             <td><%= order.orderDate.toLocaleDateString()  %></td>
-                            <td class="text-end">
-                                <a href="/admin/orderEdit/?id=<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a>
-                                <div class="dropdown">
-                                    <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                    <div class="dropdown-menu">
-                                       
-                                        <a class="dropdown-item" href="/admin/orderEdit/?id=<%= order._id %>">View and Edit </a>
-                                        <a class="dropdown-item text-danger" href="/admin/deleteOrder/?id=<%= order._id %>">Delete</a>
-                                    </div>
-                                </div> <!-- dropdown //end -->
-                            </td>
+                            <td><%= order.coupon %></td>
+                            <td><%= order.discount  %></td>
+                            <td><%= order.orderType  %></td>
+                            
                         </tr>
+                        <% } %> 
                         <% }) %>
+
+                       
                       
                     </tbody>
                 </table>
-            </div> <!-- table-responsive //end -->
-        </div> <!-- card-body end// -->
-    </div> <!-- card end// -->
+            </div> 
+
+            <div class="table-responsive" >
+                <table  class="table">
+                    <h2 class="text-center" style="color: black; padding: 12px;">Overall sales summary </h2>
+            
+                    <thead>
+                    
+                    </thead>
+                    <tbody  style="color: black; background-color:rgb(251, 246, 239)">
+                        <tr>
+                            <td>Overall order Amount:</td>
+                            <td id="overallAmount" style="font-size: 20px; font-weight:bold;"><%= overallAmount %></td>
+                        </tr>
+                        <tr>
+                            <td>Overall sales count:</td>
+                            <td  id="orderCount" style="font-size: 20px; font-weight:bold;"><%= orderData.length %></td>
+                        </tr>
+                        <tr>
+                            <td>Overall order Discount:</td>
+                            <td id="overallDiscount" style="font-size: 20px; font-weight:bold;"><%= overallDiscount %>%</td>
+                        </tr>
+                       
+                      
+                    </tbody>
+                </table>
+            </div> 
+          <div>
+       
+            
+        </div> 
+
+
+        <div>
+            <button id="downloadBtn">Download Pdf</button>
+        </div>
+        
+    </div> 
     <div class="pagination-area mt-15 mb-50">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-start">
@@ -235,5 +273,69 @@
   
 </section> <!-- content-main end// -->
 
+<!-- scripts to download the page -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
 
-        <%- include("../partials/adminFooter.ejs") %>
+<script>
+    document.getElementById('downloadBtn').addEventListener('click', function (){
+        const element = document.getElementById('orderTable');
+        html2pdf().from(element).save();
+    });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const selectElement = document.getElementById('filterSelect');
+    selectElement.addEventListener('change', function () {
+        const selectedValue = selectElement.value;
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/admin/filterSelect?value=${selectedValue}`, true);
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseData = JSON.parse(xhr.responseText);
+
+                console.log('Filtered data from backend:', responseData.filterData);
+                console.log('Filtered data from backend:', responseData.filterData);
+                console.log('Overall Amount:', responseData.overallAmount);
+                console.log('Overall Discount:', responseData.overallDiscount);
+                document.getElementById('overallAmount').innerText = `₹${responseData.overallAmount}`;
+                document.getElementById('orderCount').innerText = responseData.filterData.length;
+                document.getElementById('overallDiscount').innerText = `${responseData.overallDiscount}%`;
+
+                updateSalesReport(responseData.filterData);
+            } else {
+                console.error('Error receiving filtered data from backend');
+            }
+            function updateSalesReport(filteredData) {
+                // Update your table with the filtered data
+                const tbody = document.querySelector('#orderTable tbody');
+                tbody.innerHTML = ''; // Clear existing rows
+                filteredData.forEach(order => {
+                    const row = document.createElement('tr');
+                    // Create and append table cells based on order properties
+                    // Adjust this part based on your order object structure
+                    row.innerHTML = `
+                        <td>${order.orderNumber}</td>
+                        <td><b>${order.shippingAddress.name}</b></td>
+                        <td>${order.userEmail}</td>
+                        <td>₹${order.totalAmount}</td>
+                        <td>${new Date(order.createdAt).toLocaleDateString()}</td>
+                        <td>${order.coupon}</td>
+                        <td>${order.discount}</td>
+                        <td>${order.orderType}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+        };
+        xhr.onerror = function () {
+            console.error('Network error while communicating with backend');
+        };
+        xhr.send();
+    });
+});
+
+
+</script>
+
+        <%- include( "../partials/adminFooter.ejs") %>

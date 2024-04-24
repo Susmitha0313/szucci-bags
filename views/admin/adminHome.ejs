@@ -74,7 +74,7 @@
     </aside>
     <main class="main-wrap">
         <header class="main-header navbar">
-            <div class="col-search">
+            <!-- <div class="col-search">
                 <form class="searchform">
                     <div class="input-group">
                         <input list="search_terms" type="text" class="form-control" placeholder="Search term">
@@ -87,7 +87,7 @@
                         <option value="Ahmed Hassan">
                     </datalist>
                 </form>
-            </div>
+            </div> -->
             <div class="col-nav">
                 <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
                 <ul class="nav">
@@ -131,7 +131,7 @@
                     <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
                     <div class="text">
                         <h6 class="mb-1 card-title">Revenue</h6>
-                        <span>$13,456.5</span>
+                        <span>₹ <%= overallAmount %></span>
                         <span class="text-sm">
                             Shipping fees are not included
                         </span>
@@ -144,7 +144,7 @@
                 <article class="icontext">
                     <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
                     <div class="text">
-                        <h6 class="mb-1 card-title">Orders</h6> <span>53.668</span>
+                        <h6 class="mb-1 card-title">Orders</h6> <span><%= orderData.length %></span>
                         <span class="text-sm">
                             Excluding orders in transit
                         </span>
@@ -157,27 +157,27 @@
                 <article class="icontext">
                     <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
                     <div class="text">
-                        <h6 class="mb-1 card-title">Products</h6> <span>9.856</span>
+                        <h6 class="mb-1 card-title">Products</h6> <span><%= proData.length %></span>
                         <span class="text-sm">
-                            In 19 Categories
+                            In 3 Categories
                         </span>
                     </div>
                 </article>
             </div>
         </div>
-        <div class="col-lg-3">
+        <!-- <div class="col-lg-3">
             <div class="card card-body mb-4">
                 <article class="icontext">
                     <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-shopping_basket"></i></span>
                     <div class="text">
-                        <h6 class="mb-1 card-title">Monthly Earning</h6> <span>$6,982</span>
+                        <h6 class="mb-1 card-title">Monthly Earning</h6> <span>₹ </span>
                         <span class="text-sm">
                             Based in your local time.
                         </span>
                     </div>
                 </article>
             </div>
-        </div>
+        </div> -->
     </div>
     <div class="row">
         <div class="col-xl-8 col-lg-12">

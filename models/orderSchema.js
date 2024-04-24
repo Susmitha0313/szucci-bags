@@ -39,6 +39,10 @@ const orderSchema = new Mongoose.Schema({
         type : Number,
         require : true,
     },
+    paymentStatus:{
+        type: String,
+        default: "Pending",
+    },
     orderType: {
         type: String,
         require: true
@@ -68,12 +72,12 @@ const orderSchema = new Mongoose.Schema({
     },
     coupon:{
         type: String,
+        default : "Not Used",
     },
     discount:{
         type: Number,
-    }
-   
-
+        default : 0,
+    },
 }, { versionKey: false ,timestamps:true});
 
 module.exports = Mongoose.model("Order", orderSchema)

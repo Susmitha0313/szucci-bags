@@ -269,9 +269,10 @@ const decrement = async (req, res) => {
   }
 };
 
+
+
 const deleteCartItem = async (req, res) => {
   const userId = req.session.userId;
-
   const id = req.query.id;
   const proData = await Product.findById(id);
   console.log(proData);
@@ -293,7 +294,6 @@ const deleteCartItem = async (req, res) => {
         $inc: { totalPrice: -proData.salePrice }, // Decrement the totalPrice
       }
     );
-
     console.log(cartUpdate);
     await cart.save();
     if (cartUpdate) {
@@ -306,6 +306,8 @@ const deleteCartItem = async (req, res) => {
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };
+
+
 
 const CartTotalPrice = async (req, res) => {
   const userId = req.session.userId;
@@ -322,6 +324,7 @@ const CartTotalPrice = async (req, res) => {
 };
 
 
+
 //ivde ...you have to either make the total price calculation by refeence or make the total price to reduce ehile clearing cart
 const clearCart = async (req, res) => {
   try {
@@ -334,7 +337,6 @@ const clearCart = async (req, res) => {
     }
     const productIds = cart.items.map((item) => item.productId);
     console.log(cart, productIds);
-
     const updateCart = await Cart.findOneAndUpdate(
       { _id: cartId },
       { $pull: { items: { productId: { $in: productIds } } } },
@@ -350,6 +352,7 @@ const clearCart = async (req, res) => {
     return res.status(500).json({ error: "Failed to clear cart" });
   }
 };
+
 
 
 module.exports = {

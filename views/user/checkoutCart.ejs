@@ -1,5 +1,30 @@
 <%- include("../partials/header.ejs") %>
+<style>
+    /* Style for the apply button */
+    .coupon-btn.apply {
+        background-color: #2b882e; /* Green */
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin-right: 10px; /* Adjust margin as needed */
+        cursor: pointer;
+    }
 
+    /* Style for the cancel button */
+    .coupon-btn.cancel {
+        background-color: #f44336; /* Red */
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        cursor: pointer;
+    }
+</style>
     <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
         <div class="container-fluid">
             <div class="breadcrumb-content text-center">
@@ -24,10 +49,11 @@
                         code</a></p>
                 <div class="checkout-login-info">
                     <p>If you have a coupon code, please apply it below.</p>
-                    <form>
+                    <form id="couponForm">
                         <input type="text" id="coupCode" name="coupon" onclick="clearbox()" placeholder="Coupon code">
-                        <button class="coupon-btn" id="applyCpn" onclick="applyCoupon('<%= cartInfo._id%>')" type="submit">Apply</button>
-                        <button class="coupon-btn" id="remCoupon" onclick="removeCoup()" >Cancel</button>
+                        <button class="coupon-btn apply" type="button" id="applyCpn" onclick="applyCoupon('<%= cartInfo._id%>')"
+                            type="submit">Apply</button>
+                        <button class="coupon-btn cancel" type="button" id="remCoupon" onclick="removeCoup()">Cancel</button>
                     </form>
                 </div>
             </div>
@@ -113,7 +139,7 @@
                                     </div>
                                     <div class="your-order-info order-total">
                                         <ul>
-                                            <li>Total <span id="total" style="font-weight: bold;">₹ <%=
+                                            <li>Total: ₹<span id="total" style="font-weight: bold;"><%=
                                                         cartInfo.totalPrice %></span></li>
                                         </ul>
                                     </div>
@@ -124,7 +150,7 @@
                                     </div>
                                 </div>
                                 <br>
-                              
+
                                 <div class="payment-method">
                                     <div class="billing-info-wrap mr-100">
                                         <h3>Billing Details</h3>
@@ -132,40 +158,46 @@
                                             <h4 style="color: #2c2c2c;"><b>
                                                     <cap>Select Payment Method</u>
                                                 </b></h4>
-                                                <% if(cartInfo.totalPrice <= 2000){%>
-                                            <div id="address" style="display: flex; align-items: center;">
-                                                <input id="checkbx" type="radio" name="selectPayment"
-                                                    value="COD" onclick="paymentMethod(this)"
-                                                    style="margin-right: 10px; width: 20px; height: 20px;">
-                                                <div class="row" style="flex: 1;">
-                                                    <address>
-                                                        <p style="color: #191919;"><strong>Cash on delivery</strong></p>
-                                                    </address>
+                                            <% if(cartInfo.totalPrice <=2000){%>
+                                                <div id="address" style="display: flex; align-items: center;">
+                                                    <input id="checkbx" type="radio" name="selectPayment" value="COD"
+                                                        onclick="paymentMethod(this)"
+                                                        style="margin-right: 10px; width: 20px; height: 20px;">
+                                                    <div class="row" style="flex: 1;">
+                                                        <address>
+                                                            <p style="color: #191919;"><strong>Cash on delivery</strong>
+                                                            </p>
+                                                        </address>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <% } %>
+                                                <% } %>
 
-                                            <div id="address" style="display: flex; align-items: center;">
-                                                <input id="checkbx" type="radio" name="selectPayment" value="Razorpay"
-                                                    onclick="paymentMethod(this)"
-                                                    style="margin-right: 10px; width: 20px; height: 20px;">
-                                                <div class="row" style="flex: 1;">
-                                                    <address>
-                                                        <p style="color: #191919;"><strong>RazorPay</strong></p>
-                                                    </address>
-                                                </div>
-                                            </div>
+                                                    <div id="address" style="display: flex; align-items: center;">
+                                                        <input id="checkbx" type="radio" name="selectPayment"
+                                                            value="RazorPay" onclick="paymentMethod(this)"
+                                                            style="margin-right: 10px; width: 20px; height: 20px;">
+                                                        <div class="row" style="flex: 1;">
+                                                            <address>
+                                                                <p style="color: #191919;"><strong>RazorPay</strong></p>
+                                                            </address>
+                                                        </div>
+                                                    </div>
+                                                    <% if(walletInfo){ %>
 
-                                            <div id="address" style="display: flex; align-items: center;">
-                                                <input id="checkbx" type="radio" name="selectPayment" value="other"
-                                                    onclick="paymentMethod(this)"
-                                                    style="margin-right: 10px; width: 20px; height: 20px;">
-                                                <div class="row" style="flex: 1;">
-                                                    <address>
-                                                        <p style="color: #191919;"><strong>other</strong></p>
-                                                    </address>
-                                                </div>
-                                            </div>
+                                                        <div id="address" style="display: flex; align-items: center;">
+                                                            <input id="checkbx" type="radio" name="selectPayment"
+                                                                value="Wallet" onclick="paymentMethod(this)"
+                                                                style="margin-right: 10px; width: 20px; height: 20px;">
+                                                            <div class="row" style="flex: 1;">
+                                                                <address>
+                                                                    <p style="color: #191919;"><strong>Wallet
+                                                                        </strong><span> (Balance: <strong>
+                                                                                <%= walletInfo.balance %>
+                                                                            </strong>)</span></p>
+                                                                </address>
+                                                            </div>
+                                                        </div>
+                                                        <% } %>
 
                                         </div>
                                         <script>
@@ -196,278 +228,298 @@
                 </div>
             </div>
         </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-		integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
 
 
 
-function clearbox(){
-	document.getElementById("alertMessage").textContent =""
-}
+            function clearbox() {
+                document.getElementById("alertMessage").textContent = ""
+            }
 
 
-function applyCoupon(id){
-    const code = document.getElementById("coupCode").value
-    const applyCpn = document.getElementById("applyCpn");
-    const total = document.getElementById("total").innerHTML;
-    if(applyCpn.textContent === "Apply"){
-        if(!code){
-            alertMsg.textContent = "Enter your available coupon code";
-            setTimeout(()=>{
-                alertMsg = "";
-            },2000);
-        }else{
-            $.ajax({
-                url: '/applyCoupon',
-                method: "POST",
-                data:{code, id},
-                success: (response) => {
-                    if (response.status == "true") {
-                        const Toast = Swal.mixin({
-                        toast: true,
-                        position: "bottom",
-                        showConfirmButton: false,
-                        timer: 1500,
-                        // timerProgressBar: true,
-                        didOpen: (toast) => {
-                            toast.onmouseenter = Swal.stopTimer;
-                            toast.onmouseleave = Swal.resumeTimer;
-                        },
-                        });
-                        Toast.fire({
-                        icon: "success",
-                        title: "Coupon added",
-                        position: "center",
-                        }).then((result) => {
-                        document.getElementById("discount").innerHTML = parseInt(response.dicsAmount);
-                        document.getElementById("total").innerHTML =parseInt(response.balance);
-                        // document.getElementById("remove").style.display = "inline-block"
-                        document.getElementById("applyCpn").style.display = "none";
-                        document.getElementById("coupCode").style.display = "none";
-                        // document.getElementById("text").innerHTML = "<h6>You already added this coupon code </h6> <h4 style='color:#007bff'>" + response.code + "</h4>"
-                        // document.getElementById("show").style.display = "none"
-                        });
-                    } else if(response.status === "invalid"){
+            function applyCoupon(id) {
+                const code = document.getElementById("coupCode").value;
+                const applyCpn = document.getElementById("applyCpn");
+                const total = document.getElementById("total").innerHTML;
+                if (applyCpn.textContent === "Apply") {
+                    if (!code) {
                         Swal.fire({
-                        icon: "error",
-                        title: "Cannot find coupon.",
-                        showConfirmButton: false,
-                        timer: 2000,
+                            icon: "error",
+                            title: "Coupon code not found",
+                            text:"Enter your available coupon code",
+                            showConfirmButton: true,
                         });
-                    }else if(response.status === "used"){
-                        Swal.fire({
-                        icon: "error",
-                        title: "You have already used this coupon.",
-                        showConfirmButton: false,
-                        timer: 2000,
-                        });
-                    }else if(response.status === "minMaxAmnt"){
-                        Swal.fire({
-                        icon: "error",
-                        title: `Total amount must be inbetween ${minAmnt} and ${maxAmnt}.`,
-                        showConfirmButton: false,
-                        timer: 1500,
-                        });
+                        return;
+                    } else {
+                        $.ajax({
+                            url: '/applyCoupon',
+                            method: "POST",
+                            data: { code, id },
+                            success: (response) => {
+                                if (response.status == "true") {
+                                    alert("trueeeeeeeeee");
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: "bottom",
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                        didOpen: (toast) => {
+                                            toast.onmouseenter = Swal.stopTimer;
+                                            toast.onmouseleave = Swal.resumeTimer;
+                                        },
+                                    });
+                                    Toast.fire({
+                                        icon: "success",
+                                        title: "Coupon added",
+                                        position: "center",
+                                    }).then((result) => {
+                                        document.getElementById("discount").innerHTML = parseInt(response.dicsAmount);
+                                        document.getElementById("total").innerHTML = parseInt(response.balance);
+                                        document.getElementById("applyCpn").style.display = "none";
+                                        document.getElementById("coupCode").style.display = "none";
+                                    });
+                                } else if (response.status === "invalid") {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "Cannot find coupon.",
+                                        showConfirmButton: false,
+                                        timer: 2000,
+                                    });
+                                } else if (response.status === "used") {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: "You have already used this coupon.",
+                                        showConfirmButton: false,
+                                        timer: 2000,
+                                    });
+                                } else if (response.status === "minMaxAmnt") {
+                                    Swal.fire({
+                                        icon: "error",
+                                        title: `Total amount must be inbetween ${minAmnt} and ${maxAmnt}.`,
+                                        showConfirmButton: false,
+                                        timer: 1500,
+                                    });
+                                }
+                            },
+                        })
                     }
-                },
-            })
-        }
-    }
-}
+                }
+            }
 
 
-function removeCoup(){
-    const Toast = Swal.mixin({
-            toast: true,
-            position: "center",
-            showConfirmButton: false,
-            timer: 1500,
-            didOpen: (toast) => {
-              toast.onmouseenter = Swal.stopTimer;
-              toast.onmouseleave = Swal.resumeTimer;
-            },
-          });
-          Toast.fire({
-            icon: "success",
-            title: "Coupon Removed",
-          }).then((result) => {
-            window.location.href = "/checkout";
-          });
-}
-   
-
-function addressSelection(radio) {
-    let radioBtn = document.getElementsByName("selectedAddress");
-    radioBtn.forEach((rd) => {
-        if (rd !== radio) {
-            rd.checked = false;
-        }
-    })
-}
-
-
-$(document).ready(function () {
-    // Hide the add-address-form initially
-    $('.add-address-form').hide();
-    // Toggle the add-address-form visibility when the button is clicked
-    $('.add-address-toggle').click(function (e) {
-        e.preventDefault();
-        $('.add-address-form').toggle();
-    });
-});
-let selectedAddress
-function addressSelection(radio) {
-    if (radio.checked) {
-        selectedAddress = radio.value;
-    } else {
-        selectedAddress = null;
-    }
-}
-let selectPayment
-function paymentMethod(checkbx) {
-    if (checkbx.checked) {
-        selectPayment = checkbx.value;
-    } else {
-        selectPayment = null;
-    }
-}
-
-
-
-function placeOrder(cartId) {
-    //coupon adding into it
-    const code = document.getElementById("coupCode").value;
-    const total = document.getElementById("total").innerHTML;
-    $.ajax({
-        url: "/placeorder",
-        method: "post",
-        data: {
-            selectedAddress,
-            selectPayment,
-            code,
-            cartId,
-            total,  
-        },
-        success: (response) => {
-            if (response.status === true) {
-                Swal.fire({
-                  title: "Your order has been placed",
-                  width: 600,
-                  padding: "3em",
-                  color: "#716add",
-                  background: "#fff url(/images/trees.png)",
-                  backdrop: `
-                        rgba(0,0,123,0.4)
-                        url("/images/nyan-cat.gif")
-                        left top
-                        no-repeat
-                    `,
-                  showConfirmButton: true,
-                  confirmButtonColor: "#000000", // Set button color to black
+            function removeCoup() {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "center",
+                    showConfirmButton: false,
+                    timer: 1500,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    },
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "Coupon Removed",
                 }).then((result) => {
-                  if (result.isConfirmed) {
-                    window.location.href = "/orderSful";
-                  }
-                });
-            } else if(response.status === "fill"){
-                Swal.fire({
-                  icon: "error",
-                  title: "Select Address and Payment method to continue",
-                  showConfirmButton: true,
+                    window.location.href = "/checkout";
                 });
             }
 
-                else if (response.status == "razorpay") {
-                // alert(response.order.amount)
-                // alert(response.order.id)
-                // alert(response.order)
 
-                let orderId = response.order.id;
-                let address = response.address;
+            function addressSelection(radio) {
+                let radioBtn = document.getElementsByName("selectedAddress");
+                radioBtn.forEach((rd) => {
+                    if (rd !== radio) {
+                        rd.checked = false;
+                    }
+                })
+            }
 
-                let amount = response.total;
-                let couponCode = response.code;
 
-                var order_id = response.orderNumber;
-
-                var options = {
-                  key: "rzp_test_ECB3Zjd1NyXFF9", // Enter the Key ID generated from the Dashboard
-                  amount: 50000, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-                  currency: "INR",
-                  name: "Szucci Bags",
-                  description: "Test Transaction",
-                  image: "https://example.com/your_logo",
-                  order_id: orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                  handler: function (response) {
-                   
-
-                    verifyPayment(
-                      response,
-                      orderId,
-                      selectedAddress,
-                      order_id,
-                      amount,
-                      couponCode
-                    );
-                  },
-                  prefill: {
-                    name: "Gaurav Kumar",
-                    email: "gaurav.kumar@example.com",
-                    contact: "9000090000",
-                  },
-                  notes: {
-                    address: "Razorpay Corporate Office",
-                  },
-                  theme: {
-                    color: "#000000",
-                  },
-                };
-
-                var rzp = new Razorpay(options);
-                rzp.on("payment.failed", function (response) {
-                  //     console.log(couponCode)
-                  //    console.log("hello");
-                  //    console.log(address)
-                  //    console.log(amount)
-
-                  paymentFalid(selectedAddress, amount, couponCode);
-                  rzp.close();
+            $(document).ready(function () {
+                // Hide the add-address-form initially
+                $('.add-address-form').hide();
+                // Toggle the add-address-form visibility when the button is clicked
+                $('.add-address-toggle').click(function (e) {
+                    e.preventDefault();
+                    $('.add-address-form').toggle();
                 });
-                // alert(response.order.id)
-                rzp.open();
+            });
+            let selectedAddress
+            function addressSelection(radio) {
+                if (radio.checked) {
+                    selectedAddress = radio.value;
+                } else {
+                    selectedAddress = null;
+                }
             }
-       },
-    });
-}
-
-
-
- function verifyPayment(payment, order, data) {
-    $.ajax({
-        url: '/verifyPayment',
-        data: { payment, order, data },
-        method: 'POST',
-        success: function (response) {
-            if (response.success) {
-                window.location.href = response.url
-            } else {
-                console.log("this is response", response)
-                toastify({
-                    text: response.message,
-                    backgroundColor: 'red',
-                    duration: 6000,
-                    position: "center"
-                }).showToast();
+            let selectPayment
+            function paymentMethod(checkbx) {
+                if (checkbx.checked) {
+                    selectPayment = checkbx.value;
+                } else {
+                    selectPayment = null;
+                }
             }
-        }
-    })
-}
 
-</script>
+
+
+            function placeOrder(cartId) {
+                //coupon adding into it
+                const code = document.getElementById("coupCode").value;
+                const Total = document.getElementById("total").innerHTML;
+                const total = parseInt(Total);
+                $.ajax({
+                    url: "/placeorder",
+                    method: "post",
+                    data: {
+                        selectedAddress,
+                        selectPayment,
+                        code,
+                        cartId,
+                        total,
+                    },
+                    success: (response) => {
+                        if (response.status === true) {
+                            Swal.fire({
+                                title: "Your order has been placed",
+                                width: 600,
+                                padding: "3em",
+                                color: "#716add",
+                                //   background: "#fff url(/images/trees.png)",
+                                //   backdrop: `
+                                //         rgba(0,0,123,0.4)
+                                //         url("/images/nyan-cat.gif")
+                                //         left top
+                                //         no-repeat
+                                //     `,
+                                showConfirmButton: true,
+                                confirmButtonColor: "#000000", // Set button color to black
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.href = "/orderSful";
+                                }
+                            });
+                        } else if (response.status === "fill") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Select Address and Payment method to continue",
+                                showConfirmButton: true,
+                            });
+                        } else if (response.status === "15000Limit") {
+                            Swal.fire({
+                                title: "Amount reached",
+                                text: "Online payment is only allowed for payments below 15000₹.",
+                                showCancelButton: false,
+                                confirmButtonColor: "#39e75f",
+                                confirmButtonText: "Okay",
+                                customClass: {
+                                    popup: 'swal-custom',
+                                    cancelButton: 'swal-custom-ok-btn'
+                                }
+                            });
+                        } else if (response.status === "razorpayFailed") {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops!.. Network is busy please try again later ! . . .",
+                                showConfirmButton: false,
+                                customClass: {
+                                    popup: 'swal-custom',
+                                },
+                                timer: 1500
+                            });
+                        } 
+                        else if (response.status === "razorpayTrue") {
+                            console.log("raz truee nde ullillllll")
+                            const orderDetails = response.orderDetails;
+                            var options = {
+                                "key": "rzp_test_iqxC6hlqYjWODY",
+                                "amount": response.razorpayOrder.amount,
+                                "currency": "INR",
+                                "name": "SZUCCI",
+                                "description": "Test Transaction",
+                                "image": "https://example.com/your_logo",
+                                "order_id": response.razorpayOrder.id,
+                                "handler": function (response) {
+                                    successgreen(response, orderDetails)
+                                },
+                                "prefill": {
+                                    "name": response.orderDetails.shippingAddress.name, //your customer's name
+                                    "email": response.orderDetails.userEmail, //your customer's name
+                                    "contact": response.orderDetails.shippingAddress.phone  //Provide the customer's phone number for better conversion rates 
+                                },
+                                "notes": {
+                                    "address": "Razorpay Corporate Office"
+                                },
+                                "theme": {
+                                    "color": "#000000"
+                                }
+                            };
+                            var rzp1 = new Razorpay(options);
+                            rzp1.on('payment.failed', function (response) {
+                                failedpayment(orderDetails);
+                            });
+                            rzp1.open();
+
+                        }
+                    },
+                });
+            }
+
+            function successgreen(response, orderDetails){
+                $.ajax({
+                    url:"/razorpaysuccess",
+                    method: "POST",
+                    data: {
+                        response,
+                        orderDetails,
+                    },
+                    success:(response)=>{
+                        if(response.status === "true"){
+                            console.log("Payment success. Redirecting...");
+                            window.location.href = "/orderSful"
+                        }else if(response.status === "somethingWrong"){
+                            console.log("Something went wrong. Please try again.");
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops!... Something went wrong. Please try again",
+                                showConfirmButton: false,
+                                customClass:{
+                                    popup: 'swal-custom',
+                                },
+                                timer: 1500
+                            });
+                        }
+                    }
+                })
+            }
+
+
+
+            function failedpayment(orderDetails){
+                $.ajax({
+                    url:"/razorpayfailed",
+                    method : "post",
+                    data:{
+                        orderDetails
+                    },
+                    success:(response)=>{
+                        if(response.status === "true"){
+                            window.history.back()
+                        }
+                    }
+                })
+            }
+
+        
+
+        </script>
 
 
         <!-- checkout end -->

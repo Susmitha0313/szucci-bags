@@ -38,9 +38,9 @@ const getLoginPage = async(req,res)=>{
 
 const getAllProductsPage= async(req,res)=>{
     try{
-        const proData = await Product.find({isBlocked : false});
+        const prodData = await Product.find({isBlocked : false});
         const userId = req.session.userId;
-        res.render("user/allProducts",{proData, userId})
+        res.render("user/allProducts",{prodData, userId})
     }catch(error){
         console.log(error.message);
     }
@@ -75,9 +75,9 @@ const getSignupPage = async(req,res)=>{
 const getHomePage= async(req,res)=>{
     try{
         const userId = req.session.userId;
-        const proData = await Product.find({isBlocked : false});
+        const prodData = await Product.find({isBlocked : false});
         const couponData = await Coupon.find({isBlocked : false});
-        res.render("user/home",{proData, couponData, userId})
+        res.render("user/home",{prodData, couponData, userId})
     }catch(error){
         console.log(error.message);
     }
@@ -463,7 +463,7 @@ const editAddress = async(req,res)=>{
         if(!existingAddress){
             return res.status(404).send("Address not found");
         }else{
-             existingAddress.name = name;
+            existingAddress.name = name;
             existingAddress.phone = phone;
             existingAddress.pincode = pincode;
             existingAddress.locality = locality;
@@ -475,7 +475,6 @@ const editAddress = async(req,res)=>{
             await existingAddress.save();
             res.redirect("/address");
         }
-        
     }catch(error){
         console.log(error.message)
     }
@@ -592,7 +591,7 @@ const getWishlist = async(req,res)=>{
     try{
         const userId = req.session.userId;
         const wishData = await Wishlist.find({userId : userId}).populate("products.productId");
-        console.log(wishData);
+
         res.render("user/wishlist",{userId, wishData});
     }catch(error){
         console.log(error.message);  
@@ -605,12 +604,10 @@ const addToWishlist = async (req, res) => {
     try {
         const userId = req.session.userId;
         const { productId } = req.body;
-
         const proData = await Product.findById(productId);
         if (!proData) {
             return res.json({ status: "error", message: "Product not found" });
         }
-
         let wishData = await Wishlist.findOne({ userId: userId });
         if (!wishData) {
             const newWish = new Wishlist({
@@ -620,12 +617,10 @@ const addToWishlist = async (req, res) => {
             wishData = await newWish.save();
             return res.json({ status: "success", message: "Product added to wishlist successfully", wishData });
         }
-
         const proInWish = wishData.products.find(item => item.productId.toString() === productId);
         if (proInWish) {
             return res.json({ status: "alreadyAdded", message: "Product is already in the wishlist" });
         }
-
         wishData.products.push({ productId: productId });
         await wishData.save();
         res.json({ status: "success", message: "Product added to wishlist successfully", wishData });
@@ -634,6 +629,35 @@ const addToWishlist = async (req, res) => {
         return res.status(500).json({ status: "error", message: "Internal server error" });
     }
 };
+
+
+const deleWishItem = async (req, res) => {
+    const userId = req.session.userId;
+    const prodId = req.body.productId ;
+    console.log(userId, prodId);
+    try {
+        const wishlist = await Wishlist.findOne({ userId: userId });
+        if (!wishlist) {
+            return res.status(404).json({ status: "error", message: "Wishlist not found" });
+        }
+
+        const wishUpdate = await Wishlist.findOneAndUpdate(
+            { userId: userId },
+            { $pull: { products: { productId: prodId } } },
+            { new: true } // Return the modified document after update
+        );
+
+        if (!wishUpdate) {
+            return res.status(404).json({ status: "error", message: "Product not found in wishlist" });
+        }
+
+        res.json({ status: "success", wishlist: wishUpdate  });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: "error", message: "Internal server error" });
+    }
+};
+
 
 
 module.exports = {
@@ -675,6 +699,8 @@ module.exports = {
     
     getWishlist,
     addToWishlist,
+    deleWishItem,
+
 
 
 

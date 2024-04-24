@@ -138,16 +138,26 @@
                             <% }) %>
 
                             <% orderData.forEach(element => { %>
-                                <% if(element.status === "Delivered"){ %>
-                                    <div class="col-md-4">
-                                        <button style="border: none; background-color: rgb(73, 73, 73); color: white; padding: 10px 15px; margin: 10px;" onclick="requestReturn('<%= element._id %>')" id="returnButton<%= element._id %>">Return Order</button>
-                                    </div>
-                                <% } else if(element.status === "Returned"){ %>
-                                    <h3 class="alert-warning text-warning">Returned</3>
-                                <% } else if (element.status === "RequestProcessing"){ %>
+                                <% if (element.status === "Delivered" && element.orderDate) {
+                                    const currentDate = new Date();
+                                    const tenDaysAgo = new Date();
+                                    tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+                                    const orderDeliveryDate = new Date(element.orderDate);
+                                    if (orderDeliveryDate >= tenDaysAgo && orderDeliveryDate <= currentDate) { %>
+                                        <div class="col-md-4">
+                                            <button style="border: none; background-color: rgb(73, 73, 73); color: white; padding: 10px 15px; margin: 10px;" onclick="requestReturn('<%= element._id %>')" id="returnButton<%= element._id %>">Return Order</button>
+                                            <p>Return before <%= tenDaysAgo.toLocaleDateString() %> </p>
+                                        </div>
+                                    <% } else { %>
+                                        <h3 class="alert-warning text-warning">Return window expired</h3>
+                                    <% }
+                                } else if (element.status === "Returned") { %>
+                                    <h3 class="alert-warning text-warning">Returned</h3>
+                                <% } else if (element.status === "RequestProcessing") { %>
                                     <h3 class="alert-danger text-danger">Request for returning processing...</h3>
-                                    <% } %>
+                                <% } %>
                             <% }) %>
+                            
                             
                          
                             

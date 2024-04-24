@@ -1,5 +1,6 @@
 const express =require("express");
 const User = require("../models/userSchema");
+const Product = require("../models/productSchema");
 const bcrypt = require("bcrypt");
 const Order = require("../models/orderSchema");
 const { session } = require("passport");
@@ -15,7 +16,17 @@ const pageNotFound = async (req, res) => {
     try{
     console.log("its loagningdg");
     const orderData = await Order.find({});
-    res.render("adminHome",{orderData});
+    const proData = await Product.find({});
+    let overallAmount = 0;
+    let overallDiscount = 0;
+
+    orderData.forEach((elem) => {
+        overallAmount += elem.totalAmount;
+        if (typeof elem.discount !== 'undefined') {
+            overallDiscount += elem.discount;
+        }
+    });
+    res.render("adminHome",{orderData,proData,overallDiscount,overallAmount});
     }catch(error){
         res.redirect("/pageerror");
     }  
@@ -59,46 +70,33 @@ const getLogout =async(req,res)=>{
 
 
 
-
-
-
-const adminLogin = async (req, res) => {
-    
-    try {
-        const email= req.body.emailA;
+const adminLogin = async(req,res)=>{
+    try{
+        const email = req.body.emailA;
         const password = req.body.passwordA;
 
-        // Find user by email
         const admin = await User.findOne({email , isAdmin:"1"});
-        // Check if user exists
         if (!admin) {
             return res.render("adminLogin",{ errmessage: "Admin not found" });
         }
         
-        // Check password
         const isPasswordValid = await bcrypt.compare(password, admin.password);
         if (!isPasswordValid) {
             return res.render("adminLogin",{ errmessage: 'Invalid password' });
         }
-  
-        // Password is correct, set up user session or generate JWT token
         req.session.admin = admin;
         req.session.save();
-        console.log(req.session.admin);
-        console.log("admin logging in");
         if(req.session.redirectTo){
             res.redirect(req.session.redirectTo);
             delete req.session.redirectTo;
         } else {
-             res.redirect("/admin/adminHome"); // Redirect to the desired page after successful login
-        
+             res.redirect("/admin/adminHome");
         }
-    } catch (error) {
-        console.error("/pageerror");
-        res.status(500).json({ error: 'Server error' });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({error: "Server error"});
     }
-};
-
+}
 
 
 
@@ -120,6 +118,7 @@ const userBlock = async(req,res)=>{
 }
 
 
+
 //load adminLoginPage
 const getSalesPage = async (req, res) => {
     try {
@@ -127,7 +126,7 @@ const getSalesPage = async (req, res) => {
         let orderData;
         const search = req.query.searchOrder || ""; 
         const page = parseInt(req.query.page) || 1; // Parse page to integer
-        const limit = 4;
+        const limit = 5;
         const queryCondition = search.trim() !== ""? 
         { "shippingAddress.name": 
         { $regex: new RegExp(".*" + search + ".*", "i") } 
@@ -137,7 +136,6 @@ const getSalesPage = async (req, res) => {
         .sort({orderDate : -1})
         .limit(limit)
         .skip((page - 1) * limit);
-
         const count = await Order.countDocuments(queryCondition);
 
         let overallAmount = 0;
@@ -149,10 +147,6 @@ const getSalesPage = async (req, res) => {
                 overallDiscount += elem.discount;
             }
         });
-
-        console.log("Overall Amount:", overallAmount);
-        console.log("Overall Discount:", overallDiscount);
-
         res.render("salesReport", {
              overallAmount, 
              overallDiscount,
@@ -168,6 +162,67 @@ const getSalesPage = async (req, res) => {
 
 
 
+
+const filterOrders = async (req, res) => {
+    const selectedOption = req.query.value;
+    console.log("Selected Option:", selectedOption);
+
+    try {
+        let filterData;
+        const orderData = await Order.find({});
+
+        switch (selectedOption) {
+            case 'All':
+                filterData = orderData;
+                break;
+            case 'Year':
+                const thisYear = new Date().getFullYear();
+                console.log(thisYear);
+                filterData = orderData.filter(order => {
+                    const orderYear = new Date(order.createdAt).getFullYear();
+                    return orderYear === thisYear;
+                });
+                console.log(filterData);
+                break;
+            case 'Month':
+                const thisMonth = new Date().getMonth() + 1;
+                const thisYearMonth = new Date().toISOString().slice(0, 7);
+                filterData = orderData.filter(order => {
+                    const orderYearMonth = new Date(order.createdAt).toISOString().slice(0, 7);
+                    return orderYearMonth === thisYearMonth;
+                });
+                break;
+            case 'Day':
+                const today = new Date().toISOString().slice(0, 10);
+                filterData = orderData.filter(order => {
+                    const orderDate = new Date(order.createdAt).toISOString().slice(0, 10);
+                    return orderDate === today;
+                });
+                break;
+            default:
+                filterData = orderData;
+                break;
+        }
+
+
+        let overallAmount = 0;
+        let overallDiscount = 0;
+
+        filterData.forEach((elem) => {
+            overallAmount += elem.totalAmount;
+            if (typeof elem.discount !== 'undefined') {
+                overallDiscount += elem.discount;
+            }
+        });
+       
+        res.json({ filterData, overallAmount, overallDiscount });
+
+    } catch (error) {
+        console.error("Error filtering orders:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
 module.exports = {
     pageNotFound,
     getAdminHome,
@@ -175,6 +230,7 @@ module.exports = {
     getALoginpage,
     getLogout,
     getSalesPage,
+    filterOrders,
    
     userBlock,
 

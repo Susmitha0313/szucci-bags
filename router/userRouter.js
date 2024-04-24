@@ -9,7 +9,7 @@ const orderController = require("../controller/orderController.js");
 const {isLogged} = require("../Authentication/auth") ;
 const {notLog} = require("../Authentication/auth");
 
-
+   
 router.get("/", userController.getHomePage);
 router.get("/allProducts",isLogged, userController.getAllProductsPage);
 
@@ -50,6 +50,10 @@ router.post("/clearCartItems",isLogged,cartController.clearCart);
 router.get("/checkout",isLogged, orderController.getCheckoutPage);
 router.get("/orderSful",isLogged,orderController.getSfulPage);
 router.post("/placeorder",isLogged,orderController.placeOrder);
+
+router.post("/razorpaysuccess",isLogged,orderController.razorpaysuccess);
+router.post("/razorpayfailed",isLogged,orderController.razorpayfailed);
+
 router.get("/viewOrder",isLogged,orderController.viewOrder);
 router.post("/cancelorder",isLogged,orderController.cancelOrder);
 router.post("/returnorder",isLogged,orderController.returnOrder);
@@ -69,4 +73,5 @@ router.post("/resend-otp-pswd", userController.resendOtpPswd);
 
 router.get("/wishlist",isLogged, userController.getWishlist);
 router.post("/wishlist",isLogged, userController.addToWishlist);
+router.post("/removeFromWishlist",isLogged, userController.deleWishItem);
 module.exports = router;   

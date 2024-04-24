@@ -219,7 +219,7 @@
                                       
                                     <tbody style="border-style:solid; border-color: rgba(94, 94, 94, 0.426); border-width: 1px; ">
                                         <tr>
-                                            <td>
+                                            <td class="text-center">
                                                 <a class="itemside" href="#">
                                                     <div class="left">
                                                         <% if(item.productId.productImage[0] !== undefined && item.productId.productImage[0] !== ''){ %>
@@ -231,8 +231,8 @@
                                                     <div class="info"><%= item.productId.productName %></div>
                                                 </a>
                                             </td>
-                                            <td>₹ <%= item.productId.salePrice %></td>
-                                            <td> <%= item.quantity %> </td>
+                                            <td class="text-center">₹ <%= item.productId.salePrice %></td>
+                                            <td class="text-center"> <%= item.quantity %> </td>
                                             <td class="text-end"> ₹ <%= element.totalAmount %> </td>
                                         </tr>
                                         
@@ -252,10 +252,10 @@
                                                         <dd> <b class="h5">₹ <%= element.totalAmount %></b> </dd>
                                                     </dl>
                                                     <dl class="dlist">
-                                                        <dt class="text-muted">Status:</dt>
+                                                        <dt class="text-muted">Payment Status:</dt>
                                                         
                                                         <dd>
-                                                            <% if(element.orderType !== "COD"){ %>
+                                                            <% if(element.paymentStatus == "Success"){ %>
                                                             <span class="badge rounded-pill alert-success text-success">Payment done</span>
                                                             <% }else{ %>
                                                             <span class="badge rounded-pill alert-warning text-warning">Payment pending</span>

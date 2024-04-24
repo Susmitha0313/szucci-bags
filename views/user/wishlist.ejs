@@ -20,6 +20,7 @@
 <div class="wishlist-main-area pt-100 pb-100">
     <div class="container">
         <div class="row">
+            <% if(wishData.length !== 0){ %>
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                 <form action="#">
                     <div class="row">
@@ -39,17 +40,18 @@
                                     <tbody>
                                         <% wishData.forEach((wishlistItem) => { %>
                                             <% wishlistItem.products.forEach((product) => { %>
-                                                <tr id="removeProd<%=product.productId._id %>">
-                                                    <input type="hidden" id="proId" name="user_id" value="<%= product.productId._id %>"> 
+                                                <tr id="removeProd<%=product._id %>">
+                                                   
                                                     <td class="wishlist-remove">
-                                                        <a onclick="deleteCartItem('<%=product.productId._id %>')"><i class="dlicon ui-1_simple-remove"></i></a>
+                                                        <a onclick="removeFromWishlist('<%=product.productId._id %>')"><i class="dlicon ui-1_simple-remove"></i></a>
                                                     </td>
                                                     <td class="wishlist-img">
-                                                        <a href="#"><img src="assets/adminAssets/imgUploads/<%= product.productId.productImage[1] %>" alt="image" style="height: 100px;"></a>
+                                                        <a href="/product-details?id=<%= product.productId._id  %>"><img src="assets/adminAssets/imgUploads/<%= product.productId.productImage[1] %>" alt="image" style="height: 100px;"></a>
                                                     </td>
                                                     <td class="wishlist-name">
                                                         <a href="#"><%= product.productId.productName %></a>
                                                     </td>
+                                                    <input type="hidden" id="proId" name="user_id" value="<%= product.productId._id %>"> 
                                                     <td class="wishlist-stock">
                                                         <% if(product.productId.quantity == 0){ %>
                                                         <span style="color: rgb(175, 175, 175);">Out of Stock</span>
@@ -59,7 +61,11 @@
                                                     </td>
                                                     <td class="wishlist-price"><span class="amount">₹ <%= product.productId.salePrice %></span></td>
                                                     <td class="wishlist-cart">
-                                                        <a title="Add to cart" id="addToCartButton"  onclick="addToCart()">Add to cart</a>
+                                                        <% if(product.productId.quantity == 0){ %>
+                                                            <a style="color: rgb(175, 175, 175); border-color: rgb(175, 175, 175) ;" ><span >Add to cart</span></a>
+                                                        <% } else { %>
+                                                            <a title="Add to cart" onclick="addToCart('<%= product.productId._id %>')">Add to cart</a>
+                                                        <% } %>
                                                     </td>
                                                 </tr>
                                             <% }) %>
@@ -67,11 +73,18 @@
                                     </tbody>
                                     
                                 </table>
-                            </div>
+                            </div>   
                         </div>
                     </div>
                 </form>
             </div>
+            <% } else { %>
+                <div style="text-align: center; ">
+                    <h4>Empty Wishlist</h4>
+                    <a>You have no items in your wishlist. Start adding! </a>
+                </div>
+           
+            <% } %>
         </div>
     </div>
 </div>
@@ -81,10 +94,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 
-function addToCart() {
+function addToCart(productId) {
     console.log("addToCart Ajax is working")
-    const prodQuantity =1;
-    const productId = document.getElementById("proId").value
+    const prodQuantity = 1
     //AJAX request
     $.ajax({
         url: "/addToCart",
@@ -102,13 +114,21 @@ function addToCart() {
                     timer: 2000,
                 })
                 .then((result) => {
+                    removeFromWishlist(productId);
                 //     document.getElementById("addToCartButton").innerText = "View Cart ";
-                    window.location.href = "/productCart";
+                    window.location.reload();
                 });
             } else if (response.status === "alreadyInCart") {
                 Swal.fire({
                     icon: "info",
                     title: "Product already in cart",
+                    showConfirmButton: false,
+                    timer: 2000,
+                });
+            }else if(response.status === "outOfStock"){
+                Swal.fire({
+                    icon: "info",
+                    title: "Sorry!.. Out of stock",
                     showConfirmButton: false,
                     timer: 2000,
                 });
@@ -119,69 +139,27 @@ function addToCart() {
 }
 
 
+function removeFromWishlist(productId) {
+    $.ajax({
+        url: "/removeFromWishlist",
+        method: "post",
+        data: { productId },
+        success: (response) => {
+            if (response.status === "success") {
+                console.log("Product removed from wishlist");
+                window.location.reload();
+            } else {
+                console.error("Error removing product from wishlist");
+            }
+        },
+        error: (err) => {
+            console.error("Error in AJAX request:", err);
+        },
+    });
+}
 
 
 
-function deleteCartItem(productId){
-    console.log("hiiiiiiiiii")
-    //confirmation before deleting
-  
-    // const ttl = document.getElementById("total").innerHTML;
-    // alert(ttl)
-    // const prc = document.getElementById("price" + index).innerHTML;
-    // alert(prc)
-
-    Swal.fire({
-        title: "Are you sure?",
-        text:"You are about to remove this item froim your cart!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor:  '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Yes, remove it!'
-    }).then((result)=>{
-        if(result.isConfirmed){
-            $.ajax({
-                url: `/deleteCartItem?id=${productId}`,
-                method: "post",
-                success:(async(response)=>{
-                    if(response.status === true){
-                        console.log(response)
-                        console.log(response.cartUpdate.totalPrice)
-                        window.location.reload()
-                        document.getElementById("cartSub").innerHTML = response.cartUpdate.totalPrice;
-                        Swal.fire({
-                            icon: "success",
-                            title: "Product removed from cart",
-                            showConfirmButton: false,
-                            timer: 2000
-                        }).then((result)=>{
-                        document.getElementById("removeProd"+ productId).remove();
-                        });
-                    }else{Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "Failed to remove product from cart",
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    }
-                }),
-                error: (xhr, status, error) => {
-                    console.error("Error:", error);
-                    // Show error alert
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: "Failed to remove product from cart",
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                }
-            });
-        }
-    })
- }
 </script>
 
 

@@ -286,8 +286,8 @@
         if (productName.trim() === ""){
                 nameError.innerHTML = "Please enter valid name"
                 return false
-            } else if (productName.length <= 3) {
-                nameError.innerHTML = "Name must need atleast 3 character"
+            } else if (productName.length <= 5) {
+                nameError.innerHTML = "Name must need atleast 5 character"
                 return false
             } else if (productName.length >= 20) {
                 nameError.innerHTML = "Name can't exceed 20 character"

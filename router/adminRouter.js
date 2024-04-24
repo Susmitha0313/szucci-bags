@@ -71,7 +71,7 @@ router.get("/deleteBrand",isAdmin, brandController.deleteBrand);
 
 //sales
 router.get("/salesreport", isAdmin,adminController.getSalesPage);
-
+router.get("/filterSelect",isAdmin, adminController.filterOrders);
 
 module.exports = router;
 

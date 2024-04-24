@@ -17,7 +17,7 @@
         </div>
     </div>
 </div>
-<div class="cart-main-area pt-100" style="height: 700px;">
+<div class="cart-main-area pt-100" style="height: 1000px;">
     <div class="container" style="height: 300px;">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
@@ -36,7 +36,7 @@
                                             <th>total</th>
                                         </tr>
                                     </thead>
-                                    <% } %>
+                                    <% } %>  
                                     <tbody>
                                         <% if(cartData){ %>
                                             <% if(prodData.length > 0) {%>
@@ -231,7 +231,6 @@ function decrement(prodId, quantity, index, price, subtotal) {
 
 
  function deleteCartItem(productId){
-    console.log("hiiiiiiiiii")
     //confirmation before deleting
   
     // const ttl = document.getElementById("total").innerHTML;
@@ -241,7 +240,7 @@ function decrement(prodId, quantity, index, price, subtotal) {
 
     Swal.fire({
         title: "Are you sure?",
-        text:"You are about to remove this item froim your cart!",
+        text:"You are about to remove this item from your cart!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor:  '#d33',

@@ -75,17 +75,12 @@
     <main class="main-wrap">
         <header class="main-header navbar">
             <div class="col-search">
-                <form class="searchform">
+                <form action="/admin/ordersList" method="get" class="searchform">
                     <div class="input-group">
-                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
-                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
+                        <input type="hidden" name="orderNum" value="<%= orderData.orderNumber %>">
+                        <input list="search_terms" type="text" name="searchOrder" class="form-control" placeholder="Search term">
+                        <button class="btn btn-light bg"  type="submit"> <i class="material-icons md-search"></i></button>
                     </div>
-                    <datalist id="search_terms">
-                        <option value="Products">
-                        <option value="New orders">
-                        <option value="Apple iphone">
-                        <option value="Ahmed Hassan">
-                    </datalist>
                 </form>
             </div>
             <div class="col-nav">
@@ -126,13 +121,13 @@
             <div class="card mb-4">
                 <header class="card-header">
                     <div class="row gx-3">
-                        <form action="/admin/ordersList" method="get">
+                        <!-- <form action="/admin/ordersList" method="get" class="searchform">
                             <div class="col-lg-4 col-md-6 me-auto">
                                 <input type="text" name="searchOrder" placeholder="Search..." class="form-control">
                                 <button type="submit"><i class="material-icons md-search"></i></button>
                             </div>
-                        </form>
-                           
+                        </form> -->
+                           <h5>Filter</h5>
                         <div class="col-lg-2 col-6 col-md-3">
                             <select class="form-select">
                                 <option>Status</option>
@@ -198,7 +193,8 @@
                                             <div class="dropdown-menu">
                                                
                                                 <a class="dropdown-item" href="/admin/orderEdit/?id=<%= order._id %>">View and Edit </a>
-                                                <a class="dropdown-item text-danger" href="/admin/deleteOrder/?id=<%= order._id %>">Delete</a>
+                                                <!-- <a class="dropdown-item text-danger" href="/admin/deleteOrder/?id=<%= order._id %>">Delete</a> -->
+                                                <a class="dropdown-item text-danger" onclick="deleteOrder('<%= order._id %>')">Delete</a>
                                             </div>
                                         </div> <!-- dropdown //end -->
                                     </td>
@@ -222,6 +218,10 @@
                 </nav>
             </div> 
         </section>
-
+<script>
+    function deleteOrder(id){
+        
+    }
+</script>
 
         <%- include("../partials/adminFooter.ejs") %>

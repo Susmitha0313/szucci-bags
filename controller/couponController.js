@@ -1,6 +1,8 @@
 const Coupon = require("../models/couponSchema");
 const Product = require("../models/productSchema");
 const Category = require("../models/categorySchema");
+const User = require("../models/userSchema");
+const Cart = require("../models/cartSchema");
 
   
        

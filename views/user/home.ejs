@@ -5,21 +5,22 @@
 
       <div class="product-slider-area bg-gray-2 " >
             <div class="product-slider-active-5" >
+                <% const proData = prodData.slice().reverse(); %>
                 <% for(let i=0; i < Math.min(4, proData.length); i++){ %> 
                 <div class="single-product-slider text-center">
-                    <a href="product-details"><img src="assets/userAssets/images/product/pro-slider-4.png" alt="product"></a>
-                    <h3>proData</h3>
-                    <span>₹ 4900</span>
+                    <a href="product-details?id=<%=proData[proData.length-1]._id%>"><img src="assets/userAssets/images/product/pro-slider-4.png" alt="product"></a>
+                    <h3><%= proData[proData.length-1].productName %></h3>
+                    <span>₹ <%= proData[proData.length-1].salePrice %></span>
                 </div>
                 <div class="single-product-slider text-center">
-                    <a href="product-details"><img src="assets/userAssets/images/product/pro-slider-1.png" alt="product"></a>
-                    <h3>Lace-up suede sneake</h3>
-                    <span>₹ 4900</span>
+                    <a href="product-details?id=<%=proData[proData.length-2]._id%>"><img src="assets/userAssets/images/product/pro-slider-1.png" alt="product"></a>
+                    <h3><%= proData[proData.length-2].productName %></h3>
+                    <span>₹ <%= proData[proData.length-2].salePrice %></span>
                 </div>
                 <div class="single-product-slider text-center">
-                    <a href="product-details"><img src="assets/userAssets/images/product/pro-slider-2.png" alt="product"></a>
-                    <h3>Lace-up suede sneake</h3>
-                    <span>₹ 4900</span>
+                    <a href="product-details?id=<%=proData[2]._id%>"><img src="assets/userAssets/images/product/pro-slider-2.png" alt="product"></a>
+                    <h3><%= proData[2].productName %></h3>
+                    <span>₹ <%= proData[2].salePrice %></span>
                 </div>
                 <% } %>
             </div>

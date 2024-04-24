@@ -289,48 +289,7 @@
 
 
 
-<div class="small-device-area d-block d-md-none">
-    <div class="container-fluid">
-        <div class="pro-dec-small-device">
-            <div class="pro-details-sidebar-active slider-nav-style-3 owl-carousel">
-                <div class="single-pro-details-sidebar">
-                    <a href="#"><img src="/assets/userAssets/images/team/member-02.jpg" alt=""></a>
-                    <div class="pro-details-sidebar-content">
-                        <h4><a href="#">NEW <br>LONDON</a></h4>
-                        <p>Off 20% for all</p>
-                    </div>
-                </div>
-                <div class="single-pro-details-sidebar">
-                    <a href="#"><img src="/assets/adminAssets/images/product-details/pro-details-sidebar-2.jpg" alt=""></a>
-                    <div class="pro-details-sidebar-content">
-                        <h4><a href="#">NEW <br>LONDON</a></h4>
-                        <p>Off 20% for all</p>
-                    </div>
-                </div>
-            </div>
-            <div class="sidebar-subscribe-wrap">
-                <div class="sidebar-subscribe-content text-center">
-                    <i class="dlicon ui-1_email-84"></i>
-                    <h5>Join Our Newsletter</h5>
-                    <p>Sale up to 20% off for your next purchase in this month!</p>
-                </div>
-                <div class="sidebar-subscribe-form">
-                    <form class="validate subscribe-form-style" novalidate="" target="_blank" name="mc-embedded-subscribe-form" method="post" action="https://devitems.us11.list-manage.com/subscribe/post?u=6bbb9b6f5827bd842d9640c82&amp;id=05d85f18ef">
-                        <div class="mc-form">
-                            <input class="email" type="email" required="" placeholder=" email address…" name="EMAIL" value="">
-                            <div class="mc-news" aria-hidden="true">
-                                <input type="text" value="" tabindex="-1" name="b_6bbb9b6f5827bd842d9640c82_05d85f18ef">
-                            </div>
-                            <div class="clear">
-                                <input class="button" type="submit" name="subscribe" value="Subscribe">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 <!-- 
 <div class="related-product-area section-padding-1 pb-95">
@@ -465,8 +424,7 @@ function addToCart() {
 
 
 function addToWishlist(){
-    const productId = document.getElementById("proId").value
-    alert(productId);
+    const productId = document.getElementById("proId").value;
     $.ajax({
         method: "POST",
         url: "/wishlist",

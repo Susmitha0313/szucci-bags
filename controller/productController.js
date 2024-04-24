@@ -123,35 +123,43 @@ const getProInfoPage = async(req,res)=>{
 
 const addProduct = async (req, res) => {
     console.log("add product working");
-  try {
-    const { productTitle, description, regPrice, OfferPrice , stock, category, brand } = req.body;
-    const imagesofArray = req.files.map((x)=> x.originalname)
-    const description1 = ""+description;
-    const cat = await Category.findById({_id: category});
-    const brandd = await Brand.findById({_id: brand});
-    const product = await Product.find({productName : productTitle });
-    console.log(product);
-    if(!product){
+    try {
+        const { productTitle, description, regPrice, OfferPrice, stock, category, brand } = req.body;
+        console.log(productTitle, description, regPrice, OfferPrice, stock, category, brand);
+        const imagesofArray = req.files.map((x) => x.originalname);
+        const description1 = "" + description;
+        
+        // Ensure Category and Brand are Mongoose models
+        const cat = await Category.findById(category);
+        const brandd = await Brand.findById(brand);
+
+        // Check if a product with the same title already exists
+        const existingProduct = await Product.findOne({ productName: productTitle });
+        if (existingProduct) {
+            return res.status(400).json({ status: "error", message: "Product already exists" });
+        }
+
         const newProduct = new Product({
-        productName: productTitle,
-        description: description1,
-        regularPrice: regPrice,
-        salePrice: OfferPrice,
-        isBlocked: false,
-        quantity: stock,
-        category: cat._id,
-        brand: brandd._id,
-        productImage: imagesofArray 
-    });
-    await newProduct.save();
-    console.log(newProduct)
-    res.redirect("/admin/products");
+            productName: productTitle,
+            description: description1,
+            regularPrice: regPrice,
+            salePrice: OfferPrice,
+            isBlocked: false,
+            quantity: stock,
+            category: cat._id,
+            brand: brandd._id,
+            productImage: imagesofArray,
+        });
+
+        console.log(newProduct);
+        await newProduct.save();
+        res.redirect("/admin/products");
+    } catch (error) {
+        console.error(`Error in addProduct: ${error.message}`);
+        return res.status(500).json({ status: "error", message: "Internal server error" });
     }
-} catch (error) {
-    console.error(`Error in addProduct: ${error.message}`);
-    return res.status(500).json({ status: 'error', message: 'Internal server error' });
-  }
 };
+
 
 
 
@@ -182,7 +190,7 @@ const productDelete = async(req,res)=>{
     const catData = await Category.find({});
     console.log( "delete Pro" + deletePro);
     if (!deletePro) {
-        console.log(`Product "${productName}" not found.`);
+        console.log(`Product not found.`);
         return;
       }
       const productList = await Product.find({});
