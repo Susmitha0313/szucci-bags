@@ -71,92 +71,73 @@ function generateCouponCode(length) {
     return couponCode;
 }
 
-// const getCatEdit = async(req,res)=>{
-//   try{
-//     console.log("getCatEdit page");
-//     const catId = req.params.Id;
-//     const category =await Category.findById(catId);
-//     console.log(category);
-//     if(!category){
-//       return res.status(404).send("Category not found");
-//     }
-//       res.render("productCategEdit",{category});
-//   }catch(error){
-//       console.log("/pageerror");
-//       res.status(500).send('Category Edit Internal Server Error');
-//   }
-// }
-                                                                       
-// const categoryEdit = async (req, res) => {
-//   console.log("update Cat post working ")
-//   try { 
-//     const { categName, description, categoryId } = req.body;
-//     const category = await Category.findById(categoryId);
-//     if (!category) {
-//       return res.status(404).send("Category not found");
-//     }
 
-//     const existingCategory = await Category.findOne({ name: categName.toLowerCase(), _id: { $ne: categoryId } });
-//     console.log(categName, description, categoryId, existingCategory);
-//     const allCategories = await Category.find({});
-//     console.log("Exist cat......", existingCategory);
+//user side 
 
-//     if (existingCategory) {
-//       return res.render("productCategEdit", { errMessage: "Category Already exists", category });
-//     } else {
-//       category.name = categName;
-//       category.description = description;
-//       await category.save();
-//       res.redirect("/admin/category");
-//     }
-//   } catch (error) {
-//     console.error(`Error in updateCategory: ${error.message}`);
-//     return res.status(500).json({ status: 'error', message: 'Internal server error' });
-//   }
-// };
-
-
-
-
+const applyCoupon = async (req, res) => {
+    try {
+      const {code,id} = req.body;
+      console.log(code , id);
+      const userId = req.session.userId;
+  
+      const couponData = await Coupon.findOne({coupencode: code });
+      const user = await User.findOne({ _id: userId });
+      const cartData = await Cart.findOne({ userId: userId });
+      console.log(couponData);
+      if (!couponData) {
+        res.json({status : "invalid"});
+        console.log("invalid: coupon not found");
+      } else {
+          if (!couponData.isBlocked && couponData.couponStatus === "active") {
+            if (cartData.totalPrice >= couponData.minBuyRate && cartData.totalPrice <= couponData.maxBuyRate) {
+              const userInsideCoupon = await Coupon.findOne({_id : couponData._id, availableUsers:user._id});
+              console.log("userInsideCoupon: "+userInsideCoupon );
+              if(userInsideCoupon){
+                res.json({status: "used"});
+              }else{
+                  const totalPrice = cartData.totalPrice;
+                  console.log( couponData.maxBuyRate, cartData.totalPrice, couponData.minBuyRate);
+                  const discountPercentage = couponData.discountPercentage;
+                  const amount = ((cartData.totalPrice /100)* couponData.discountPercentage );
+                  console.log("amount "+ amount);
+                  const balanceAmnt = Math.round(totalPrice - (totalPrice * discountPercentage) / 100);
+                  console.log("balanceAmnt "+ balanceAmnt);
+                  res.json({ status: "true", balance: balanceAmnt , dicsAmount : amount});
+              }
+            } else {
+              res.json({ status: "minMaxAmnt", minAmnt: couponData.minBuyRate, maxAmnt: couponData.maxBuyRate });
+            }
+          } else {
+            res.json({ status: "notfound" });
+          }
+      }
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      return res.status(500).json({ error: "Failed to apply coupon" });
+    }
+  };
 
 
+const couponBlock = async (req, res) => {
+  try {
+      console.log("coupon block");
+      const coupName = req.query.couponName; // Corrected query parameter name
+      const coup = await Coupon.findOne({ couponName: coupName });
 
-// const categoryBlock = async (req, res) => {
-//   try {
-//       console.log("CatBlock");
-//       const nameCat = req.query.categoryName; // Corrected query parameter name
-//       const categ = await Category.findOne({ name: nameCat });
+      if (coup.isBlocked === true) {
+          const blocked = await Coupon.findOneAndUpdate({ couponName: coupName }, { $set: { isBlocked: false } });
+      } else {
+          const unblocked = await Coupon.findOneAndUpdate({ couponName: coupName }, { $set: { isBlocked: true } });
+      }
 
-//       if (categ.isBlocked === true) {
-//           const blocked = await Category.findOneAndUpdate({ name: nameCat }, { $set: { isBlocked: false } });
-//       } else {
-//           const unblocked = await Category.findOneAndUpdate({ name: nameCat }, { $set: { isBlocked: true } });
-//       }
-
-//       const category = await Category.find({});
-//       res.render("productCategory", {category});
-//   } catch (error) {
-//       console.error("/pageerror", error); // Log the actual error
-//   }
-// }
-
+      const couponData = await Coupon.find({});
+      res.render("couponPage", {couponData});
+  } catch (error) {
+      console.error("/pageerror", error); // Log the actual error
+  }
+}
 
 
-// const deleteCategory = async (req, res) => {
-//   try {
-//     const categoryName = req.query.categoryName;
-//     const deletedCategory = await Category.findOneAndDelete({ name: categoryName });
-
-//     if (!deletedCategory) {
-//       console.log(`Category "${categoryName}" not found.`);
-//       return;
-//     }
-//     const categoryList = await Category.find({});
-//     res.render("productCategory", { category: categoryList });
-//   } catch (error) {
-//     console.error("Error deleting category:", error);
-//   }
-// };
 
 
 
@@ -166,11 +147,9 @@ module.exports = {
     getCouponPage,
     addNewCoupon,
     createCoupon,
+    couponBlock,
+    applyCoupon,
 
-    // getCatEdit,
-    // categoryEdit,
-    // createCategory,
-    // categoryBlock,
-    // deleteCategory,
+    
     
 }

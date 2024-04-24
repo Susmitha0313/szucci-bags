@@ -24,7 +24,7 @@ const getProductDetailPage = async(req,res)=>{
     try{
         const userId = req.session.userId;
         const proId = req.query.id;
-        const proDetails = await Product.findById({_id:proId});
+        const proDetails = await Product.findById({_id:proId}).populate("category").populate("brand");
         const catDetails = await Category.findOne({_id:proDetails.category});
         const brandDetails = await Brand.findOne({_id:proDetails.brand});
         res.render("user/product-details",{proDetails, catDetails,brandDetails,userId});

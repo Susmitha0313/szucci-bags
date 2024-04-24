@@ -1,6 +1,7 @@
 const express =require("express");
 const User = require("../models/userSchema");
 const bcrypt = require("bcrypt");
+const Order = require("../models/orderSchema");
 const { session } = require("passport");
 
 
@@ -9,17 +10,16 @@ const pageNotFound = async (req, res) => {
  };
 
 
-//load adminLoginPage
-const getAdminHome = async(req,res)=>{
+ 
+ const getAdminHome = async(req,res)=>{
+    try{
     console.log("its loagningdg");
-       try{
-         res.render("adminHome");
-       
+    const orderData = await Order.find({});
+    res.render("adminHome",{orderData});
     }catch(error){
         res.redirect("/pageerror");
     }  
     }
-   
 
 
 
@@ -120,15 +120,61 @@ const userBlock = async(req,res)=>{
 }
 
 
+//load adminLoginPage
+const getSalesPage = async (req, res) => {
+    try {
+        console.log("Loading data for admin home...");
+        let orderData;
+        const search = req.query.searchOrder || ""; 
+        const page = parseInt(req.query.page) || 1; // Parse page to integer
+        const limit = 4;
+        const queryCondition = search.trim() !== ""? 
+        { "shippingAddress.name": 
+        { $regex: new RegExp(".*" + search + ".*", "i") } 
+        }: {};
+
+        orderData = await Order.find(queryCondition)
+        .sort({orderDate : -1})
+        .limit(limit)
+        .skip((page - 1) * limit);
+
+        const count = await Order.countDocuments(queryCondition);
+
+        let overallAmount = 0;
+        let overallDiscount = 0;
+
+        orderData.forEach((elem) => {
+            overallAmount += elem.totalAmount;
+            if (typeof elem.discount !== 'undefined') {
+                overallDiscount += elem.discount;
+            }
+        });
+
+        console.log("Overall Amount:", overallAmount);
+        console.log("Overall Discount:", overallDiscount);
+
+        res.render("salesReport", {
+             overallAmount, 
+             overallDiscount,
+            orderData: orderData,
+            currentPage: page,
+            totalPages: Math.ceil(count / limit), });
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        res.redirect("/pageerror");
+    }
+};
+
+
 
 
 module.exports = {
     pageNotFound,
     getAdminHome,
-    // getProducts,
     getUserList,
     getALoginpage,
     getLogout,
+    getSalesPage,
    
     userBlock,
 

@@ -24,9 +24,10 @@
                         code</a></p>
                 <div class="checkout-login-info">
                     <p>If you have a coupon code, please apply it below.</p>
-                    <form action="#">
-                        <input type="text" placeholder="Coupon code">
-                        <input type="submit" value="Apply Coupon">
+                    <form>
+                        <input type="text" id="coupCode" name="coupon" onclick="clearbox()" placeholder="Coupon code">
+                        <button class="coupon-btn" id="applyCpn" onclick="applyCoupon('<%= cartInfo._id%>')" type="submit">Apply</button>
+                        <button class="coupon-btn" id="remCoupon" onclick="removeCoup()" >Cancel</button>
                     </form>
                 </div>
             </div>
@@ -123,14 +124,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <div class="coupon-area">
-                                    <h3>Add Coupon if you have code</h3> 
-                                    <div class="discount-code" >
-                                        <input type="text" id="coupCode" name="coupon" onclick="clearbox()" placeholder="Coupon code">
-                                        <button class="coupon-btn" id="applyCpn" onclick="applyCoupon('<%= cartInfo._id%>')" type="submit">Apply</button>
-                                        <button class="coupon-btn" id="remCoupon" onclick="removeCoup()" >Cancel</button>
-                                    </div>
-                                </div>
+                              
                                 <div class="payment-method">
                                     <div class="billing-info-wrap mr-100">
                                         <h3>Billing Details</h3>
@@ -168,7 +162,7 @@
                                                     style="margin-right: 10px; width: 20px; height: 20px;">
                                                 <div class="row" style="flex: 1;">
                                                     <address>
-                                                        <p style="color: #191919;"><strong>Wallet</strong></p>
+                                                        <p style="color: #191919;"><strong>other</strong></p>
                                                     </address>
                                                 </div>
                                             </div>
@@ -262,14 +256,14 @@ function applyCoupon(id){
                         icon: "error",
                         title: "Cannot find coupon.",
                         showConfirmButton: false,
-                        timer: 1500,
+                        timer: 2000,
                         });
                     }else if(response.status === "used"){
                         Swal.fire({
                         icon: "error",
                         title: "You have already used this coupon.",
                         showConfirmButton: false,
-                        timer: 1500,
+                        timer: 2000,
                         });
                     }else if(response.status === "minMaxAmnt"){
                         Swal.fire({
@@ -346,7 +340,6 @@ function paymentMethod(checkbx) {
 
 function placeOrder(cartId) {
     //coupon adding into it
-    let couponUsed;
     const code = document.getElementById("coupCode").value;
     const total = document.getElementById("total").innerHTML;
     $.ajax({
@@ -355,12 +348,12 @@ function placeOrder(cartId) {
         data: {
             selectedAddress,
             selectPayment,
-            couponUsed,
+            code,
             cartId,
             total,  
         },
         success: (response) => {
-            if (response.status === "true") {
+            if (response.status === true) {
                 Swal.fire({
                   title: "Your order has been placed",
                   width: 600,
@@ -387,20 +380,67 @@ function placeOrder(cartId) {
                   showConfirmButton: true,
                 });
             }
-            else if(response.status === "razorpay"){
-               
+
+                else if (response.status == "razorpay") {
+                // alert(response.order.amount)
+                // alert(response.order.id)
+                // alert(response.order)
+
+                let orderId = response.order.id;
+                let address = response.address;
+
+                let amount = response.total;
+                let couponCode = response.code;
+
+                var order_id = response.orderNumber;
+
+                var options = {
+                  key: "rzp_test_ECB3Zjd1NyXFF9", // Enter the Key ID generated from the Dashboard
+                  amount: 50000, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                  currency: "INR",
+                  name: "Szucci Bags",
+                  description: "Test Transaction",
+                  image: "https://example.com/your_logo",
+                  order_id: orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                  handler: function (response) {
+                   
+
+                    verifyPayment(
+                      response,
+                      orderId,
+                      selectedAddress,
+                      order_id,
+                      amount,
+                      couponCode
+                    );
+                  },
+                  prefill: {
+                    name: "Gaurav Kumar",
+                    email: "gaurav.kumar@example.com",
+                    contact: "9000090000",
+                  },
+                  notes: {
+                    address: "Razorpay Corporate Office",
+                  },
+                  theme: {
+                    color: "#000000",
+                  },
+                };
+
+                var rzp = new Razorpay(options);
+                rzp.on("payment.failed", function (response) {
+                  //     console.log(couponCode)
+                  //    console.log("hello");
+                  //    console.log(address)
+                  //    console.log(amount)
+
+                  paymentFalid(selectedAddress, amount, couponCode);
+                  rzp.close();
+                });
+                // alert(response.order.id)
+                rzp.open();
             }
        },
-        error: (error) => {
-            console.log("This is response: ", response)
-            console.log("Entered in to else tostrify")
-            Toastify({
-                text: response.message,
-                backgroundColor: "red",
-                duration: 6000,
-                position: "center"
-            }).showToast();
-        },
     });
 }
 

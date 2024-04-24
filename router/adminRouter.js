@@ -54,6 +54,7 @@ router.get("/orderEdit",isAdmin,orderController.getOrdereditPage);
 router.post("/changeOrderStatus",isAdmin,orderController.statusChange);
 router.get("/deleteOrder",isAdmin,orderController.deleteOrder);
 router.post("/acceptorReject",isAdmin,orderController.acceptorReject);
+router.get("/searchOrders",isAdmin,orderController.searchOrder);
 
 //coupon routers
 router.get("/couponPage",isAdmin,couponController.getCouponPage);
@@ -68,6 +69,8 @@ router.post("/brand",isAdmin, brandController.createBrand);
 router.get("/brandBlock",isAdmin, brandController.brandBlock);
 router.get("/deleteBrand",isAdmin, brandController.deleteBrand);
 
+//sales
+router.get("/salesreport", isAdmin,adminController.getSalesPage);
 
 
 module.exports = router;

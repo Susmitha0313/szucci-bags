@@ -3,7 +3,9 @@ const router = express()
 const userController = require("../controller/userController.js");
 const cartController = require("../controller/cartController.js");
 const productController = require("../controller/productController.js");
+const couponController = require("../controller/couponController.js");
 const orderController = require("../controller/orderController.js");
+
 const {isLogged} = require("../Authentication/auth") ;
 const {notLog} = require("../Authentication/auth");
 
@@ -51,7 +53,9 @@ router.post("/placeorder",isLogged,orderController.placeOrder);
 router.get("/viewOrder",isLogged,orderController.viewOrder);
 router.post("/cancelorder",isLogged,orderController.cancelOrder);
 router.post("/returnorder",isLogged,orderController.returnOrder);
-router.post("/applyCoupon",isLogged,orderController.applyCoupon);
+
+
+router.post("/applyCoupon",isLogged,couponController.applyCoupon);
 
 
 router.get("/logout",isLogged,  userController.logout);

@@ -14,24 +14,20 @@
         </div>
         <nav>
             <ul class="menu-aside">
-                <li class="menu-item "> 
+                <li class="menu-item"> 
                     <a class="menu-link" href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-item active "> 
-                    <a class="menu-link " href="/admin/ordersList"> <i class="icon material-icons md-home"></i>
+
+                <li class="menu-item"> 
+                    <a class="menu-link" href="/admin/adminHome"> <i class="icon material-icons md-show_chart"></i>
+                        <span class="text">Sales Report</span>
+                    </a>
+                </li>
+                <li class="menu-item active"> 
+                    <a class="menu-link active" href="/admin/ordersList"> <i class="icon material-icons md-list_alt"></i>
                         <span class="text">Orders</span>
-                    </a>
-                </li>
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
-                        <span class="text">Products</span>
-                    </a>
-                </li>
-                <li class="menu-item "> 
-                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-home"></i>
-                        <span class="text">Coupon</span>
                     </a>
                 </li>
 
@@ -42,7 +38,13 @@
                 </li>
                
                 <li class="menu-item ">
-                    <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-person"></i>
+                    <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-local_offer"></i>
+                        <span class="text">Products</span>
+                    </a>
+                </li>
+
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-label"></i>
                         <span class="text">Brand</span>
                     </a>
                 </li>
@@ -52,6 +54,19 @@
                         <span class="text">Category</span>
                     </a>
                 </li>
+
+                 <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-confirmation_number"></i>
+                        <span class="text">Coupon</span>
+                    </a>
+                </li>
+
+                <li class="menu-item "> 
+                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-redeem"></i>
+                        <span class="text">Offers</span>
+                    </a>
+                </li>
+               
                 
             <br>
             <br>
@@ -109,11 +124,15 @@
                 </div>
             </div>
             <div class="card mb-4">
-                <!-- <header class="card-header">
+                <header class="card-header">
                     <div class="row gx-3">
-                        <div class="col-lg-4 col-md-6 me-auto">
-                            <input type="text" placeholder="Search..." class="form-control">
-                        </div>
+                        <form action="/admin/ordersList" method="get">
+                            <div class="col-lg-4 col-md-6 me-auto">
+                                <input type="text" name="searchOrder" placeholder="Search..." class="form-control">
+                                <button type="submit"><i class="material-icons md-search"></i></button>
+                            </div>
+                        </form>
+                           
                         <div class="col-lg-2 col-6 col-md-3">
                             <select class="form-select">
                                 <option>Status</option>
@@ -130,7 +149,7 @@
                             </select>
                         </div>
                     </div>
-                </header> card-header end// -->
+                </header>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="orderTable" class="table table-hover">
@@ -191,43 +210,18 @@
                     </div> <!-- table-responsive //end -->
                 </div> <!-- card-body end// -->
             </div> <!-- card end// -->
-            <!-- <div class="pagination-area mt-15 mb-50">
+            <div class="pagination-area mt-15 mb-50">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
-
-                        <!-- do using skip and limit 
-                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                        <li class="page-item"><a class="page-link" href="#">02</a></li>
-                        <li class="page-item"><a class="page-link" href="#">03</a></li>
-                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">16</a></li>
+                        <% for(let i= 1 ; i<= totalPages; i++){ %>
+                        <li class="page-item active">
+                            <a class="page-link" href="?page=<%= i %>"> <%= i %> </a></li>
+                        <% } %>
                         <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
                     </ul>
                 </nav>
-            </div> -->
-        </section> <!-- content-main end// -->
+            </div> 
+        </section>
 
 
-
-        <!-- <script>
-   document.addEventListener("DOMContentLoaded", function() {
-    const searchInput = document.getElementById('searchInput');
-    const orderTable = document.getElementById('orderTable');
-    const rows = orderTable.getElementsByTagName('tr');
-    console.log(searchInput,orderTable,rows);
-
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        for (let i = 0; i < rows.length; i++) {
-            const orderNumber = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
-            if (orderNumber.includes(searchTerm)) {
-                rows[i].style.display = '';
-            } else {
-                rows[i].style.display = 'none';
-            }
-        }
-    });
-});
-
-        </script> -->
         <%- include("../partials/adminFooter.ejs") %>
