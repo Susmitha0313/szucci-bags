@@ -11,8 +11,7 @@ const {notLog} = require("../Authentication/auth");
 
    
 router.get("/", userController.getHomePage);
-router.get("/allProducts",isLogged, userController.getAllProductsPage);
-
+router.get("/allProducts", userController.getAllProductsPage);
 router.get("/pageNotFound", userController.pageNotFound);
 
 router.get("/login", userController.getLoginPage);  
@@ -36,8 +35,9 @@ router.get("/verify-otp", userController.getVerifyOtpPage);
 router.post("/verify-otp", userController.verifyOtp);
 router.post("/resend-otp", userController.resendOtp);
 router.get("/product-details",isLogged, productController.getProductDetailPage); 
-router.get("/allProductSort",isLogged ,userController.allProductSort);
+// router.get("/allProductSort" ,userController.allProductSort);
       
+
 //cart
 router.get("/productCart",isLogged, cartController.getCartPage);   
 router.post("/addToCart",isLogged, cartController.addToCart);

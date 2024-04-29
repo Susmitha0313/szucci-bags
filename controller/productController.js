@@ -160,10 +160,10 @@ const addProduct = async (req, res) => {
     }
 };
 
+        
 
 
-
-
+   
 const productBlock = async(req, res) => {
     try {
         const prodName = req.query.productName;
@@ -181,8 +181,8 @@ const productBlock = async(req, res) => {
         console.error("/pageerror", error);
     }
 }
-
-
+       
+      
 const productDelete = async(req,res)=>{
     const productId = req.query.productId;
     console.log("product ID "+productId);
@@ -196,8 +196,8 @@ const productDelete = async(req,res)=>{
       const productList = await Product.find({});
       res.render("products", { product: productList, catData });
 }
-
-
+    
+      
 const deleteOne = async(req,res)=>{
     console.log("aaaaaaaaaaaaaa")
     try{

@@ -158,9 +158,7 @@ const getSalesPage = async (req, res) => {
         res.redirect("/pageerror");
     }
 };
-
-
-
+       
 
 
 const filterOrders = async (req, res) => {

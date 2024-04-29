@@ -256,8 +256,9 @@ const placeOrder = async (req, res) => {
           shippingAddress: addressInfo,
           coupon: couponData.coupencode,
           discount: couponData.discountPercentage,
-
-        });
+     
+        });        
+        console.log(userData._id);   
         const userWallet = await Wallet.findOne({ userId: userData._id });
         console.log(userWallet);
         if (userWallet) {
@@ -268,10 +269,10 @@ const placeOrder = async (req, res) => {
           //user illel nnit new transaction ayi dsave cheyenam....
           //else ulla transactions ilot push cheyenam..
         }
-      } else {
+      } else {      
         createOrder = new Order({
           userId: userData._id,
-          orderNumber: uniqueId,
+          orderNumber: uniqueId,    
           userEmail: userData.email,
           items: cartInfo.items.map((item) => ({
             productId: item.productId,

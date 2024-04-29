@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/userSchema");
 const Product = require("../models/productSchema");
 const Category = require("../models/categorySchema");
+const Brand = require("../models/brandSchema");
 const Address = require("../models/addressSchema.js");
 const Order = require("../models/orderSchema.js");
 const Cart = require("../models/cartSchema.js");
@@ -34,18 +35,62 @@ const getLoginPage = async(req,res)=>{
 };
 
 
-
-
-const getAllProductsPage= async(req,res)=>{
-    try{
-        const prodData = await Product.find({isBlocked : false});
+const getAllProductsPage = async (req, res) => {
+    try {
         const userId = req.session.userId;
-        res.render("user/allProducts",{prodData, userId})
-    }catch(error){
+        const searchData = req.query.searchProd || "";
+        const page = parseInt(req.query.page) || 1;
+        const limit = 5;
+
+        let sortQuery = {};
+        const sort = req.query.sort;
+        switch (sort) {
+            case "Latest":
+                sortQuery = { createdAt: -1 };
+                break;
+            case "ZtoA":
+                sortQuery = { productName: -1 };
+                break;
+            case "AtoZ":
+                sortQuery = { productName: 1 };
+                break;
+            case "Lowtohigh":
+                sortQuery = { salePrice: 1 };
+                break;
+            case "Hightolow":
+                sortQuery = { salePrice: -1 };
+                break;
+            default:
+                sortQuery = { orderData: -1 }; // Default sorting
+        }
+
+        const queryCondition = searchData.trim() !== "" ?
+            { "productName": { $regex: new RegExp(".*" + searchData + ".*", "i") } } :
+            {};
+        
+        const prodData = await Product.find(queryCondition)
+            .sort(sortQuery)
+            .limit(limit)
+            .skip((page - 1) * limit);
+        
+        const count = await Product.countDocuments(queryCondition);
+
+        const catData = await Category.find({ isBlocked: false });
+        const brandData = await Brand.find({ isBlocked: false });
+
+        res.render("user/allProducts", {
+            prodData,
+            userId,
+            currentPage: page,
+            catData,
+            brandData,
+            totalPages: Math.ceil(count / limit),
+        });
+    } catch (error) {
         console.log(error.message);
+        res.status(500).send("Internal Server Error");
     }
 };
-
 
 
 const getVerifyOtpPage = async(req,res)=>{
@@ -300,42 +345,50 @@ const userLogin = async (req, res) => {
 
 
 
+// const sortProducts = async (sortKey) => {
+//     try {
+//         let sortedProducts;
+//         switch (sortKey) {
+//             case "Lowtohigh":
+//                 sortedProducts = await Product.find({ isBlocked: false }).sort({ salePrice: 1 });
+//                 break;
+//             case "Hightolow":
+//                 sortedProducts = await Product.find({ isBlocked: false }).sort({ salePrice: -1 });
+//                 break;
+//             case "AtoZ":
+//                 sortedProducts = await Product.find({ isBlocked: false }).sort({ productName: 1 });
+//                 break;
+//             case "ZtoA":
+//                 sortedProducts = await Product.find({ isBlocked: false }).sort({ productName: -1 });
+//                 break;
+//             default:
+//                 sortedProducts = await Product.find({ isBlocked: false });
+//         }
+//         return sortedProducts;
+//     } catch (error) {
+//         console.error(`Error sorting products: ${error}`);
+//         throw error; // Propagate the error for handling at a higher level
+//     }
+// };
+
+// const allProductSort = async (req, res) => {
+//     try {
+//         const sort = req.query.sort;
+//         const userId = req.session.userId;
+//         const catData = await Category.find({ isBlocked: false });
+//         const brandData = await Brand.find({ isBlocked: false });
+
+//         // Call the sorting method to get sorted products
+//         const prodData = await sortProducts(sort);
+
+//         res.render("user/allProducts", { prodData, userId, catData, brandData,  });
+//     } catch (error) {
+//         console.error(`Error in logging all products page: ${error}`);
+//         res.status(500).send("Internal Server Error");
+//     }
+// };
 
 
-const allProductSort= async(req ,res)=>{
-    try{
-        const sort = req.query.sort;
-        const userId = req.session.userId
-        if(sort == "Lowtohigh"){
-            const proData = await Product.find({isBlocked : false}).sort({salePrice: 1}); 
-            res.render("user/allProducts",{proData , userId});
-        }
-        else if(sort == "Hightolow"){
-            const proData = await Product.find({isBlocked : false}).sort({salePrice: -1}); 
-            res.render("user/allProducts",{proData , userId});
-        }
-        else if(sort == "AtoZ"){
-            const proData = await Product.find({isBlocked : false}).sort({productName: -1}); 
-            res.render("user/allProducts",{proData , userId});
-        }
-        else if(sort == "ZtoA"){
-            const proData = await Product.find({isBlocked : false}).sort({productName: 1}); 
-            res.render("user/allProducts",{proData , userId});
-        }
-        else if(sort == "ZtoA"){
-            const proData = await Product.find({isBlocked : false}).sort({salePrice: 1}); 
-            res.render("user/allProducts",{proData , userId});
-        }
-        else if(sort == "Default"){
-            const proData = await Product.find({isBlocked : false})
-            res.render("user/allProducts",{proData , userId});
-        }
-       
-    }catch(error){
-        console.log(`error in logging all products page : ${error}`);
-    }
-}
-  
 
 
 
@@ -456,10 +509,8 @@ const editAddress = async(req,res)=>{
     try{
         const userId = req.session.userId;
         const adrsId = req.query.id;
-        console.log(adrsId);
         const { name, phone, pincode, locality, city, address, state, landmark, phone2 } = req.body;
         const existingAddress = await Address.findById({_id:adrsId});
-        console.log("jhsgvdfjhdgsf"+existingAddress)
         if(!existingAddress){
             return res.status(404).send("Address not found");
         }else{
@@ -688,7 +739,7 @@ module.exports = {
     resendOtp,
     securePassword,
     userLogin,
-    allProductSort,
+    // allProductSort,
     addNewAddress,
     logout,
     forgetPswdPage,
