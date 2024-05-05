@@ -29,7 +29,7 @@ const getCheckoutPage = async (req, res) => {
     const userId = req.session.userId;
     const addressInfo = await Address.find({ userId: userId });
     const cartInfo = await Cart.findOne({ userId: userId });
-    const couponData = await Coupon.find({});
+    const couponData = await Coupon.find({isBlocked : false});
     const walletInfo = await Wallet.findOne({ userId: userId });
     console.log(walletInfo);
     if (!cartInfo) {
@@ -67,6 +67,7 @@ const getCheckoutPage = async (req, res) => {
       cartInfo,
       walletInfo,
       userId,
+      couponData,
     });
   } catch (error) {
     console.error("/pageerror", error);
@@ -238,56 +239,56 @@ const placeOrder = async (req, res) => {
       
     }
 
-
     else if (selectPayment === "Wallet") {
-      console.log(" 1...selected wallet value");
-      if (couponData) {
-        createOrder = new Order({
-          userId: userData._id,
-          orderNumber: uniqueId,
-          userEmail: userData.email,
-          items: cartInfo.items.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            subTotal: item.subTotal,
-          })),
-          totalAmount: cartInfo.totalPrice,
-          orderType: selectPayment,
-          shippingAddress: addressInfo,
-          coupon: couponData.coupencode,
-          discount: couponData.discountPercentage,
-     
-        });        
-        console.log(userData._id);   
-        const userWallet = await Wallet.findOne({ userId: userData._id });
-        console.log(userWallet);
-        if (userWallet) {
-          if (cartInfo.totalPrice <= userWallet.balance) {
-            console.log("wallet amount use cheyyammm");
-          }
-          //total amnt nde katilum greater aan waller amount nn indenguilee payment patulluu..
-          //user illel nnit new transaction ayi dsave cheyenam....
-          //else ulla transactions ilot push cheyenam..
-        }
-      } else {      
-        createOrder = new Order({
-          userId: userData._id,
-          orderNumber: uniqueId,    
-          userEmail: userData.email,
-          items: cartInfo.items.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            subTotal: item.subTotal,
-          })),
-          totalAmount: cartInfo.totalPrice,
-          orderType: selectPayment,
-          shippingAddress: addressInfo,
-          // coupon: couponData.coupencode,
-          // discount: couponData.discountPercentage,
+      const userWallet = await Wallet.findOne({userId : userId});
+      console.log(userWallet);
+      if (!userWallet) {
+        res.json({ status: "WalletNotFound" });
+        return;
+      }else{
+        if (cartInfo.totalPrice > userWallet.balance) {
+          console.log("insufficient condition");
+          res.json({ status: "InsufficientFunds" });
+          return;
+        }else{
+            console.log("wallet in cash edkan patmm");
+            createOrder = new Order({
+              userId: userData._id,
+              orderNumber: uniqueId,
+              userEmail: userData.email,
+              items: cartInfo.items.map((item) => ({
+                productId: item.productId,
+                quantity: item.quantity,
+                subTotal: item.subTotal,
+              })),
+              totalAmount: cartInfo.totalPrice,
+              orderType: selectPayment,
+              shippingAddress: addressInfo,
+            });
+            await createOrder.save();
+            await Cart.deleteOne({ userId: userId });
+            userWallet.balance -= cartInfo.totalPrice;
+            await userWallet.save();
 
-        });
+            const transaction = new Transaction({
+              walletId: userWallet._id,
+              amount: cartInfo.totalPrice,
+              type: 'debit', 
+              description: 'Payment for order'
+            })
+            await transaction.save();
+
+                // Push the transaction ObjectId to the wallet's transactions array
+                userWallet.transactions.push(transaction._id);
+                await userWallet.save();
+            res.json({ status: true, orderDetails: createOrder });
+        }
       }
+      
     }
+
+    // Save the order details
+   
   } catch (error) {
     console.error("Error placing order:", error);
     res.json({

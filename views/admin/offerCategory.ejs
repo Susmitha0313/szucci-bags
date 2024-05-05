@@ -1,0 +1,386 @@
+<%- include("../partials/adminHeader.ejs") %>
+
+
+    <body class="dark">
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="/admin" class="brand-wrap">
+                    <img src="/assets/adminAssets/imgs/icons/logo.png" class="logo" alt="Evara Dashboard">
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"> <i
+                            class="text-muted material-icons md-menu_open"></i> </button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li class="menu-item ">
+                        <a class="menu-link " href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/salesreport"> <i
+                                class="icon material-icons md-show_chart"></i>
+                            <span class="text">Sales Report</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/ordersList"> <i class="icon material-icons md-list_alt"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-local_offer"></i>
+                            <span class="text">Products</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-label"></i>
+                            <span class="text">Brand</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link " href="/admin/category"> <i class="icon material-icons md-category"></i>
+                            <span class="text">Category</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/couponPage"> <i
+                                class="icon material-icons md-confirmation_number"></i>
+                            <span class="text">Coupon</span>
+                        </a>
+                    </li>
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" > <i class="icon material-icons md-redeem"></i>
+                            <span class="text">Offers</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="/admin/prodOfferPage">Product Offer</a>
+                            <a href="/admin/catOfferPage">Category Offer</a>
+                        </div>
+                    </li>
+
+
+                    <br>
+                    <br>
+            </nav>
+        </aside>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                            <button class="btn btn-light bg" type="button"> <i
+                                    class="material-icons md-search"></i></button>
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products">
+                            <option value="New orders">
+                            <option value="Apple iphone">
+                            <option value="Ahmed Hassan">
+                        </datalist>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                            class="material-icons md-apps"></i> </button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i
+                                    class="material-icons md-nights_stay"></i> </a>
+                        </li>
+
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                                aria-expanded="false"> <img class="img-xs rounded-circle"
+                                    src="/assets/adminAssets/imgs/people/testi-7.png" alt="User"></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit
+                                    Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account
+                                    Settings</a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                        class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Category Offer </h2>
+                        <p>Add and block an offer</p>
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <form id="createOffer" action="/admin/catofferadd" method="post">
+                                    <p class="form-label"><h6>Add New Offer</h6></p>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="offername" class="form-label">Offer Name</label>
+                                            <input id="offername" type="text" name="offerName" placeholder="Type here"class="form-control" />
+                                            <p><div id="nameError" class=" text-danger "></div></p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="disPercent" class="form-label">Discount %</label>
+                                            <input id="disPercent" type="number" name="discountPercent" placeholder="Type here"class="form-control" />
+                                            <p><div id="discerror"  class=" text-danger "></div></p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="enddate" class="form-label">End Date</label>
+                                            <input id="enddate" type="date" name="endDate" placeholder="Type here"class="form-control" />
+                                            <p><div id="endDateErr"  class=" text-danger "></div></p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <div id="categoryDiv">
+                                                <label class="form-label">Categories</label><br>
+                                                <% for(let i=0; i< catData.length; i++){ %>
+                                                    <input type="checkbox" name="category" id="cat<%= i %>" value="<%= catData[i]._id %>">
+                                                    <label for="cat<%= i %>"><%= catData[i].name %></label><br>
+                                                <% } %>
+                                                <p><div id="errorCategory" class=" text-danger "></div></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <% if(locals.errMsg) {%>`
+                                        <p style="color: red;"><%= errMsg %></p>
+                                    <% } %>
+                                            <div class="d-grid">
+                                                <button type="submit" id="submitBtn" class="btn btn-primary">Create Category Offer</button>
+                                            </div>
+                                            <p>
+                                            <div id="message" style="color: #155724;" class="text-success "></div>
+                                            </p>
+                                </form>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <!-- <th class="text-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" />
+                                        </div>
+                                    </th> -->
+
+                                                <th>Name</th>
+                                                <th>Discount</th>
+                                                <th>Status</th>
+                                                <th>Edit </th>
+                                                <th>Block/Unblock</th>
+                                                <!-- <th>Delete</th> -->
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <% offerData.forEach(offer=> { %>
+                                                <tr>
+                                                    <td><b>
+                                                            <%= offer.offerName %>
+                                                        </b></td>
+                                                    <td>
+                                                        <%= offer.discountPercentage %>%
+                                                    </td>
+
+                                                    <% if (offer.isBlocked===true) { %>
+                                                        <td><span class="badge rounded-pill bg-secondary">Blocked</span>
+                                                        </td>
+                                                        <% } else { %>
+                                                            <td><span
+                                                                    class="badge rounded-pill bg-primary">Active</span>
+                                                            </td>
+                                                            <% } %>
+
+                                                                <td><a href="/admin/editOffer/<%= offer._id %>">
+                                                                        <button
+                                                                            class="toggleBtn btn btn-sm font-sm rounded"
+                                                                            style="background-color: rgb(49, 103, 100);">Edit</button>
+                                                                    </a>
+                                                                </td>
+
+
+                                                                <td>
+                                                                    <% if (offer.isBlocked===true) { %>
+                                                                        <a
+                                                                            href="/admin/categoryBlock?categoryName=<%= offer.offerName %>">
+                                                                            <button
+                                                                                class="toggleBtn btn btn-sm font-sm btn-brand rounded">Unblock</button>
+                                                                        </a>
+                                                                        <% } else { %>
+                                                                            <a
+                                                                                href="/admin/categoryBlock?categoryName=<%= offer.offerName %>">
+                                                                                <button
+                                                                                    class="toggleBtn btn btn-sm font-sm btn-brand rounded">Block</button>
+                                                                            </a>
+                                                                            <% } %>
+                                                                </td>
+
+
+                                                </tr>
+                                                <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div> <!-- .col// -->
+                        </div> <!-- .row // -->
+                    </div> <!-- card body .// -->
+                </div> <!-- card .// -->
+            </section>
+
+
+
+
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const createOffer = document.getElementById("createOffer");
+        const categoryDiv = document.getElementById("categoryDiv");
+        const errorOffer = document.getElementById("errorOffer");
+        const errorCategory = document.getElementById("errorCategory");
+
+        function nameValidation() {
+            const coupName = document.getElementById("offername").value;
+            const nameError = document.getElementById("nameError");
+            // Validation logic for product name
+            if (coupName.trim() === "") {
+                nameError.innerHTML = "Please enter valid name"
+                return false
+            } else if (coupName.length <= 3) {
+                nameError.innerHTML = "Name must need atleast 3 character"
+                return false
+            } else if (coupName.length >= 20) {
+                nameError.innerHTML = "Name can't exceed 20 character"
+                return false
+            } else if ((!/^[A-Za-z\s]+$/.test(coupName))) {
+                nameError.innerHTML = "Name can't contain characters other than alphabets, underscore and &"
+                return false
+            }
+            nameError.innerHTML = "";
+            return true
+        }
+
+
+        function dateValidation() {
+            const endDateStr = document.getElementById("enddate").value.trim();
+            const endDate = new Date(endDateStr); // Parse the date string to a Date object
+            const endDateErr = document.getElementById("endDateErr");
+            const currentDate = new Date(); // Get the current date
+
+            if (endDateStr === "") {
+                endDateErr.innerHTML = "Please enter a valid end date";
+                return false;
+            } else if (endDate <= currentDate) {
+                endDateErr.innerHTML = "End date must be after the current date";
+                return false;
+            }
+
+            endDateErr.innerHTML = "";
+            return true;
+        }
+
+            
+            
+      
+
+
+        function discountValidation() {
+            const discount = document.getElementById("disPercent").value;
+            const discerror = document.getElementById("discerror");
+            
+            if (discount.trim() === "") {
+                discerror.innerHTML = "Please enter a valid product discount";
+                return false;
+            } else if (!/^\d+(\.\d{1,2})?$/.test(discount)) {
+                discerror.innerHTML = "Discount should be a positive number with up to two decimal places";
+                return false;
+            } else {
+                const discountValue = parseFloat(discount);
+                if (discountValue <= 0) {
+                    discerror.innerHTML = "Product discount should be greater than 0";
+                    return false;
+                } else if (discountValue > 100) {
+                    discerror.innerHTML = "Product discount cannot exceed 100%";
+                    return false;
+                }
+                discerror.innerHTML = ""; // Clear the error message here
+                return true; // Return true for valid input
+            }
+        }
+
+
+        function validateOfferType() {
+            if (offerType.value === "") {
+                errorOffer.innerHTML = "Please select an offer type";
+                return false;
+            }
+            errorOffer.innerHTML = "";
+            return true;
+        }
+
+        function validateCheckboxes() {
+                const categoryCheckboxes = document.querySelectorAll('input[name="category"]:checked');
+                if (categoryCheckboxes.length === 0) {
+                    errorCategory.innerHTML = "Please select at least one category";
+                    return false;
+                }
+                errorCategory.innerHTML = "";
+                return true;
+        }
+        createOffer.addEventListener("submit", function (e) {
+            nameValidation();
+            dateValidation();
+            discountValidation();
+            validateCheckboxes();
+           
+            if (
+                nameError.innerHTML ||
+                endDateErr.innerHTML ||
+                discerror.innerHTML ||
+                errorCategory.innerHTML
+            ) {
+                e.preventDefault();
+            }
+        });
+
+        document.getElementById("offername").addEventListener("blur", nameValidation);
+        document.getElementById("enddate").addEventListener("blur", dateValidation);
+        document.getElementById("disPercent").addEventListener("blur", discountValidation);
+        document.getElementById("categoryDiv").addEventListener("blur", validateCheckboxes);
+    });
+
+</script>
+    
+            <%- include("../partials/adminFooter.ejs") %>

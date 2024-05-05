@@ -112,9 +112,9 @@ const getSignupPage = async(req,res)=>{
     }catch(error){
         res.redirect("user/pageNotFound");
     }
-};
+};   
 
-
+    
 
 
 const getHomePage= async(req,res)=>{
@@ -139,8 +139,8 @@ const getOtpPage = async(req,res)=>{
     }
 };
    
-
-
+  
+    
 
 
 
@@ -240,7 +240,6 @@ const saveAccDetails = async(req,res)=>{
             userData.phone = phone;
             await userData.save();
             res.redirect("/accountDetails");
-            res.json({ status: "success", message: "data updated successfully" });
         }
     }catch(error){
         console.error("Error updating data:", error);
@@ -265,7 +264,7 @@ const savepswdChange = async (req, res) => {
         } else {
             console.log("pswd match an")
             userData.password = passHashed;
-            // await userData.save();
+            await userData.save();
             return res.status(200).json({ status: "success", message: "Password updated successfully" });
         }
     } catch (error) {
@@ -439,11 +438,8 @@ const getuserWallet = async(req, res) => {
         console.log(userId);
         // const userInfo = await User.findById(userId);
         const orderInfo = await Order.find({userId : userId});
-        console.log(orderInfo)
         const walletInfo = await Wallet.findOne({userId: userId});
-        const walletId = walletInfo._id;
-        console.log(walletId);
-        const transInfo = await Transaction.find({walletId: walletId});
+        const transInfo = await Transaction.find({walletId: walletInfo._id});
         console.log(walletInfo, transInfo);
         res.render("user/userWallet", {orderInfo,transInfo,walletInfo,userId});
     } catch(error) {

@@ -50,7 +50,15 @@
                 <div class="checkout-login-info">
                     <p>If you have a coupon code, please apply it below.</p>
                     <form id="couponForm">
-                        <input type="text" id="coupCode" name="coupon" onclick="clearbox()" placeholder="Coupon code">
+                        <select id="couponSelect" onchange="selectCoupon(this.value)">
+                                <option value="">Select a coupon</option>
+                            <% couponData.forEach(element => { %>
+                                 <option value="<%= element.coupencode %>"><%= element.coupencode%> (<%= element.discountPercentage%>% )</option>
+                            <% }); %>
+                           
+                           
+                        </select>
+                        <input type="text" id="coupCode" name="coupon" onclick="clearbox()" placeholder="Coupon code" style="display:none;">
                         <button class="coupon-btn apply" type="button" id="applyCpn" onclick="applyCoupon('<%= cartInfo._id%>')"
                             type="submit">Apply</button>
                         <button class="coupon-btn cancel" type="button" id="remCoupon" onclick="removeCoup()">Cancel</button>
@@ -243,7 +251,7 @@
 
 
             function applyCoupon(id) {
-                const code = document.getElementById("coupCode").value;
+                const code = document.getElementById("couponSelect").value;
                 const applyCpn = document.getElementById("applyCpn");
                 const total = document.getElementById("total").innerHTML;
                 if (applyCpn.textContent === "Apply") {
@@ -262,7 +270,6 @@
                             data: { code, id },
                             success: (response) => {
                                 if (response.status == "true") {
-                                    alert("trueeeeeeeeee");
                                     const Toast = Swal.mixin({
                                         toast: true,
                                         position: "bottom",

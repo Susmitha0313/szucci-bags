@@ -17,17 +17,24 @@ router.set("views" , "./views/admin")
 router.get("/pageerror", adminController.pageNotFound);
 
    
-
+   
 router.get("/userList",isAdmin, adminController.getUserList);
-router.get("/logout",isAdmin, adminController.getLogout);
+router.get("/logout",isAdmin, adminController.getLogout);    
 router.post("/logout",isAdmin, adminController.getALoginpage);
 router.get("/adminlogin", adminController.getALoginpage);
 router.post("/adminlogin",adminNotLog,adminController.adminLogin);
 router.get("/adminhome", adminController.getAdminHome)
 router.get("/userBlock", adminController.userBlock);
+router.get("/catChart", isAdmin, adminController.catChart);
+router.get("/prodOfferPage",isAdmin,adminController.getProdOfferPage);
+router.get("/catOfferPage",isAdmin,adminController.getCategOfferPage);
+// router.get("/editOffer/:id",isAdmin,adminController.getOfferEdit);
+// router.post("/editOffer",isAdmin,adminController.saveEditOffer);
+router.post("/prodofferadd",isAdmin,adminController.prodOfferSave);
+router.post("/catofferadd",isAdmin,adminController.categOfferSave);
+// router.put('/apply/:offerId', offerController.applyOffer);
 
-
-//product routerss
+//product routerss   
 router.get("/products",isAdmin, productController.getProducts);
 router.get("/productInfo/:productId",isAdmin, productController.getProInfoPage);
 router.get("/productAdd",isAdmin, productController.getAddProduct);

@@ -1,0 +1,237 @@
+<%- include("../partials/adminHeader.ejs") %>
+
+
+    <body class="dark">
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="/admin" class="brand-wrap">
+                    <img src="/assets/adminAssets/imgs/icons/logo.png" class="logo" alt="Evara Dashboard">
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"> <i
+                            class="text-muted material-icons md-menu_open"></i> </button>
+                </div>
+            </div>
+            <nav>
+                <ul class="menu-aside">
+                    <li class="menu-item ">
+                        <a class="menu-link " href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/salesreport"> <i
+                                class="icon material-icons md-show_chart"></i>
+                            <span class="text">Sales Report</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/ordersList"> <i class="icon material-icons md-list_alt"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-local_offer"></i>
+                            <span class="text">Products</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-label"></i>
+                            <span class="text">Brand</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link " href="/admin/category"> <i class="icon material-icons md-category"></i>
+                            <span class="text">Category</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/couponPage"> <i
+                                class="icon material-icons md-confirmation_number"></i>
+                            <span class="text">Coupon</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" > <i class="icon material-icons md-redeem"></i>
+                            <span class="text">Offers</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="/admin/prodOfferPage">Product Offer</a>
+                            <a href="/admin/catOfferPage">Category Offer</a>
+                        </div>
+                    </li>
+
+
+                    <br>
+                    <br>
+            </nav>
+        </aside>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                            class="material-icons md-apps"></i> </button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i
+                                    class="material-icons md-nights_stay"></i> </a>
+                        </li>
+
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                                aria-expanded="false"> <img class="img-xs rounded-circle"
+                                    src="/assets/adminAssets/imgs/people/testi-7.png" alt="User"></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit
+                                    Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account
+                                    Settings</a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                        class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Edit Offer </h2>
+                    </div>
+
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <form id="createOffer" action="/admin/editOffer" method="post">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="offername" class="form-label">Offer Name</label>
+                                            <input id="offername" type="text" name="offerName" value="<%= offerData.offerName %>" class="form-control" />
+                                            <p><div id="error1" style="display: none;" class="alert alert-danger err"></div></p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="disPercent" class="form-label">Discount %</label>
+                                            <input id="disPercent" type="number" name="discountPercent" value="<%= offerData.discountPercentage %>" class="form-control" />
+                                            <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="enddate" class="form-label">End Date</label>
+                                            <input id="enddate" type="date" name="endDate" value="<%= offerData.endDate %>" class="form-control" />
+                                            <p><div id="error4" style="display: none;" class="alert alert-danger err"></div></p>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="offerType" class="form-label">Offer Type</label><br>
+                                            <select id="offerType" style="color: white; background-color: #1e2231; border: 0.5px solid #383e50; padding: 12px; border-radius: 3px;">
+                                                <option value="">Select</option>
+                                                <option value="category">Category</option>
+                                                <option value="product">Product</option>
+                                            </select>
+                                            <p><div id="errorOffer" style="display: none;" class="alert alert-danger err"></div></p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="productDiv">
+                                            <label class="form-label">Products</label><br>
+                                            <% for(let i=0; i< allProducts.length; i++){ %>
+                                                <div>
+                                                    <input type="checkbox" name="product" id="prod<%= i %>" value="<%= allProducts[i]._id %>"
+                                                    <% if (offerData.products.map(p => p.toString()).includes(allProducts[i]._id.toString())) { %>
+                                                        checked
+                                                    <% } %>
+                                                    >
+                                                    <label for="prod<%= i %>"><%= allProducts[i].productName %></label><br>
+                                                </div>
+                                            <% } %>
+                                            <p><div id="errorBrand" style="display: none;" class="alert alert-danger err"></div></p>
+                                        </div>
+
+                                        <div id="categoryDiv">
+                                            <label class="form-label">Categories</label><br>
+                                            <% for(let i=0; i< allCategories.length; i++){ %>
+                                                <div>
+                                                    <input type="checkbox" name="category" id="cat<%= i %>" value="<%= allCategories[i]._id %>"
+                                                    <% if (offerData.categories.map(c => c.toString()).includes(allCategories[i]._id.toString())) { %>
+                                                        checked
+                                                    <% } %>
+                                                    >
+                                                    <label for="cat<%= i %>"><%= allCategories[i].name %></label><br>
+                                                </div>
+                                            <% } %>
+                                            <p><div id="errorCategory" style="display: none;" class="alert alert-danger err"></div></p>
+                                        </div>
+
+                                    </div>
+                                    
+                                    <% if(locals.errMsg) {%>`
+                                        <p style="color: red;"><%= errMsg %></p>
+                                    <% } %>
+                                            <div class="d-grid">
+                                                <button type="submit" id="submitBtn" class="btn btn-primary">Save Offer</button>
+                                            </div>
+                                            <p>
+                                            <div id="message" style="display: none; color: #155724;"
+                                                class="alert alert-success "></div>
+                                            </p>
+
+                                </form>
+                            </div>
+                        
+                        </div> <!-- .row // -->
+                    </div> <!-- card body .// -->
+                </div> <!-- card .// -->
+            </section>
+
+
+
+        
+<script>
+    const offerType = document.getElementById('offerType');
+    const categoryDiv = document.getElementById('categoryDiv');
+    const productDiv = document.getElementById('productDiv');
+
+    offerType.addEventListener('change', function () {
+        if (this.value === 'category') {
+            categoryDiv.style.display = 'block';
+            productDiv.style.display = 'none';
+            populateCategoryDropdown();
+        } else if (this.value === 'product') {
+            categoryDiv.style.display = 'none';
+            productDiv.style.display = 'block';
+            populateProductDropdown();
+        } else {
+            categoryDiv.style.display = 'none';
+            productDiv.style.display = 'none';
+        }
+    });
+
+
+</script>
+    
+            <%- include("../partials/adminFooter.ejs") %>

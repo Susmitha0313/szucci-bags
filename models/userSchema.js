@@ -22,7 +22,9 @@ const userSchema = new Mongoose.Schema({
         required: true
     },
     createdOn: {
-        type: String
+        type: Date,
+        default: Date.now
+
     },
     isBlocked: {
         type: Boolean,

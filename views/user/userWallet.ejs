@@ -29,7 +29,7 @@
                                 <div class="tab-content" id="myaccountContent">
                                     <div class="tab-pane fade show active" role="tabpanel">
                                         <div class="myaccount-content">
-                                            <% if(walletInfo){ %>
+                                            <% if(walletInfo || transInfo){ %>
                                                 <div>
                                                     <div class="row" style="border: solid; border-width: 0.5px; border-color: rgb(211, 211, 211); margin: 30px 0px 25px 0px; padding: 20px 0px 20px 0px; display: flex; justify-content: space-between; align-items: center;">
                                                         <div class="col-lg-6 col-md-6 ">
@@ -73,6 +73,8 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
+                                                                <% transInfo.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); %>
+                            
                                                                 <% transInfo.forEach((trans)=>{ %>
                                                                     <tr>
                                                                         <td><%= trans.timestamp.toLocaleDateString() %></td>

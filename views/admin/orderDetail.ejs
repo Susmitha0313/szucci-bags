@@ -1,227 +1,315 @@
-
 <%- include("../partials/adminHeader.ejs") %>
 
-<body class="dark">
-    <div class="screen-overlay"></div>
-    <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top">
-            <a href="/admin" class="brand-wrap">
-                <img src="/assets/adminAssets/imgs/icons/logo.png" class="logo" alt="Evara Dashboard">
-            </a>
-            <div>
-                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
-            </div>
-        </div>
-        <nav>    
-            <ul class="menu-aside">
-                <li class="menu-item"> 
-                    <a class="menu-link" href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
-                        <span class="text">Dashboard</span>
-                    </a>
-                </li>
-
-                <li class="menu-item"> 
-                    <a class="menu-link" href="/admin/adminHome"> <i class="icon material-icons md-show_chart"></i>
-                        <span class="text">Sales Report</span>
-                    </a>
-                </li>
-                <li class="menu-item active"> 
-                    <a class="menu-link active" href="/admin/ordersList"> <i class="icon material-icons md-list_alt"></i>
-                        <span class="text">Orders</span>
-                    </a>
-                </li>
-
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
-                        <span class="text">Users</span>
-                    </a>
-                </li>
-               
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-local_offer"></i>
-                        <span class="text">Products</span>
-                    </a>
-                </li>
-
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-label"></i>
-                        <span class="text">Brand</span>
-                    </a>
-                </li>
-                
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-category"></i>
-                        <span class="text">Category</span>
-                    </a>
-                </li>
-
-                 <li class="menu-item "> 
-                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-confirmation_number"></i>
-                        <span class="text">Coupon</span>
-                    </a>
-                </li>
-
-                <li class="menu-item "> 
-                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-redeem"></i>
-                        <span class="text">Offers</span>
-                    </a>
-                </li>
-               
-                
-            <br>
-            <br>
-        </nav>
-    </aside>
-    <main class="main-wrap">
-        <header class="main-header navbar">
-            <div class="col-search">
-                <form action="/admin/ordersList" method="get" class="searchform">
-                    <div class="input-group">
-                        <input type="hidden" name="orderNum" value="<%= orderData.orderNumber %>">
-                        <input list="search_terms" type="text" name="searchOrder" class="form-control" placeholder="Search term">
-                        <button class="btn btn-light bg"  type="submit"> <i class="material-icons md-search"></i></button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-nav">
-                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link btn-icon" href="#">
-                            <i class="material-icons md-notifications animation-shake"></i>
-                            <span class="badge rounded-pill">3</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
-                    </li>
-                  
-                    <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/assets/adminAssets/imgs/people/testi-7.png" alt="User"></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
-
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </header>
-     
-        <section class="content-main">
-            <div class="content-header">
+    <body class="dark">
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="/admin" class="brand-wrap">
+                    <img src="/assets/adminAssets/imgs/icons/logo.png" class="logo" alt="Evara Dashboard">
+                </a>
                 <div>
-                    <h2 class="content-title card-title">Order List </h2>
-                    
-                    <!-- <input type="text" id="searchInput" placeholder="Search order ID" class="form-control "> -->
+                    <button class="btn btn-icon btn-aside-minimize"> <i
+                            class="text-muted material-icons md-menu_open"></i> </button>
                 </div>
             </div>
-            <div class="card mb-4">
-                <header class="card-header">
-                    <div class="row gx-3">
-                        <!-- <form action="/admin/ordersList" method="get" class="searchform">
+            <nav>
+                <ul class="menu-aside">
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/salesreport"> <i
+                                class="icon material-icons md-show_chart"></i>
+                            <span class="text">Sales Report</span>
+                        </a>
+                    </li>
+                    <li class="menu-item active">
+                        <a class="menu-link active" href="/admin/ordersList"> <i
+                                class="icon material-icons md-list_alt"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-local_offer"></i>
+                            <span class="text">Products</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-label"></i>
+                            <span class="text">Brand</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-category"></i>
+                            <span class="text">Category</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/couponPage"> <i
+                                class="icon material-icons md-confirmation_number"></i>
+                            <span class="text">Coupon</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item has-submenu">
+                        <a class="menu-link" > <i class="icon material-icons md-redeem"></i>
+                            <span class="text">Offers</span>
+                        </a>
+                        <div class="submenu">
+                            <a href="/admin/prodOfferPage">Product Offer</a>
+                            <a href="/admin/catOfferPage">Category Offer</a>
+                        </div>
+                    </li>
+
+
+                    <br>
+                    <br>
+            </nav>
+        </aside>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form action="/admin/ordersList" method="get" class="searchform">
+                        <div class="input-group">
+                            <input type="hidden" name="orderNum" value="<%= orderData.orderNumber %>">
+                            <input list="search_terms" type="text" name="searchOrder" class="form-control"
+                                placeholder="Search term">
+                            <button class="btn btn-light bg" type="submit"> <i
+                                    class="material-icons md-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                            class="material-icons md-apps"></i> </button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i
+                                    class="material-icons md-nights_stay"></i> </a>
+                        </li>
+
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                                aria-expanded="false"> <img class="img-xs rounded-circle"
+                                    src="/assets/adminAssets/imgs/people/testi-7.png" alt="User"></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit
+                                    Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account
+                                    Settings</a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                        class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Order List </h2>
+
+                        <!-- <input type="text" id="searchInput" placeholder="Search order ID" class="form-control "> -->
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row gx-3">
+                            <!-- <form action="/admin/ordersList" method="get" class="searchform">
                             <div class="col-lg-4 col-md-6 me-auto">
                                 <input type="text" name="searchOrder" placeholder="Search..." class="form-control">
                                 <button type="submit"><i class="material-icons md-search"></i></button>
                             </div>
                         </form> -->
-                           <h5>Filter</h5>
-                        <div class="col-lg-2 col-6 col-md-3">
-                            <select class="form-select">
-                                <option>Status</option>
-                                <option>Active</option>
-                                <option>Disabled</option>
-                                <option>Show all</option>
-                            </select>
+                            <h5>Filter</h5>
+                            <div class="col-lg-2 col-6 col-md-3">
+                                <select id="filterSelect" class="form-select">
+                                    <option>ShowAll</option>
+                                    <option>Processing</option>
+                                    <option>Shipped</option>
+                                    <option>Delivered</option>
+                                    <option>Confirmed</option>
+                                    <option>Cancelled</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-lg-2 col-6 col-md-3">
-                            <select class="form-select">
-                                <option>Show 20</option>
-                                <option>Show 30</option>
-                                <option>Show 40</option>
-                            </select>
-                        </div>
-                    </div>
-                </header>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="orderTable" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>OrderId</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Total</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col" class="text-end"> Action </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <% orderData.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)); %>
-                            
-                                <% orderData.forEach((order)=>{ %>
-                                <tr>
-                                    <td><%= order.orderNumber %></td>
-                                    <td><b><%= order.shippingAddress.name %></b></td>
-                                    <td><%= order.userEmail %></td>
-                                    <td>₹<%= order.totalAmount %></td>
-                                    <% if(order.status === "Cancelled") {%>
-                                    <td><span class="badge rounded-pill bg-danger"><%= order.status %></span></td>
-                                    <% } else if(order.status === "Confirmed"){ %>
-                                    <td><span class="badge rounded-pill bg-success"><%= order.status %></span></td>
-                                    <% } else if(order.status === "Shipped"){ %>
-                                    <td><span class="badge rounded-pill bg-info text-dark"><%= order.status %></span></td>
-                                    <% } else if(order.status === "Delivered"){ %>
-                                    <td><span class="badge rounded-pill bg-primary"><%= order.status %></span></td>
-                                    <% } else if(order.status === "Processing"){ %>
-                                    <td><span class="badge rounded-pill bg-secondary"><%= order.status %></span></td>
-                                    <% } else if(order.status === "Returned"){ %>
-                                    <td><span class="badge rounded-pill bg-dark"><%= order.status %></span></td>
-                                    <% } else if(order.status === "RequestProcessing"){ %>
-                                    <td><span class="badge rounded-pill text-danger bg-secondary"><%= order.status %></span></td>
+                    </header>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="orderTable" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>OrderId</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col" class="text-end"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% orderData.sort((a, b)=> new Date(b.orderDate) - new Date(a.orderDate)); %>
 
-                                    <% } %>  
-                                    
-                                    <td><%= order.orderDate.toLocaleDateString()  %></td>
-                                    <td class="text-end">
-                                        <a href="/admin/orderEdit/?id=<%= order._id %>" class="btn btn-md rounded font-sm">Detail</a>
-                                        <div class="dropdown">
-                                            <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
-                                            <div class="dropdown-menu">
-                                               
-                                                <a class="dropdown-item" href="/admin/orderEdit/?id=<%= order._id %>">View and Edit </a>
-                                                <!-- <a class="dropdown-item text-danger" href="/admin/deleteOrder/?id=<%= order._id %>">Delete</a> -->
-                                                <a class="dropdown-item text-danger" onclick="deleteOrder('<%= order._id %>')">Delete</a>
-                                            </div>
-                                        </div> <!-- dropdown //end -->
-                                    </td>
-                                </tr>
-                                <% }) %>
-                              
-                            </tbody>
-                        </table>
-                    </div> <!-- table-responsive //end -->
-                </div> <!-- card-body end// -->
-            </div> <!-- card end// -->
-            <div class="pagination-area mt-15 mb-50">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-start">
-                        <% for(let i= 1 ; i<= totalPages; i++){ %>
-                        <li class="page-item active">
-                            <a class="page-link" href="?page=<%= i %>"> <%= i %> </a></li>
-                        <% } %>
-                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
-                    </ul>
-                </nav>
-            </div> 
-        </section>
-<script>
-    function deleteOrder(id){
-        
-    }
-</script>
+                                        <% orderData.forEach((order)=>{ %>
+                                            <tr>
+                                                <td>
+                                                    <%= order.orderNumber %>
+                                                </td>
+                                                <td><b>
+                                                        <%= order.shippingAddress.name %>
+                                                    </b></td>
+                                                <td>
+                                                    <%= order.userEmail %>
+                                                </td>
+                                                <td>₹<%= order.totalAmount %>
+                                                </td>
+                                                <% if(order.status==="Cancelled" ) {%>
+                                                    <td><span class="badge rounded-pill bg-danger">
+                                                            <%= order.status %>
+                                                        </span></td>
+                                                    <% } else if(order.status==="Confirmed" ){ %>
+                                                        <td><span class="badge rounded-pill bg-success">
+                                                                <%= order.status %>
+                                                            </span></td>
+                                                        <% } else if(order.status==="Shipped" ){ %>
+                                                            <td><span class="badge rounded-pill bg-info text-dark">
+                                                                    <%= order.status %>
+                                                                </span></td>
+                                                            <% } else if(order.status==="Delivered" ){ %>
+                                                                <td><span class="badge rounded-pill bg-primary">
+                                                                        <%= order.status %>
+                                                                    </span></td>
+                                                                <% } else if(order.status==="Processing" ){ %>
+                                                                    <td><span class="badge rounded-pill bg-secondary">
+                                                                            <%= order.status %>
+                                                                        </span></td>
+                                                                    <% } else if(order.status==="Returned" ){ %>
+                                                                        <td><span class="badge rounded-pill bg-dark">
+                                                                                <%= order.status %>
+                                                                            </span></td>
+                                                                        <% } else if(order.status==="RequestProcessing"
+                                                                            ){ %>
+                                                                            <td><span
+                                                                                    class="badge rounded-pill text-danger bg-secondary">
+                                                                                    <%= order.status %>
+                                                                                </span></td>
 
-        <%- include("../partials/adminFooter.ejs") %>
+                                                                            <% } %>
+
+                                                                                <td>
+                                                                                    <%= order.orderDate.toLocaleDateString()
+                                                                                        %>
+                                                                                </td>
+                                                                                <td class="text-end">
+                                                                                    <a href="/admin/orderEdit/?id=<%= order._id %>"
+                                                                                        class="btn btn-md rounded font-sm">Detail</a>
+                                                                                    <div class="dropdown">
+                                                                                        <a href="#"
+                                                                                            data-bs-toggle="dropdown"
+                                                                                            class="btn btn-light rounded btn-sm font-sm">
+                                                                                            <i
+                                                                                                class="material-icons md-more_horiz"></i>
+                                                                                        </a>
+                                                                                        <div class="dropdown-menu">
+
+                                                                                            <a class="dropdown-item"
+                                                                                                href="/admin/orderEdit/?id=<%= order._id %>">View
+                                                                                                and Edit </a>
+                                                                                            <!-- <a class="dropdown-item text-danger" href="/admin/deleteOrder/?id=<%= order._id %>">Delete</a> -->
+                                                                                            <a class="dropdown-item text-danger"
+                                                                                                onclick="deleteOrder('<%= order._id %>')">Delete</a>
+                                                                                        </div>
+                                                                                    </div> <!-- dropdown //end -->
+                                                                                </td>
+                                            </tr>
+                                            <% }) %>
+
+                                </tbody>
+                            </table>
+                        </div> <!-- table-responsive //end -->
+                    </div> <!-- card-body end// -->
+                </div> <!-- card end// -->
+                <div class="pagination-area mt-15 mb-50">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-start">
+                            <% for(let i=1 ; i<=totalPages; i++){ %>
+                                <li class="page-item active">
+                                    <a class="page-link" href="?page=<%= i %>">
+                                        <%= i %>
+                                    </a>
+                                </li>
+                                <% } %>
+                                    <li class="page-item"><a class="page-link" href="#"><i
+                                                class="material-icons md-chevron_right"></i></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </section>
+            <script>
+                function deleteOrder(id) {
+                }
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const selectedFilter = document.getElementById('filterSelect');
+                    selectedFilter.addEventListener('change', function () {
+                        const selectedValue = selectedFilter.value;
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('GET', `/admin/filterOrder?value=${selectedValue}`, true);
+                        xhr.onload = function () {
+                            if (xhr.status >= 200 && xhr.status < 300) {
+                                const responseData = JSON.parse(xhr.responseText);
+
+
+                                updateOrderData(responseData.filterData);
+                            } else {
+                                console.error('Error receiving filtered data from backend');
+                            }
+                            function updateOrderData(filteredData) {
+                                const tbody = document.querySelector('#orderTable tbody');
+                                tbody.innerHTML = ''; // Clear existing rows
+                                filteredData.forEach(order => {
+                                    const row = document.createElement('tr');
+                                    row.innerHTML = `
+                        <td>${order.orderNumber}</td>
+                        <td><b>${order.shippingAddress.name}</b></td>
+                        <td>${order.userEmail}</td>
+                        <td>₹${order.totalAmount}</td>
+                        <td>${new Date(order.orderDate).toLocaleDateString()}</td>
+                        <td>${order.status}</td>
+                    `;
+                                    tbody.appendChild(row);
+                                });
+                            }
+                        };
+                        xhr.onerror = function () {
+                            console.error('Network error while communicating with backend');
+                        };
+                        xhr.send();
+                    });
+                });
+            </script>
+
+            <%- include("../partials/adminFooter.ejs") %>

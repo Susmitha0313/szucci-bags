@@ -2,13 +2,10 @@
 const Mongoose = require("mongoose");
 
 
-const offerSchema = new Mongoose.Schema({
+const offerSchemaCateg = new Mongoose.Schema({
     offerName : {
         type : String,
         required : true
-    },
-    startDate : {
-        type : String,
     },
     endDate : {
         type : String,
@@ -18,19 +15,16 @@ const offerSchema = new Mongoose.Schema({
     },
     isBlocked : {
         type : Boolean,
-        default : false
+        default : false  
     },
     offerStatus : {
         type : String,
         default: "active",
     },
-    products: [{ 
-        type: Schema.Types.ObjectId,
-        ref: 'Product' }], 
     categories: [{
-        type: Schema.Types.ObjectId, 
+        type: Mongoose.Schema.Types.ObjectId, 
         ref: 'Category' }], 
 })
-const Offer = Mongoose.model("offer", offerSchema);
-module.exports = Offer;
+const CategoryOffer = Mongoose.model("categoryOffer", offerSchemaCateg);
+module.exports = CategoryOffer;
 

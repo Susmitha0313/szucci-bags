@@ -1,321 +1,412 @@
-
 <%- include("../partials/adminHeader.ejs") %>
-<style>
- 
-    #downloadBtn {
-        padding: 10px 20px;
-        background-color: #007bff; /* Blue color as an example */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-top: 10px;
-    }
+    <style>
+        #downloadBtn,
+        #excelDnldBtn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            /* Blue color as an example */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
 
-    /* Style the button on hover */
-    #downloadBtn:hover {
-        background-color: #0056b3; /* Darker shade of blue on hover */
-    }
+        /* Style the button on hover */
+        #downloadBtn:hover,
+        #excelDnldBtn:hover {
+            background-color: #0056b3;
+            /* Darker shade of blue on hover */
+        }
 
- /* Flexbox styles for alignment */
- .stats-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 20px; /* Optional: Adjust as needed */
-    }
+        /* Flexbox styles for alignment */
+        .stats-container {   
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            /* Optional: Adjust as needed */
+        }
 
-    .stats-item {
-        flex-basis: 30%; /* Optional: Adjust as needed */
-    }
+        .stats-item {
+            flex-basis: 30%;
+            /* Optional: Adjust as needed */
+        }
 
-    /* Bold styles for values */
-    .stats-value {
-        font-weight: bold;
-    }
-</style>
-<body class="dark">
-    <div class="screen-overlay"></div>
-    <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top">
-            <a href="/admin" class="brand-wrap">
-                <img src="/assets/adminAssets/imgs/icons/logo.png" class="logo" alt="Evara Dashboard">
-            </a>
-            <div>
-                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
-            </div>
-        </div>
-        <nav>
-            <ul class="menu-aside">
-                <li class="menu-item "> 
-                    <a class="menu-link " href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
-                        <span class="text">Dashboard</span>
-                    </a>
-                </li>
+        /* Bold styles for values */
+        .stats-value {
+            font-weight: bold;
+        }
+    </style>
 
-                <li class="menu-item active"> 
-                    <a class="menu-link active" href="/admin/salesreport"> <i class="icon material-icons md-show_chart"></i>
-                        <span class="text">Sales Report</span>
-                    </a>
-                </li>
-                <li class="menu-item"> 
-                    <a class="menu-link" href="/admin/ordersList"> <i class="icon material-icons md-list_alt"></i>
-                        <span class="text">Orders</span>
-                    </a>
-                </li>
-
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
-                        <span class="text">Users</span>
-                    </a>
-                </li>
-               
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-local_offer"></i>
-                        <span class="text">Products</span>
-                    </a>
-                </li>
-
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-label"></i>
-                        <span class="text">Brand</span>
-                    </a>
-                </li>
-                
-                <li class="menu-item">
-                    <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-category"></i>
-                        <span class="text">Category</span>
-                    </a>
-                </li>
-
-                 <li class="menu-item "> 
-                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-confirmation_number"></i>
-                        <span class="text">Coupon</span>
-                    </a>
-                </li>
-
-                <li class="menu-item "> 
-                    <a class="menu-link" href="/admin/couponPage"> <i class="icon material-icons md-redeem"></i>
-                        <span class="text">Offers</span>
-                    </a>
-                </li>
-               
-                
-            <br>
-            <br>
-        </nav>
-    </aside>
-    <main class="main-wrap">
-        <header class="main-header navbar">
-            <div class="col-search">
-                <form class="searchform">
-                    <div class="input-group">
-                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
-                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
-                    </div>
-                    <datalist id="search_terms">
-                        <option value="Products">
-                        <option value="New orders">
-                        <option value="Apple iphone">
-                        <option value="Ahmed Hassan">
-                    </datalist>
-                </form>
-            </div>
-            <div class="col-nav">
-                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link btn-icon" href="#">
-                            <i class="material-icons md-notifications animation-shake"></i>
-                            <span class="badge rounded-pill">3</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
-                    </li>
-                  
-                    <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/assets/adminAssets/imgs/people/testi-7.png" alt="User"></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
-
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </header>
-     
-<section class="content-main">
-    <div class="content-header">
-        <div>
-            <h2 class="content-title card-title">Sales Report </h2>
-            <p>filter and download sales report as needed</p>
-        </div>
-       
-    </div>
-   
-    
-    
-       <div class="card mb-4">
-        <header class="card-header">
-            <div class="row align-items-center col-md-6">
-              
-                <!-- <div class="col-md-2 col-6">
-                    <input type="date" class="form-control">
-                </div> -->
-                <div class="col-md-4 col-6">
-                    <div class="custom_select">
-                        <p>Filter by:</p>
-                        <select id="filterSelect" class="form-select " >
-                            <option selected>All</option>
-                            <option>Day</option>
-                            <option>Month</option>
-                            <option>Year</option>
-                        </select>
-                    </div>
+    <body class="dark">
+        <div class="screen-overlay"></div>
+        <aside class="navbar-aside" id="offcanvas_aside">
+            <div class="aside-top">
+                <a href="/admin" class="brand-wrap">
+                    <img src="/assets/adminAssets/imgs/icons/logo.png" class="logo" alt="Evara Dashboard">
+                </a>
+                <div>
+                    <button class="btn btn-icon btn-aside-minimize"> <i
+                            class="text-muted material-icons md-menu_open"></i> </button>
                 </div>
             </div>
-           
-        </header>
-        <div class="card-body" id="orderTable" style="color: black; background-color: rgb(255, 255, 255);">
-            <div class="table-responsive" >
-                <table  class="table">
-                    <h2 class="text-center" style="color: black; padding: 12px;">Sales Report</h2>
-            
-                    <thead  >
-                        <tr style="color: black; background-color: bisque;">
-                            <th>OrderId</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Delivery Date</th>
-                            <th scope="col">Coupon-code</th>
-                            <th scope="col">Coupon-discount</th>
-                            <th scope="col">Payment Method</th>
-                        </tr>
-                    </thead>
-                    <tbody  style="color: black; background-color:rgb(251, 246, 239)">
-                   
-                          
-            
-                    
-                        <% orderData.forEach((order)=>{ %>
-                            <% if(order.status === 'Delivered'){ %>
-                        <tr>
-                            <td><%= order.orderNumber %></td>
-                            <td><b><%= order.shippingAddress.name %></b></td>
-                            <td><%= order.userEmail %></td>
-                            <td>₹<%= order.totalAmount %></td>
-                            <td><%= order.orderDate.toLocaleDateString()  %></td>
-                            <td><%= order.coupon %></td>
-                            <td><%= order.discount  %></td>
-                            <td><%= order.orderType  %></td>
-                            
-                        </tr>
-                        <% } %> 
-                        <% }) %>
+            <nav>
+                <ul class="menu-aside">
+                    <li class="menu-item ">
+                        <a class="menu-link " href="/admin/adminHome"> <i class="icon material-icons md-home"></i>
+                            <span class="text">Dashboard</span>
+                        </a>
+                    </li>
 
-                       
-                      
-                    </tbody>
-                </table>
-            </div> 
+                    <li class="menu-item active">
+                        <a class="menu-link active" href="/admin/salesreport"> <i
+                                class="icon material-icons md-show_chart"></i>
+                            <span class="text">Sales Report</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/ordersList"> <i class="icon material-icons md-list_alt"></i>
+                            <span class="text">Orders</span>
+                        </a>
+                    </li>
 
-            <div class="table-responsive" >
-                <table  class="table">
-                    <h2 class="text-center" style="color: black; padding: 12px;">Overall sales summary </h2>
-            
-                    <thead>
-                    
-                    </thead>
-                    <tbody  style="color: black; background-color:rgb(251, 246, 239)">
-                        <tr>
-                            <td>Overall order Amount:</td>
-                            <td id="overallAmount" style="font-size: 20px; font-weight:bold;"><%= overallAmount %></td>
-                        </tr>
-                        <tr>
-                            <td>Overall sales count:</td>
-                            <td  id="orderCount" style="font-size: 20px; font-weight:bold;"><%= orderData.length %></td>
-                        </tr>
-                        <tr>
-                            <td>Overall order Discount:</td>
-                            <td id="overallDiscount" style="font-size: 20px; font-weight:bold;"><%= overallDiscount %>%</td>
-                        </tr>
-                       
-                      
-                    </tbody>
-                </table>
-            </div> 
-          <div>
-       
-            
-        </div> 
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-people"></i>
+                            <span class="text">Users</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-local_offer"></i>
+                            <span class="text">Products</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-label"></i>
+                            <span class="text">Brand</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="menu-link" href="/admin/category"> <i class="icon material-icons md-category"></i>
+                            <span class="text">Category</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/couponPage"> <i
+                                class="icon material-icons md-confirmation_number"></i>
+                            <span class="text">Coupon</span>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
+                        <a class="menu-link" href="/admin/offersPage"> <i class="icon material-icons md-redeem"></i>
+                            <span class="text">Offers</span>
+                        </a>
+                    </li>
 
 
-        <div>
-            <button id="downloadBtn">Download Pdf</button>
-        </div>
-        
-    </div> 
-    <div class="pagination-area mt-15 mb-50">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <% for(let i= 1 ; i<= totalPages; i++){ %>
-                <li class="page-item active">
-                    <a class="page-link" href="?page=<%= i %>"> <%= i %> </a></li>
-                <% } %>
-                <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
-            </ul>
-        </nav>
-    </div> 
-  
-</section> <!-- content-main end// -->
+                    <br>
+                    <br>
+            </nav>
+        </aside>
+        <main class="main-wrap">
+            <header class="main-header navbar">
+                <div class="col-search">
+                    <form class="searchform">
+                        <div class="input-group">
+                            <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                            <button class="btn btn-light bg" type="button"> <i
+                                    class="material-icons md-search"></i></button>
+                        </div>
+                        <datalist id="search_terms">
+                            <option value="Products">
+                            <option value="New orders">
+                            <option value="Apple iphone">
+                            <option value="Ahmed Hassan">
+                        </datalist>
+                    </form>
+                </div>
+                <div class="col-nav">
+                    <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                            class="material-icons md-apps"></i> </button>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon" href="#">
+                                <i class="material-icons md-notifications animation-shake"></i>
+                                <span class="badge rounded-pill">3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn-icon darkmode" href="#"> <i
+                                    class="material-icons md-nights_stay"></i> </a>
+                        </li>
 
-<!-- scripts to download the page -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+                        <li class="dropdown nav-item">
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                                aria-expanded="false"> <img class="img-xs rounded-circle"
+                                    src="/assets/adminAssets/imgs/people/testi-7.png" alt="User"></a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit
+                                    Profile</a>
+                                <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account
+                                    Settings</a>
 
-<script>
-    document.getElementById('downloadBtn').addEventListener('click', function (){
-        const element = document.getElementById('orderTable');
-        html2pdf().from(element).save();
-    });
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const selectElement = document.getElementById('filterSelect');
-    selectElement.addEventListener('change', function () {
-        const selectedValue = selectElement.value;
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `/admin/filterSelect?value=${selectedValue}`, true);
-        xhr.onload = function () {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                const responseData = JSON.parse(xhr.responseText);
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                        class="material-icons md-exit_to_app"></i>Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </header>
 
-                console.log('Filtered data from backend:', responseData.filterData);
-                console.log('Filtered data from backend:', responseData.filterData);
-                console.log('Overall Amount:', responseData.overallAmount);
-                console.log('Overall Discount:', responseData.overallDiscount);
-                document.getElementById('overallAmount').innerText = `₹${responseData.overallAmount}`;
-                document.getElementById('orderCount').innerText = responseData.filterData.length;
-                document.getElementById('overallDiscount').innerText = `${responseData.overallDiscount}%`;
+            <section class="content-main">
+                <div class="content-header">
+                    <div>
+                        <h2 class="content-title card-title">Sales Report </h2>
+                        <p>filter and download sales report as needed</p>
+                    </div>
 
-                updateSalesReport(responseData.filterData);
-            } else {
-                console.error('Error receiving filtered data from backend');
-            }
-            function updateSalesReport(filteredData) {
-                // Update your table with the filtered data
-                const tbody = document.querySelector('#orderTable tbody');
-                tbody.innerHTML = ''; // Clear existing rows
-                filteredData.forEach(order => {
-                    const row = document.createElement('tr');
-                    // Create and append table cells based on order properties
-                    // Adjust this part based on your order object structure
-                    row.innerHTML = `
+                </div>
+
+
+
+                <div class="card mb-4">
+                    <header class="card-header">
+                        <div class="row align-items-center col-md-6">
+
+                            <!-- <div class="col-md-2 col-6">
+                    <input type="date" class="form-control">
+                </div> -->
+                            <div class="col-md-4 col-6">
+                                <div class="custom_select">
+                                    <p>Filter by:</p>
+                                    <select id="filterSelect" class="form-select ">
+                                        <option selected>All</option>
+                                        <option>Day</option>
+                                        <option>Month</option>
+                                        <option>Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </header>
+                    <div class="card-body" id="orderTable" style="color: black; background-color: rgb(255, 255, 255);">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <h2 class="text-center" style="color: black; padding: 12px;">Sales Report</h2>
+
+                                <thead>
+                                    <tr style="color: black; background-color: bisque;">
+                                        <th>OrderId</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Delivery Date</th>
+                                        <th scope="col">Coupon-code</th>
+                                        <th scope="col">Coupon-discount</th>
+                                        <th scope="col">Payment Method</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="color: black; background-color:rgb(251, 246, 239)">
+
+
+
+
+                                    <% orderData.forEach((order)=>{ %>
+                                        <% if(order.status==='Delivered' ){ %>
+                                            <tr>
+                                                <td>
+                                                    <%= order.orderNumber %>
+                                                </td>
+                                                <td><b>
+                                                        <%= order.shippingAddress.name %>
+                                                    </b></td>
+                                                <td>
+                                                    <%= order.userEmail %>
+                                                </td>
+                                                <td>₹<%= order.totalAmount %>
+                                                </td>
+                                                <td>
+                                                    <%= order.orderDate.toLocaleDateString() %>
+                                                </td>
+                                                <td>
+                                                    <%= order.coupon %>
+                                                </td>
+                                                <td>
+                                                    <%= order.discount %>
+                                                </td>
+                                                <td>
+                                                    <%= order.orderType %>
+                                                </td>
+
+                                            </tr>
+                                            <% } %>
+                                                <% }) %>
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table">
+                                <h2 class="text-center" style="color: black; padding: 12px;">Overall sales summary </h2>
+
+                                <thead>
+
+                                </thead>
+                                <tbody style="color: black; background-color:rgb(251, 246, 239)">
+                                    <tr>
+                                        <td>Overall order Amount:</td>
+                                        <td id="overallAmount" style="font-size: 20px; font-weight:bold;">
+                                            <%= overallAmount %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Overall sales count:</td>
+                                        <td id="orderCount" style="font-size: 20px; font-weight:bold;">
+                                            <%= orderData.length %>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Overall order Discount:</td>
+                                        <td id="overallDiscount" style="font-size: 20px; font-weight:bold;">
+                                            <%= overallDiscount %>%
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+
+
+                        </div>
+
+
+                        <div>
+                            <button id="downloadBtn">Download Pdf</button>
+                        </div>
+                        <div>
+                            <button id="excelDnldBtn" onclick="ExportToExcel()">Download XLSheet</button>
+                        </div>
+                    </div>
+                    <div class="pagination-area mt-15 mb-50">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-start">
+                                <% for(let i=1 ; i<=totalPages; i++){ %>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="?page=<%= i %>">
+                                            <%= i %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                        <li class="page-item"><a class="page-link" href="#"><i
+                                                    class="material-icons md-chevron_right"></i></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+
+            </section> <!-- content-main end// -->
+
+            <!-- scripts to download the page -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+            <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+                integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                document.getElementById('downloadBtn').addEventListener('click', function () {
+                    const element = document.getElementById('orderTable');
+                    html2pdf().from(element).save();
+                });
+            </script>
+            <script>
+
+
+
+
+                function ExportToExcel() {
+                    Swal.fire("Do you want to download this Excel Sheet", {
+                        buttons: ["No", "Yes"]
+                    }).then((res) => {
+                        if (res.value) {
+                            var elt = document.getElementById('orderTable');
+                            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+
+                            // Adjust column widths
+                            var ws = wb.Sheets['sheet1'];
+                            var columnWidths = [
+                                { wch: 5 },   // Width for column "No"
+                                { wch: 15 },  // Width for column "Order Id"
+                                { wch: 20 },  // Width for column "Customer"
+                                { wch: 15 },  // Width for column "Order Date"
+                                { wch: 20 },  // Width for column "Payment Method"
+                                { wch: 15 },  // Width for column "Order Status"
+                                { wch: 15 }   // Width for column "Total Amount"
+                            ];
+
+                            // Set column widths
+                            columnWidths.forEach(function (width, index) {
+                                var col = XLSX.utils.encode_col(index);
+                                ws['!cols'] = ws['!cols'] || [];
+                                ws['!cols'][index] = width;
+                            });
+
+                            XLSX.writeFile(wb, 'sales-table.xlsx');
+
+                        }
+                    })
+                }
+
+
+
+
+
+
+
+
+
+
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const selectElement = document.getElementById('filterSelect');
+                    selectElement.addEventListener('change', function () {
+                        const selectedValue = selectElement.value;
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('GET', `/admin/filterSelect?value=${selectedValue}`, true);
+                        xhr.onload = function () {
+                            if (xhr.status >= 200 && xhr.status < 300) {
+                                const responseData = JSON.parse(xhr.responseText);
+                                document.getElementById('overallAmount').innerText = `₹${responseData.overallAmount}`;
+                                document.getElementById('orderCount').innerText = responseData.filterData.length;
+                                document.getElementById('overallDiscount').innerText = `${responseData.overallDiscount}%`;
+
+                                updateSalesReport(responseData.filterData);
+                            } else {
+                                console.error('Error receiving filtered data from backend');
+                            }
+                            function updateSalesReport(filteredData) {
+                                // Update your table with the filtered data
+                                const tbody = document.querySelector('#orderTable tbody');
+                                tbody.innerHTML = ''; // Clear existing rows
+                                filteredData.forEach(order => {
+                                    const row = document.createElement('tr');
+                                    // Create and append table cells based on order properties
+                                    // Adjust this part based on your order object structure
+                                    row.innerHTML = `
                         <td>${order.orderNumber}</td>
                         <td><b>${order.shippingAddress.name}</b></td>
                         <td>${order.userEmail}</td>
@@ -325,18 +416,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         <td>${order.discount}</td>
                         <td>${order.orderType}</td>
                     `;
-                    tbody.appendChild(row);
+                                    tbody.appendChild(row);
+                                });
+                            }
+                        };
+                        xhr.onerror = function () {
+                            console.error('Network error while communicating with backend');
+                        };
+                        xhr.send();
+                    });
                 });
-            }
-        };
-        xhr.onerror = function () {
-            console.error('Network error while communicating with backend');
-        };
-        xhr.send();
-    });
-});
 
 
-</script>
+            </script>
 
-        <%- include( "../partials/adminFooter.ejs") %>
+            <%- include( "../partials/adminFooter.ejs" ) %>
