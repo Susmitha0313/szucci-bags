@@ -119,8 +119,6 @@ const getProInfoPage = async(req,res)=>{
 };
 
 
-
-
 const addProduct = async (req, res) => {
     console.log("add product working");
     try {

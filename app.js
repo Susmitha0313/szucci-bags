@@ -7,23 +7,27 @@ const mongoose = require("mongoose");
 const userRouter = require("./router/userRouter");
 const adminRouter = require("./router/adminRouter");
 const app = express();
-env.config();
+env.config();    
 const port = 3000;
 
-mongoose.connect("mongodb://localhost:27017/szucci");
+mongoose.connect("mongodb://susmitha0313:ALX4NsI55BMuBf31@ac-tffkba5-shard-00-00.upa4avz.mongodb.net:27017,ac-tffkba5-shard-00-01.upa4avz.mongodb.net:27017,ac-tffkba5-shard-00-02.upa4avz.mongodb.net:27017/szucci?ssl=true&replicaSet=atlas-mkrrad-shard-0&authSource=admin&retryWrites=true&w=majority"
+);
 
+
+     
 mongoose.connection.on("connected", () => {
-    console.log("Connected to MongoDB");
-  })
+  console.log("Connected to MongoDB Atlas");    
+});
+
   
-mongoose.connection.on("error", (err) => {
+mongoose.connection.on("error", (err) => {      
     console.log("Error connecting to MongoDB");
   })
   
 mongoose.connection.on("disconnected", () => {
     console.log("Disconnected from MongoDB");
   })
-
+  
 app.use(express.json());   
 app.use(express.urlencoded({extended:true}));
 

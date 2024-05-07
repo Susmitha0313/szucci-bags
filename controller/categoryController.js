@@ -43,30 +43,30 @@ const getCategory = async(req,res)=>{
 
 const createCategory = async(req,res)=>{
   try{
-    const catName = req.body.name.toLowerCase();
+    const catName = req.body.name
     const catDesc = req.body.description;
-    const catdupe = await Category.findOne({name : catName});
+    const catdupe = await Category.findOne({name:catName});
     const catData = await Category.find({});
     console.log(catdupe + "dupe dupe");
-    console.log(catName,catDesc);
-    if(!catdupe){
-      const newCat = new Category({
-        name: catName,
-        description: catDesc,
-      });
-      const savedCat = await newCat.save();
-      console.log(savedCat);
-      res.redirect("/admin/category")
-    }else{
+    if(catdupe){
       console.log("Categort exists")
       return res.render("productCategory",{errMsg:  "Category already exists", category: catData});
+    }else{
+      const newCat = new Category({
+        name: catName,  
+        description: catDesc,      
+      });
+      const savedCat = await newCat.save();
+      console.log(savedCat);   
+      res.redirect("/admin/category")
+      
     }
   }catch(error){
     return res.status(500).send("Category eists");
   }
 }
 
-
+   
 const getCatEdit = async(req,res)=>{
   try{
     console.log("getCatEdit page");
@@ -82,7 +82,7 @@ const getCatEdit = async(req,res)=>{
       res.status(500).send('Category Edit Internal Server Error');
   }
 }
-                                                                       
+                                                                         
 const categoryEdit = async (req, res) => {
   console.log("update Cat post working ")
   try { 
