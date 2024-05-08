@@ -1,7 +1,7 @@
 const express =require("express");
 const User = require("../models/userSchema");
 const Product = require("../models/productSchema");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const Order = require("../models/orderSchema");
 const Category = require("../models/categorySchema");
 const ProductOffer = require("../models/offerSchemaProd");

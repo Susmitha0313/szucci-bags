@@ -12,7 +12,7 @@ const {Wallet , Transaction} = require("../models/walletSchema.js")
 const otpController = require("../Config/Otp/otpController.js");
 const sentMail = require("../Config/nodemailer/sentMail.js");
 const nodemailer = require("nodemailer");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const env = require("dotenv");
 const { v4: uuidv4 } = require("uuid");
 env.config();
