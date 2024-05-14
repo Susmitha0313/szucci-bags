@@ -141,6 +141,9 @@
                                                 <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
                                                     <span>
                                                         <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
+                                                        <% if(proData[i].oldSalePrice !== null){ %>
+                                                            <p style="color: green;">(Offer Applied)</p>
+                                                        <% } %>
                                                     </span>
                                                 </div>
                                             <% } %>
@@ -183,7 +186,11 @@
                                             <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
                                                 <span>
                                                     <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
+                                                    <% if(proData[i].oldSalePrice !== null){ %>
+                                                        <p style="color: green;">(Offer Applied)</p>
+                                                    <% } %>
                                                 </span>
+                                                
                                             </div>
                                         <% } %>
                                     <% } else { %>

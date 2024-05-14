@@ -8,19 +8,16 @@
                 <% const proData = prodData.slice().reverse(); %>
                 <% for(let i=0; i < Math.min(4, proData.length); i++){ %> 
                 <div class="single-product-slider text-center">
-                    <a href="product-details?id=<%=proData[proData.length-1]._id%>"><img src="assets/userAssets/images/product/pro-slider-4.png" alt="product"></a>
-                    <h3><%= proData[proData.length-1].productName %></h3>
-                    <span>₹ <%= proData[proData.length-1].salePrice %></span>
+                    <a href="/allProducts"><img src="assets/userAssets/images/product/pro-slider-4.png" alt="product"></a>
+                    <h3>Shop Hand Bags</h3>
                 </div>
                 <div class="single-product-slider text-center">
-                    <a href="product-details?id=<%=proData[proData.length-2]._id%>"><img src="assets/userAssets/images/product/pro-slider-1.png" alt="product"></a>
-                    <h3><%= proData[proData.length-2].productName %></h3>
-                    <span>₹ <%= proData[proData.length-2].salePrice %></span>
+                    <a href="/allProducts"><img src="assets/userAssets/images/product/pro-slider-1.png" alt="product"></a>
+                    <h3>Shop Stylish Purse</h3>
                 </div>
                 <div class="single-product-slider text-center">
-                    <a href="product-details?id=<%=proData[2]._id%>"><img src="assets/userAssets/images/product/pro-slider-2.png" alt="product"></a>
-                    <h3><%= proData[2].productName %></h3>
-                    <span>₹ <%= proData[2].salePrice %></span>
+                    <a href="/allProducts"><img src="assets/userAssets/images/product/pro-slider-2.png" alt="product"></a>
+                    <h3>Shop Pouch</h3>
                 </div>
                 <% } %>
             </div>
@@ -73,13 +70,16 @@
                                             <div class="product-price-3">
                                                 <% if(proData[i].salePrice) {%>
                                                     <span style="color: green;" class="new-price">₹ <%= proData[i].salePrice%></span>
-                                                    <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">$ <%= proData[i].regularPrice%></span>
+                                                    <span class="old-price" style="font-size: 14px; font-weight: 400; color: #90908e; margin: 0 0 0 7px; text-decoration: line-through;">₹ <%= proData[i].regularPrice%></span>
                                                     <% if (proData[i].regularPrice && proData[i].salePrice) { %>
                                                         <% var offerPercentage = ((proData[i].regularPrice - proData[i].salePrice) / proData[i].regularPrice) * 100; %>
                                                         <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
                                                             <span>
                                                                 <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
                                                             </span>
+                                                            <% if(proData[i].oldSalePrice !== null){ %>
+                                                                <p style="color: green;">(Offer Applied)</p>
+                                                                <% } %>
                                                         </div>
                                                     <% } %>
                                                 <% } else { %>

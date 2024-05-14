@@ -163,7 +163,6 @@
                     data: { otp },
                     success: (response) => {
                         if (response.status == "success") {
-                            //res.redirect n pakaram
                             window.location.href = "/login";
                         } else {
                             alertMessage.style.display = "block";

@@ -8,7 +8,7 @@ const Order = require("../models/orderSchema.js");
 const Cart = require("../models/cartSchema.js");
 const Coupon = require("../models/couponSchema.js");
 const Wishlist = require("../models/wishlistSchema.js");
-const {Wallet , Transaction} = require("../models/walletSchema.js")
+const { Wallet, Transaction } = require("../models/walletSchema.js")
 const otpController = require("../Config/Otp/otpController.js");
 const sentMail = require("../Config/nodemailer/sentMail.js");
 const nodemailer = require("nodemailer");
@@ -19,17 +19,17 @@ env.config();
 
 
 const pageNotFound = async (req, res) => {
-   res.render("user/page-404")   
+    res.render("user/page-404")
 };
 
 
 
 //load loginPage
-const getLoginPage = async(req,res)=>{
-    try{
+const getLoginPage = async (req, res) => {
+    try {
         const userId = req.session.userId;
-        res.render("user/login",{userId});
-    }catch(error){
+        res.render("user/login", { userId });
+    } catch (error) {
         res.redirect("/pageNotFound");
     }
 };
@@ -67,12 +67,12 @@ const getAllProductsPage = async (req, res) => {
         const queryCondition = searchData.trim() !== "" ?
             { "productName": { $regex: new RegExp(".*" + searchData + ".*", "i") } } :
             {};
-        
+
         const prodData = await Product.find(queryCondition)
             .sort(sortQuery)
             .limit(limit)
             .skip((page - 1) * limit);
-        
+
         const count = await Product.countDocuments(queryCondition);
 
         const catData = await Category.find({ isBlocked: false });
@@ -93,95 +93,95 @@ const getAllProductsPage = async (req, res) => {
 };
 
 
-const getVerifyOtpPage = async(req,res)=>{
-    try{
+const getVerifyOtpPage = async (req, res) => {
+    try {
         const userId = req.session.userId;
-            res.render("user/verify-otp",{userId});
-    }catch(error){
-        res.redirect("/pageNotFound");
+        res.render("user/verify-otp", { userId });
+    } catch (error) {
+        res.redirect("user/pageNotFound");
     }
 };
 
 
 
 //load signUppage
-const getSignupPage = async(req,res)=>{
-    try{
+const getSignupPage = async (req, res) => {
+    try {
         const userId = req.session.userId;
-        res.render("user/signup",{userId})
-    }catch(error){
+        res.render("user/signup", { userId })
+    } catch (error) {
         res.redirect("user/pageNotFound");
     }
-};   
-
-    
+};
 
 
-const getHomePage= async(req,res)=>{
-    try{
+
+
+const getHomePage = async (req, res) => {
+    try {
         const userId = req.session.userId;
-        const prodData = await Product.find({isBlocked : false});
-        const couponData = await Coupon.find({isBlocked : false});
-        res.render("user/home",{prodData, couponData, userId})
-    }catch(error){
+        const prodData = await Product.find({ isBlocked: false });
+        const couponData = await Coupon.find({ isBlocked: false });
+        res.render("user/home", { prodData, couponData, userId })
+    } catch (error) {
         console.log(error.message);
     }
 };
 
 
 
-const getOtpPage = async(req,res)=>{
-    try{
+const getOtpPage = async (req, res) => {
+    try {
         const userId = req.session.userId;
-        res.render("verify-otp",{userId});
-    }catch(error){
+        res.render("verify-otp", { userId });
+    } catch (error) {
         console.log(error.message);
     }
 };
-   
-  
-    
 
 
 
-const signupUser = async(req,res)=>{
-    try{
-        const {name , email, phone, password} = req.body;
-        const findUser = await User.findOne({email});
+
+
+
+const signupUser = async (req, res) => {
+    try {
+        const { name, email, phone, password } = req.body;
+        const findUser = await User.findOne({ email });
         const userId = req.session.userId;
 
-            if(!findUser){
-                const otp = otpController.generateOtp();
-                sentMail(email, otp);
-                otpController.otpExpiryTimer(req , otp);
-                
-                req.session.data={name,email,phone,password,otp};
-                req.session.save();
-                return res.render("user/verify-otp",{userId});
-            }else{
-                console.log("User already Exists");
-                return res.render("user/signup",{
-                    message:"User with this email already exists",
-                });
-            }
-    }catch(error){
+        if (!findUser) {
+            const otp = otpController.generateOtp();
+            sentMail(email, otp);
+            otpController.otpExpiryTimer(req, otp);
+
+            req.session.data = { name, email, phone, password, otp };
+            req.session.save();
+            return res.render("user/verify-otp", { userId });
+        } else {
+            console.log("User already Exists");
+            return res.render("user/signup", {
+                message: "User with this email already exists",
+            });
+        }
+    } catch (error) {
         console.log(error.message);
         return res.status(500).json({ error: error.message });
     }
-};   
-  
-const resendOtp = async(req,res)=>{
-    try{
-        const {email, otp} = req.session.data;
-        console.log("1  "+ otp);
+};
+
+const resendOtp = async (req, res) => {
+    try {
+        const { email, otp } = req.session.data;
+        console.log("1  " + otp);
         const newOtp = otpController.generateOtp();
         console.log("newOtp" + newOtp);
         req.session.data.otp = newOtp;
         req.session.save();
-        otpController.otpExpiryTimer(req , newOtp);
+        otpController.otpExpiryTimer(req, newOtp);
         sentMail(email, newOtp);
-        console.log("2  "+newOtp);
-    }catch(error){
+        console.log("2  " + newOtp);
+    } catch (error) {
         console.error("Error in resending OTP:", error);
         return res.status(500).json({ error: error.message });// this too
     }
@@ -191,60 +191,59 @@ const resendOtp = async(req,res)=>{
 
 
 //verify otp from email with generated otp and save the user data to DB
-const verifyOtp = async(req,res)=>{
-    try{
-         //get otp from body
-         const bodyOtp = req.body.otp;
-         const sessionOtp = req.session.data.otp;
-        if(bodyOtp === sessionOtp){
+const verifyOtp = async (req, res) => {
+    try {
+        const bodyOtp = req.body.otp;
+        const sessionOtp = req.session.data.otp;
+        console.log(sessionOtp);
+        if (bodyOtp === sessionOtp) {
             const user = req.session.data;
             const passHashed = await securePassword(user.password);
-            const newUser =  new User({
-                name:user.name,
-                email:user.email,
+            const newUser = new User({
+                name: user.name,
+                email: user.email,
                 phone: user.phone,
-                password:passHashed
+                password: passHashed
             });
             await newUser.save();
             req.session.user = newUser._id;
             res.locals.message = "OTP verified successfully";
             console.log("verifying OTP");
-            res.redirect("/login");
-           
-        }else{
-         res.json({status:"failed"});
-
-            //  console.log("OTP does not match");
-            //  res.render("user/verify-otp")
+            res.json({status:"success"});
+        } else {
+            res.json({ status: "failed" });
         }
-        }catch(error){
+    } catch (error) {
         console.log(error.message);
         res.status(500).json({ error: error.message });
     }
 };
 
 
-const saveAccDetails = async(req,res)=>{
-    try{
-        const {name , phone, email} = req.body;
+const saveAccDetails = async (req, res) => {
+    try {
+        const { name, phone, email } = req.body;
         console.log(name, phone, email);
         const userId = req.session.userId;
         const userData = await User.findById(userId);
         console.log(userData);
-        if(!userData){
+        if (!userData) {
             return res.status(404).json({ status: "error", message: "User not found" });
-        }else {
+        } else {
             userData.name = name;
             userData.email = email;
             userData.phone = phone;
             await userData.save();
             res.redirect("/accountDetails");
         }
-    }catch(error){
+    } catch (error) {
         console.error("Error updating data:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 }
+
+
+
 
 const savepswdChange = async (req, res) => {
     try {
@@ -275,33 +274,33 @@ const savepswdChange = async (req, res) => {
 //Generate Hashed Password
 const securePassword = async (password) => {
     try {
-      const passwordHash = await bcrypt.hash(password, 10);
-      return passwordHash;
+        const passwordHash = await bcrypt.hash(password, 10);
+        return passwordHash;
     } catch (error) {
-      console.log(error.message);
+        console.log(error.message);
     }
-  };
+};
 
 
 
-const userLogin = async (req, res) => {   
+const userLogin = async (req, res) => {
     try {
         const email = req.body.email;
         const password = req.body.password;
         const userId = req.session.userId;
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
 
         if (!user) {
-            return res.render("user/login",{ errmessage: "User not found",userId });
+            return res.render("user/login", { errmessage: "User not found", userId });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.render("user/login", { errmessage: 'Invalid password' ,userId});
+            return res.render("user/login", { errmessage: 'Invalid password', userId });
         }
-        if(user.isBlocked == true){
-            return res.render("user/login", { errmessage: 'Sorry, this user is blocked' ,userId});
-        }     
+        if (user.isBlocked == true) {
+            return res.render("user/login", { errmessage: 'Sorry, this user is blocked', userId });
+        }
         req.session.email = email;
         req.session.userId = user._id;
 
@@ -321,71 +320,74 @@ const userLogin = async (req, res) => {
 
 
 
-const getuserAccountDetails = async(req, res) => {
+const getuserAccountDetails = async (req, res) => {
     try {
         const userId = req.session.userId;
         const userInfo = await User.findById(userId);
-        const orderInfo = await Order.findById(userId);
         // const addressInfo = await User.findById(userId);
-        res.render("user/userAccountDetails", { userInfo,userId });
-    } catch(error) {
+        res.render("user/userAccountDetails", { userInfo, userId });
+    } catch (error) {
         console.log(error.message);
     }
 }
 
-   
-const getuserOrderDetails = async(req, res) => {
+
+const getuserOrderDetails = async (req, res) => {
     try {
         console.log("order loading")
         const userId = req.session.userId;
-        const orderInfo = await Order.find({userId : userId});
-        const cartData = await Cart.findOne({userId : userId});
-        res.render("user/userOrders", {orderInfo , cartData,  userId});
-    } catch(error) {
+        const orderInfo = await Order.find({ userId: userId });
+        const cartData = await Cart.findOne({ userId: userId });
+        res.render("user/userOrders", { orderInfo, cartData, userId });
+    } catch (error) {
         console.log(error.message);
-    }
+    }
 }
 
 
-const getuserAddAddress = async(req, res) => {
+const getuserAddAddress = async (req, res) => {
     try {
         const userId = req.session.userId;
         console.log(userId);
         // const userInfo = await User.findById(userId);
         // const orderInfo = await User.findById(userId);
-        const addressInfo = await Address.find({userId: userId});
-        res.render("user/userAddAddress", {addressInfo,userId});
-    } catch(error) {
+        const addressInfo = await Address.find({ userId: userId });
+        res.render("user/userAddAddress", { addressInfo, userId });
+    } catch (error) {
         console.log(error.message);
-    }  
+    }
 }
-   
 
 
-const getuserWallet = async(req, res) => {
+
+const getuserWallet = async (req, res) => {
     try {
         const userId = req.session.userId;
-        console.log(userId);
-        // const userInfo = await User.findById(userId);
-        const orderInfo = await Order.find({userId : userId});
-        const walletInfo = await Wallet.findOne({userId: userId});
-        const transInfo = await Transaction.find({walletId: walletInfo._id});
-        console.log(walletInfo, transInfo);
-        res.render("user/userWallet", {orderInfo,transInfo,walletInfo,userId});
-    } catch(error) {
+        const orderInfo = await Order.find({ userId: userId });
+        const walletInfo = await Wallet.findOne({ userId: userId });
+        let transInfo = []; // Initialize as an empty array
+
+        if (walletInfo) {
+            transInfo = await Transaction.find({ walletId: walletInfo._id });
+        }
+
+        res.render("user/userWallet", { orderInfo, walletInfo, transInfo, userId });
+    } catch (error) {
         console.log(error.message);
-    }  
+        // Handle the error appropriately, such as rendering an error page or message
+        res.status(500).send("Internal Server Error");
+    }
 }
 
 
 
-const getusereditAddress = async(req,res)=>{
-    try{
+const getusereditAddress = async (req, res) => {
+    try {
         const userId = req.session.userId;
         const adressId = req.query.id;
-        const address = await Address.findById({_id : adressId});
-        res.render("user/usereditAddress",{address , userId})
-    }catch(error){
+        const address = await Address.findById({ _id: adressId });
+        res.render("user/usereditAddress", { address, userId })
+    } catch (error) {
         console.log(error.message);
     }
 }
@@ -396,7 +398,7 @@ const deleteAddress = async (req, res) => {
         console.log("inside del function");
         const adrsId = req.query.id;
         console.log("Address ID:", adrsId);
-        
+
         // Delete the address
         const adrsData = await Address.findByIdAndDelete(adrsId);
         console.log("Deleted Address:", adrsData);
@@ -411,35 +413,35 @@ const deleteAddress = async (req, res) => {
 
 //edit cheythit ullapost function 
 
-const addNewAddress = async(req,res)=>{
+const addNewAddress = async (req, res) => {
     console.log("Adding address");
-    try{
+    try {
         const userId = req.session.userId;
         const { name, phone, pincode, locality, city, address, state, landmark, phone2 } = req.body;
         const newAddress = new Address({
             userId, name, phone, pincode, locality, city, address, state, landmark, phone2
         });
-        console.log(userId, name, phone, pincode, locality, city, address, state, landmark, phone2  )
+        console.log(userId, name, phone, pincode, locality, city, address, state, landmark, phone2)
         await newAddress.save();
-        console.log("this is the new saved address "+newAddress)
+        console.log("this is the new saved address " + newAddress)
         res.redirect("/address");
-    }catch(error){
-        console.log(error.message) 
+    } catch (error) {
+        console.log(error.message)
     }
 }
-  
 
 
-const editAddress = async(req,res)=>{
+
+const editAddress = async (req, res) => {
     console.log("edit address is working");
-    try{
+    try {
         const userId = req.session.userId;
         const adrsId = req.query.id;
         const { name, phone, pincode, locality, city, address, state, landmark, phone2 } = req.body;
-        const existingAddress = await Address.findById({_id:adrsId});
-        if(!existingAddress){
+        const existingAddress = await Address.findById({ _id: adrsId });
+        if (!existingAddress) {
             return res.status(404).send("Address not found");
-        }else{
+        } else {
             existingAddress.name = name;
             existingAddress.phone = phone;
             existingAddress.pincode = pincode;
@@ -452,37 +454,37 @@ const editAddress = async(req,res)=>{
             await existingAddress.save();
             res.redirect("/address");
         }
-    }catch(error){
+    } catch (error) {
         console.log(error.message)
     }
 }
 
-const logout = async (req, res)=>{
-    try{   
+const logout = async (req, res) => {
+    try {
         await req.session.destroy()
         res.redirect("/")
-    }catch(error){
+    } catch (error) {
         console.log(error.message)
     }
 }
 
 
 
-const forgetPswdPage = async (req, res)=>{
-    try{  
+const forgetPswdPage = async (req, res) => {
+    try {
         res.render("user/forgetPassword")
-    }catch(error){
+    } catch (error) {
         console.log(error.message)
     }
 }
 
 
 
-const getverifypage = async(req,res)=>{
-    try{
+const getverifypage = async (req, res) => {
+    try {
         const userId = req.session.userId;
-        res.render("verify-otp-pswd",{userId});
-    }catch(error){
+        res.render("verify-otp-pswd", { userId });
+    } catch (error) {
         console.log(error.message);
     }
 };
@@ -490,29 +492,29 @@ const getverifypage = async(req,res)=>{
 
 
 
-const sentOtp = async (req, res)=>{
-    try{  
+const sentOtp = async (req, res) => {
+    try {
         const userId = req.session.userId;
-        const {email,password} = req.body;
+        const { email, password } = req.body;
         console.log(email, password);
-        const findUser = await User.findOne({email : email});
-        if(findUser){
+        const findUser = await User.findOne({ email: email });
+        if (findUser) {
             let otp = otpController.generateOtp();
             sentMail(email, otp);
-            const otpData = {otp, expiryTime:Date.now()};
+            const otpData = { otp, expiryTime: Date.now() };
             otpController.otpExpiryTimer(otpData);
-            const data ={
+            const data = {
                 email,
                 password,
                 otp
             };
             req.session.forgotData = data;
             await req.session.save();
-        }else {
+        } else {
             return res.status(404).json({ error: "User not found" });
         }
-        res.render("user/verify-otp-pswd",{email, userId});
-    }catch(error){
+        res.render("user/verify-otp-pswd", { email, userId });
+    } catch (error) {
         console.log(error.message);
         res.status(500).json({ error: error.message });
     }
@@ -523,19 +525,19 @@ const sentOtp = async (req, res)=>{
 
 
 
-const resendOtpPswd = async(req,res)=>{
-    try{
-       const email = req.session.email;
-       console.log(email);
+const resendOtpPswd = async (req, res) => {
+    try {
+        const email = req.session.email;
+        console.log(email);
         const newOtp = otpController.generateOtp();
         await sentMail(email, newOtp);
         req.session.data.otp = newOtp;
         res.render("user/verify-otp")
-    }catch(error){
+    } catch (error) {
         console.log("Error in resending OTP ");
     }
-  }
-  
+}
+
 
 
 
@@ -543,9 +545,9 @@ const verifyForgPswdOtp = async (req, res) => {
     try {
         const { otp } = req.body;
         const { forgotData } = req.session;
-        console.log(otp , forgotData.otp)
-        if (otp ===  forgotData.otp) {
-            const {email, password} = forgotData;
+        console.log(otp, forgotData.otp)
+        if (otp === forgotData.otp) {
+            const { email, password } = forgotData;
             const passHashed = await securePassword(password);
             const user = await User.findOneAndUpdate({ email }, { password: passHashed }, { new: true });
             if (!user) {
@@ -564,19 +566,19 @@ const verifyForgPswdOtp = async (req, res) => {
 };
 
 
-const getWishlist = async(req,res)=>{
-    try{
+const getWishlist = async (req, res) => {
+    try {
         const userId = req.session.userId;
-        const wishData = await Wishlist.find({userId : userId}).populate("products.productId");
+        const wishData = await Wishlist.find({ userId: userId }).populate("products.productId");
 
-        res.render("user/wishlist",{userId, wishData});
-    }catch(error){
-        console.log(error.message);  
+        res.render("user/wishlist", { userId, wishData });
+    } catch (error) {
+        console.log(error.message);
     }
 }
 
 
-    
+
 const addToWishlist = async (req, res) => {
     try {
         const userId = req.session.userId;
@@ -610,7 +612,7 @@ const addToWishlist = async (req, res) => {
 
 const deleWishItem = async (req, res) => {
     const userId = req.session.userId;
-    const prodId = req.body.productId ;
+    const prodId = req.body.productId;
     console.log(userId, prodId);
     try {
         const wishlist = await Wishlist.findOne({ userId: userId });
@@ -628,7 +630,7 @@ const deleWishItem = async (req, res) => {
             return res.status(404).json({ status: "error", message: "Product not found in wishlist" });
         }
 
-        res.json({ status: "success", wishlist: wishUpdate  });
+        res.json({ status: "success", wishlist: wishUpdate });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ status: "error", message: "Internal server error" });
@@ -648,7 +650,7 @@ module.exports = {
     saveAccDetails,
     savepswdChange,
 
-   
+
     getuserAddAddress,
     getuserOrderDetails,
     getuserWallet,
@@ -672,7 +674,7 @@ module.exports = {
     sentOtp,
     resendOtpPswd,
     verifyForgPswdOtp,
-    
+
     getWishlist,
     addToWishlist,
     deleWishItem,
