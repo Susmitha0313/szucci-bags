@@ -28,11 +28,15 @@ router.get("/userBlock", adminController.userBlock);
 router.get("/catChart", isAdmin, adminController.catChart);
 router.get("/prodOfferPage",isAdmin,adminController.getProdOfferPage);
 router.get("/catOfferPage",isAdmin,adminController.getCategOfferPage);
+
+
+
 // router.get("/editOffer/:id",isAdmin,adminController.getOfferEdit);
 // router.post("/editOffer",isAdmin,adminController.saveEditOffer);
 router.post("/prodofferadd",isAdmin,adminController.prodOfferSave);
 router.post("/catofferadd",isAdmin,adminController.categOfferSave);
-// router.put('/apply/:offerId', offerController.applyOffer);
+router.get('/offerSet',isAdmin, adminController.applyOrRemoveOffer);
+router.get('/catOfferSet',isAdmin, adminController.applyOrRemoveOfferCat);
 
 //product routerss   
 router.get("/products",isAdmin, productController.getProducts);
@@ -71,7 +75,7 @@ router.post("/couponAdd",isAdmin,couponController.createCoupon);
 
 //brands routers
 router.get("/brand",isAdmin, brandController.getBrandPage);
-router.get("/brandEdit",isAdmin, brandController.getBrandEdit);
+// router.get("/brandEdit",isAdmin, brandController.getBrandEdit);
 router.post("/brand",isAdmin, brandController.createBrand);
 router.get("/brandBlock",isAdmin, brandController.brandBlock);
 router.get("/deleteBrand",isAdmin, brandController.deleteBrand);

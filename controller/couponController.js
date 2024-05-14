@@ -135,7 +135,7 @@ const couponBlock = async (req, res) => {
       const couponData = await Coupon.find({});
       res.render("couponPage", {couponData});
   } catch (error) {
-      console.error("/pageerror", error); // Log the actual error
+      console.error("/admin/page-404", error); // Log the actual error
   }
 }
 

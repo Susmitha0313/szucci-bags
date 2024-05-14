@@ -1,110 +1,127 @@
 <%- include("../partials/header.ejs") %>
 
-<div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
-    <div class="container-fluid">
+    <div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
+        <div class="container-fluid">
 
-        <div class="breadcrumb-content breadcrumb-font-inc" >
-            <ul>
-                <li>
-                    <a href="/">Home</a>
-                </li>
-                <li><span> > </span></li>
-                <li>
-                <li>
-                    <a href="/allProducts">All Products</a>
-                </li>
-                <li><span> > </span></li>
-                <li>
-                    <a href="/product-details">Product Details</a>
-                </li>
-                
-            </ul>
+            <div class="breadcrumb-content breadcrumb-font-inc">
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li><span> > </span></li>
+                    <li>
+                    <li>
+                        <a href="/allProducts">All Products</a>
+                    </li>
+                    <li><span> > </span></li>
+                    <li>
+                        <a href="/product-details">Product Details</a>
+                    </li>
+
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-<div class="product-details-area section-padding-1 pb-90">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="product-details-tab">
-                    <div class="product-dec-right pro-dec-big-img-slider">
-                        <% if(locals.proDetails && locals.proDetails.productImage && locals.proDetails.productImage.length > 0){ locals.proDetails.productImage.forEach(el=>{ %>
+    <div class="product-details-area section-padding-1 pb-90">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="product-details-tab">
+                        <div class="product-dec-right pro-dec-big-img-slider">
+                            <% if(locals.proDetails && locals.proDetails.productImage &&
+                                locals.proDetails.productImage.length> 0){ locals.proDetails.productImage.forEach(el=>{
+                                %>
 
-                        <div class="easyzoom-style">
-                            <div class="easyzoom easyzoom--overlay">
-                                <a href="assets/adminAssets/imgUploads/<%= el %>">
-                                    <img src="assets/adminAssets/imgUploads/<%= el %>" alt="">
-                                </a>
-                            </div>
-                            <a class="easyzoom-pop-up img-popup" href="assets/adminAssets/imgUploads/<%= el %>"><i class="dlicon ui-1_zoom-in "></i></a>
-                        </div>
-                        <%  }) } %>
-                        
-                    </div>
-
-
-
-                    <div class="product-dec-slider product-dec-left">
-                        <% if(locals.proDetails && locals.proDetails.productImage && locals.proDetails.productImage.length > 0){ locals.proDetails.productImage.forEach(el=>{ %>
-                        <div class="product-dec-small active">
-                            <img src="assets/adminAssets/imgUploads/<%= el %>" alt="">
-                        </div>
-                        <%  }) } %>
-                     
-                    </div>   
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="row">
-                    <div class="product-details-col-72">
-                        <div class="product-details-content p-dec-content-edit">
-                            <% if (locals.proDetails) { %>
-                                <h2 class="uppercase"><%= proDetails.productName %></h2>
-                                <div class="product-details-ratting-wrap">
-                                    <div class="product-details-ratting">
-                                        <!-- Star ratings -->
+                                <div class="easyzoom-style">
+                                    <div class="easyzoom easyzoom--overlay">
+                                        <a href="assets/adminAssets/imgUploads/<%= el %>">
+                                            <img src="assets/adminAssets/imgUploads/<%= el %>" alt="">
+                                        </a>
                                     </div>
-                                    <!-- <a href="#"> (1 customer review)</a> -->
+                                    <a class="easyzoom-pop-up img-popup"
+                                        href="assets/adminAssets/imgUploads/<%= el %>"><i
+                                            class="dlicon ui-1_zoom-in "></i></a>
                                 </div>
-                                <% if (proDetails.salePrice) { %>
-                                    <strike><span class="old-price">₹<%= proDetails.regularPrice %></span></strike>
-                                    <span  style="color: green;">₹<%= proDetails.salePrice %></span>
-                                    <% var offerPercentage = ((proDetails.regularPrice - proDetails.salePrice) / proDetails.regularPrice) * 100; %>
-                                    <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
-                                        <span style="color: red;"><%= offerPercentage.toFixed(0) %>% off</span>
+                                <% }) } %>
+
+                        </div>
+
+
+
+                        <div class="product-dec-slider product-dec-left">
+                            <% if(locals.proDetails && locals.proDetails.productImage &&
+                                locals.proDetails.productImage.length> 0){ locals.proDetails.productImage.forEach(el=>{
+                                %>
+                                <div class="product-dec-small active">
+                                    <img src="assets/adminAssets/imgUploads/<%= el %>" alt="">
+                                </div>
+                                <% }) } %>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="product-details-col-72">
+                            <div class="product-details-content p-dec-content-edit">
+                                <% if (locals.proDetails) { %>
+                                    <h2 class="uppercase">
+                                        <%= proDetails.productName %>
+                                    </h2>
+                                    <div class="product-details-ratting-wrap">
+                                        <div class="product-details-ratting">
+                                            <!-- Star ratings -->
+                                        </div>
+                                        <!-- <a href="#"> (1 customer review)</a> -->
                                     </div>
-                                <% } else { %>
-                                    <span>₹<%= proDetails.regularPrice %></span>
-                                <% } %>
-                                <br>
-                                <br>
-                        
-                                <input type="hidden" id="proId" name="user_id" value="<%= proDetails._id %>">
-                                <div class="sidebar-widget mb-60">
-                                    <style>
-                                        .selected {
-                                            background-color: #d52323;
-                                            color: #ffffff; /* Add your desired highlight color */
-                                        }
-                                    </style>
-                        
-                                    <div class="product-details-action-wrap">
-                                        <div class="product-details-quality">
-                                            <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box" id="quantityNum" type="text" name="prodQuantity" value="1">
+                                    <% if (proDetails.salePrice) { %>
+                                        <strike><span class="old-price">₹<%= proDetails.regularPrice %></span></strike>
+                                        <span style="color: green;">₹<%= proDetails.salePrice %></span>
+                                        <% var offerPercentage=((proDetails.regularPrice - proDetails.salePrice) /
+                                            proDetails.regularPrice) * 100; %>
+                                            <div class="rating-result" title="<%= offerPercentage.toFixed(2) %>%">
+                                                <span style="color: red;">
+                                                    <%= offerPercentage.toFixed(0) %>% off
+                                                </span>
                                             </div>
-                                        </div>
-                                        <div class="product-details-cart">
-                                            <a title="Add to cart" id="addToCartButton"  onclick="addToCart()">Add to cart</a>
-                                        </div>
-                                        <!-- <div class="product-details-cart">
+                                            <% } else { %>
+                                                <span>₹<%= proDetails.regularPrice %></span>
+                                                <% } %>
+                                                    <br>
+                                                    <br>
+
+                                                    <input type="hidden" id="proId" name="user_id"
+                                                        value="<%= proDetails._id %>">
+                                                    <div class="sidebar-widget mb-60">
+                                                        <style>
+                                                            .selected {
+                                                                background-color: #d52323;
+                                                                color: #ffffff;
+                                                                /* Add your desired highlight color */
+                                                            }
+                                                        </style>
+
+                                                        <div class="product-details-action-wrap">
+                                                            <div class="product-details-quality">
+                                                                <div class="cart-plus-minus">
+                                                                    <input class="cart-plus-minus-box" id="quantityNum"
+                                                                        type="text" name="prodQuantity" value="1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-details-cart">
+                                                                <a title="Add to cart" id="addToCartButton"
+                                                                    onclick="addToCart()">Add to cart</a>
+                                                            </div>
+                                                            <!-- <div class="product-details-cart">
                                             <a style="background-color: rgb(17, 17, 17);" href="+" title="Buy now" href="/buyNow">Buy Now</a>
                                         </div> -->
-                                        <div class="product-details-wishlist">
-                                            <a title="Add to wishlist" id="addToWishlistBtn" onclick="addToWishlist()"><i class="fa fa-heart"></i></a>
-                                        </div>  
-                                    </div>   
-                                    <!-- <div class="product-details-info">
+                                                            <div class="product-details-wishlist">
+                                                                <a title="Add to wishlist" id="addToWishlistBtn"
+                                                                    onclick="addToWishlist()"><i
+                                                                        class="fa fa-heart"></i></a>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <div class="product-details-info">
                                         <a href="#"><i class="dlicon location_pin"></i>Store availability</a>
                                         <a href="#"><i class="dlicon envir_car"></i>Delivery and return</a>
                                         <a href="#"><i class="dlicon design_measure-17"></i>Size Guide</a>
@@ -121,177 +138,102 @@
                                         <a class="pinterest" href="#"><i class="fa fa-pinterest-p"></i></a>
                                         <a class="google-plus" href="#"><i class="fa fa-google-plus"></i></a>
                                     </div> -->
-                                </div>
-                            <% } %>
-                        </div>
-                        
-                  
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="description-review-area section-padding-7 pb-100">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12 col-md-12">
-                
-                <div class="description-review-wrapper">
-                    <div class="description-review-topbar nav">
-                        <a class="active" data-bs-toggle="tab" href="#des-details1">Description</a>
-                        <a data-bs-toggle="tab" href="#des-details2">Additional information</a>
-                        <a data-bs-toggle="tab" href="#des-details3">Reviews (1)</a>
-                        <a data-bs-toggle="tab" href="#des-details4"> Brands</a>
-                        <!-- <a data-bs-toggle="tab" href="#des-details5">Shipping & Delivery</a> -->
-                    </div>
+                                                    </div>
+                                                    <% } %>
+                            </div>
 
-                    <div class="tab-content description-review-bottom">
-                        <%  if(locals.proDetails  && locals.proDetails.productImage && locals.proDetails.productImage.length > 0){  %>
-                       
-                        <div id="des-details1" class="tab-pane active">
-                            <div class="product-description-wrapper">
-                                <div class="row">
-                                    <div class="product-dec-col-62">
-                                        <div class="product-dec-content">
-                                            <p> <%= proDetails.description %></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="des-details2" class="tab-pane">
-                            <div class="additional-info">
-                                <ul>
-                                    <li><span>Category</span><%= catDetails.name %> </li>
-                                    <li><span>Brand</span><%= brandDetails.brandName %></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div id="des-details3" class="tab-pane ">
-                            <div class="review-wrapper">
-                                <h2>Customer Reviews</h2>
-                                <div class="single-review" >
-                                    <div class="col-lg-4 col-md-6 col-sm-5">
-                                        <div class="pro-dec-brand-img text-center">
-                                            <img src="/assets/userAssets/images/banner/Boondocker Recycled 26L Backpack Black_Khaki - Passenger.jpeg" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="review-content">
-                                        <div class="review-top-wrap">
-                                            <div class="review-name">
-                                                <h5><span>John Snow</span> - March 14, 2023</h5>
-                                            </div>
-                                            <div class="review-rating">
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class="yellow fa fa-star"></i>
-                                                <i class=" fa fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <p>Donec accumsan auctor iaculis. Sed suscipit arcu ligula, at egestas magna molestie a. Proin ac ex maximus, ultrices justo eget, sodales orci. Aliquam egestas libero ac turpis pharetra, in vehicula lacus scelerisque</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ratting-form-wrapper">
-                                <span>Add a Review</span>
-                                <p>Your email address will not be published. Required fields are marked <span>*</span></p>
-                                <div class="ratting-form">
-                                    <form action="#">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-md-6">
-                                                <div class="rating-form-style mb-20">
-                                                    <label>Name <span>*</span></label>
-                                                    <input type="text">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6">
-                                                <div class="rating-form-style mb-20">
-                                                    <label>Email <span>*</span></label>
-                                                    <input type="email">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="star-box-wrap">
-                                                    <div class="single-ratting-star">
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                    </div>
-                                                    <div class="single-ratting-star">
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                    </div>
-                                                    <div class="single-ratting-star">
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                    </div>
-                                                    <div class="single-ratting-star">
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                    </div>
-                                                    <div class="single-ratting-star">
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="rating-form-style mb-20">
-                                                    <label>Your review <span>*</span></label>
-                                                    <textarea name="Your Review"></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="form-submit">
-                                                    <input type="submit" value="Submit">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="des-details4" class="tab-pane ">
-                            <div class="pro-dec-brand-wrap">
-                                <div class="row">
-                                    <div class="ms-auto me-auto col-lg-10">
-                                        <div class="row align-items-center">
-                                            <div class="col-lg-4 col-md-6 col-sm-5">
-                                                <div class="pro-dec-brand-img text-center">
-                                                    <img src="/assets/userAssets/images/logo/2aa0744ab695415e9fba313553d02824.thumbnail.0000000000.jpg" alt="">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-8 col-md-6 col-sm-7">
-                                                <div class="pro-dec-brand-content">
-                                                    <p><%= brandDetails.brandName %></p>
-                                                    <p>Donec accumsan auctor iaculis. Sed suscipit arcu ligula, at egestas magna molestie a. Proin ac ex maximus, ultrices justo eget, sodales orci. Aliquam egestas libero ac turpis pharetra, in vehicula lacus scelerisque</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                      
 
-                        <% } %>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+        <div class="description-review-area section-padding-7 pb-100">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+
+                        <div class="description-review-wrapper">
+                            <div class="description-review-topbar nav">
+                                <a class="active" data-bs-toggle="tab" href="#des-details1">Description</a>
+                                <a data-bs-toggle="tab" href="#des-details2">Additional information</a>
+                                <a data-bs-toggle="tab" href="#des-details4"> Brands</a>
+                               
+                            </div>
+
+                            <div class="tab-content description-review-bottom">
+                                <% if(locals.proDetails && locals.proDetails.productImage &&
+                                    locals.proDetails.productImage.length> 0){ %>
+
+                                    <div id="des-details1" class="tab-pane active">
+                                        <div class="product-description-wrapper">
+                                            <div class="row">
+                                                <div class="product-dec-col-62">
+                                                    <div class="product-dec-content">
+                                                        <p>
+                                                            <%= proDetails.description %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="des-details2" class="tab-pane">
+                                        <div class="additional-info">
+                                            <ul>
+                                                <li><span>Category</span>
+                                                    <%= catDetails.name %>
+                                                </li>
+                                                <li><span>Brand</span>
+                                                    <%= brandDetails.brandName %>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                  
+                                    <div id="des-details4" class="tab-pane ">
+                                        <div class="pro-dec-brand-wrap">
+                                            <div class="row">
+                                                <div class="ms-auto me-auto col-lg-10">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-lg-4 col-md-6 col-sm-5">
+                                                            <div class="pro-dec-brand-img text-center">
+                                                                <img src="/assets/userAssets/images/logo/2aa0744ab695415e9fba313553d02824.thumbnail.0000000000.jpg"
+                                                                    alt="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-8 col-md-6 col-sm-7">
+                                                            <div class="pro-dec-brand-content">
+                                                                <p>
+                                                                    <%= brandDetails.brandName %>
+                                                                </p>
+                                                                <p>Donec accumsan auctor iaculis. Sed suscipit arcu
+                                                                    ligula, at egestas magna molestie a. Proin ac ex
+                                                                    maximus, ultrices justo eget, sodales orci. Aliquam
+                                                                    egestas libero ac turpis pharetra, in vehicula lacus
+                                                                    scelerisque</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
 
 
-<!-- 
+        <!-- 
 <div class="related-product-area section-padding-1 pb-95">
     <div class="container-fluid">
         <div class="section-title-6 mb-50">
@@ -373,82 +315,84 @@
     </div>
 </div> -->
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
 
-function addToCart() {
-    console.log("addToCart Ajax is working")
-    const prodQuantity = document.getElementById("quantityNum").value
-    const productId = document.getElementById("proId").value
-    //AJAX request
-    $.ajax({
-        url: "/addToCart",
-        method: "post",
-        data: {
-            prodQuantity,
-            productId,
-        },
-        success: (response) => {
-            if (response.status === "success") {
-                Swal.fire({
-                    icon: "success",
-                    title: "Product added to cart",
-                    showConfirmButton: false,
-                    timer: 2000,
+            function addToCart() {
+                console.log("addToCart Ajax is working")
+                const prodQuantity = document.getElementById("quantityNum").value
+                const productId = document.getElementById("proId").value
+                //AJAX request
+                $.ajax({
+                    url: "/addToCart",
+                    method: "post",
+                    data: {
+                        prodQuantity,
+                        productId,
+                    },
+                    success: (response) => {
+                        if (response.status === "success") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Product added to cart",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            })
+                                .then((result) => {
+                                    //     document.getElementById("addToCartButton").innerText = "View Cart ";
+                                    window.location.href = "/productCart";
+                                });
+                        } else if (response.status === "alreadyInCart") {
+                            Swal.fire({
+                                icon: "info",
+                                title: "Product already in cart",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                        } else if (response.status === "outOfStock") {
+                            Swal.fire({
+                                icon: "info",
+                                title: "Sorry!.. Out of stock",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                        }
+                    }
+
                 })
-                .then((result) => {
-                //     document.getElementById("addToCartButton").innerText = "View Cart ";
-                    window.location.href = "/productCart";
-                });
-            } else if (response.status === "alreadyInCart") {
-                Swal.fire({
-                    icon: "info",
-                    title: "Product already in cart",
-                    showConfirmButton: false,
-                    timer: 2000,
-                });
-            }else if(response.status === "outOfStock"){
-                Swal.fire({
-                    icon: "info",
-                    title: "Sorry!.. Out of stock",
-                    showConfirmButton: false,
-                    timer: 2000,
-                });
             }
-        }
-
-    })
-}
 
 
-function addToWishlist(){
-    const productId = document.getElementById("proId").value;
-    $.ajax({
-        method: "POST",
-        url: "/wishlist",
-        data: {
-            productId
-        },
-        success:(response)=>{
-            if(response.status === "success"){
-                Swal.fire({
-                    icon: "success",
-                    title: "Product added to wishlist",
-                    showConfirmButton: false,
-                    timer: 2000,
+            function addToWishlist() {
+                const productId = document.getElementById("proId").value;
+                $.ajax({
+                    method: "POST",
+                    url: "/wishlist",
+                    data: {
+                        productId
+                    },
+                    success: (response) => {
+                        if (response.status === "success") {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Product added to wishlist",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            })
+                        } else if (response.status === "alreadyAdded") {
+                            Swal.fire({
+                                icon: "info",
+                                title: "Product already in wishlist",
+                                showConfirmButton: false,
+                                timer: 2000,
+                            });
+                        }
+                    }
                 })
-            }else if(response.status === "alreadyAdded"){
-                Swal.fire({
-                    icon: "info",
-                    title: "Product already in wishlist",
-                    showConfirmButton: false,
-                    timer: 2000,
-                });
             }
-        }
-    })
-}
-</script>
+        </script>
         <%- include("../partials/footer.ejs") %>

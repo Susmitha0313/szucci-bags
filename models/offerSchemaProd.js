@@ -19,7 +19,7 @@ const offerSchemaProd = new Mongoose.Schema({
     },
     offerStatus : {
         type : String,
-        default: "active",
+        default: "inactive",
     },
     products: [{ 
         type: Mongoose.Schema.Types.ObjectId,

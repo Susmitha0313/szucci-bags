@@ -30,7 +30,10 @@ const productSchema = Mongoose.Schema({
         type: Number,
         require: true
     },
-    
+    oldSalePrice:{
+        type:Number,
+        default: null,
+    },
     quantity:{
         type: Number,
         require: true

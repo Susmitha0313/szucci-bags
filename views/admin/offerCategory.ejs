@@ -63,8 +63,8 @@
                             <span class="text">Coupon</span>
                         </a>
                     </li>
-                    <li class="menu-item has-submenu">
-                        <a class="menu-link" > <i class="icon material-icons md-redeem"></i>
+                    <li class="menu-item has-submenu active">
+                        <a class="menu-link active" > <i class="icon material-icons md-redeem"></i>
                             <span class="text">Offers</span>
                         </a>
                         <div class="submenu">
@@ -196,11 +196,11 @@
                                     </th> -->
 
                                                 <th>Name</th>
+                                                <th>Valid Till</th>
                                                 <th>Discount</th>
+                                                <th>Category</th>
                                                 <th>Status</th>
-                                                <th>Edit </th>
-                                                <th>Block/Unblock</th>
-                                                <!-- <th>Delete</th> -->
+                                                <th>Apply Offer</th>
                                             </tr>
                                         </thead>
 
@@ -209,13 +209,24 @@
                                                 <tr>
                                                     <td><b>
                                                             <%= offer.offerName %>
-                                                        </b></td>
+                                                        </b>
+                                                    </td>
+                                                    <td>
+                                                        <%= offer.endDate %>
+                                                    </td>
                                                     <td>
                                                         <%= offer.discountPercentage %>%
                                                     </td>
+                                                    <td>
+                                                        <ul>
+                                                            <% offer.categories.forEach(category => { %>
+                                                                <li><%= category.name %></li>
+                                                            <% });  %>
+                                                        </ul>
+                                                    </td>
 
-                                                    <% if (offer.isBlocked===true) { %>
-                                                        <td><span class="badge rounded-pill bg-secondary">Blocked</span>
+                                                    <% if (offer.offerStatus== "inactive") { %>
+                                                        <td><span class="badge rounded-pill bg-secondary">Not Active</span>
                                                         </td>
                                                         <% } else { %>
                                                             <td><span
@@ -223,26 +234,26 @@
                                                             </td>
                                                             <% } %>
 
-                                                                <td><a href="/admin/editOffer/<%= offer._id %>">
+                                                                <!-- <td><a href="/admin/editOffer/<%= offer._id %>">
                                                                         <button
                                                                             class="toggleBtn btn btn-sm font-sm rounded"
                                                                             style="background-color: rgb(49, 103, 100);">Edit</button>
                                                                     </a>
                                                                 </td>
-
+ -->
 
                                                                 <td>
-                                                                    <% if (offer.isBlocked===true) { %>
+                                                                    <% if (offer.offerStatus== "active") { %>
                                                                         <a
-                                                                            href="/admin/categoryBlock?categoryName=<%= offer.offerName %>">
+                                                                            href="/admin/catOfferSet?offerName=<%= offer.offerName %>">
                                                                             <button
-                                                                                class="toggleBtn btn btn-sm font-sm btn-brand rounded">Unblock</button>
+                                                                                class="toggleBtn btn btn-sm font-sm btn-brand rounded">Remove</button>
                                                                         </a>
                                                                         <% } else { %>
                                                                             <a
-                                                                                href="/admin/categoryBlock?categoryName=<%= offer.offerName %>">
+                                                                                href="/admin/catOfferSet?offerName=<%= offer.offerName %>">
                                                                                 <button
-                                                                                    class="toggleBtn btn btn-sm font-sm btn-brand rounded">Block</button>
+                                                                                    class="toggleBtn btn btn-sm font-sm btn-brand rounded">Apply</button>
                                                                             </a>
                                                                             <% } %>
                                                                 </td>

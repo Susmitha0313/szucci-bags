@@ -21,7 +21,7 @@ const getCartPage = async (req, res) => {
               prodData.push(await Product.findById(productId));
           }
       }
-      // console.log(prodData)
+      console.log(prodData)
       console.log("3  "+cartData)
 
       res.render("user/cart", { prodData, cartData , userId}); // Pass itemId to the template

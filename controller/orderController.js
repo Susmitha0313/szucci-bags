@@ -70,7 +70,7 @@ const getCheckoutPage = async (req, res) => {
       couponData,
     });
   } catch (error) {
-    console.error("/pageerror", error);
+    console.error("/admin/page-404", error);
   }
 };
 
@@ -83,7 +83,7 @@ const getSfulPage = async (req, res) => {
     const orderData = await Order.find({});
     res.render("user/orderPlaced", { orderData, userId });
   } catch (error) {
-    console.error("/pageerror", error);
+    console.error("/admin/page-404", error);
   }
 };
 

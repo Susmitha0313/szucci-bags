@@ -22,4 +22,4 @@ const otpExpiryTimer = (req , otp)=>{
 
 module.exports = {
     generateOtp,
-    otpExpiryTimer};
+    otpExpiryTimer};   

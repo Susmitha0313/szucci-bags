@@ -15,42 +15,49 @@ const getBrandPage = async(req,res)=>{
 
    
 
-const getBrandEdit = async(req,res)=>{
-  try{
-    const brandData = await Brand.find({});
-      res.render("productBrandEdit",{brandData});
-  }catch(error){
-      console.log("/pageerror");
-  }
-}
+// const getBrandEdit = async(req,res)=>{
+//   try{
+//     const brandData = await Brand.find({});
+//       res.render("productBrandEdit",{brandData});
+//   }catch(error){
+//       console.log("/admin/page-404");
+//   }
+// }
 
   
 
-const createBrand = async(req,res)=>{
-  try{
+const createBrand = async (req, res) => {
+  try {
       const braName = req.body.brandName;
-      const brand = await Brand.find({});
-      const brandData = await Brand.find({brandName: braName});
-      
-    if(typeof brandData != undefined){
-       const newBrand = new Brand({
-        brandName: braName
+      const allBrands = await Brand.find({});
+      const existingBrand = await Brand.findOne({ brandName: braName });
+      if (existingBrand) {
+          console.log("Brand exists");
+          const brandExists = "Brand already exists";
+          return res.render("productBrand", { errMsg: brandExists ,brand:allBrands});
+      }
+      const lastBrand = await Brand.findOne({}, {}, { sort: { 'serialNum': -1 } });
+      let newSerialNum = 1; 
+      if (lastBrand) {
+          newSerialNum = lastBrand.serialNum + 1;
+      }
+      const newBrand = new Brand({
+          brandName: braName,
+          serialNum: newSerialNum
       });
       const savedBrand = await newBrand.save();
-      return res.render("productBrand",{brandAdded: "Brand added successfully", brand:[savedBrand, ...brand]})
-    }else{
-      const brandExists = "Brand already exists";
-      return res.render("productBrand",{errMsg: brandExists});
-    }
-  }catch(error){
-    console.log(error.message);
-    return res.status(500).send("Server fgjgdjgj Error");
-  }
+      console.log(savedBrand);
+
+      const brandArr = [savedBrand , ...allBrands];
+      return res.render("productBrand", { brandAdded: "Brand added successfully", brand:brandArr });
+  } catch (error) {
+      console.log(error.message);
+      return res.status(500).send("Server Error");
+  }   
 }
-  
 
 
-const brandBlock = async (req, res) => {
+const brandBlock = async (req, res) => {   
   try {
       const brandName = req.query.brandName; // Corrected query parameter brandName
       const brand = await Brand.findOne({ brandName });
@@ -98,7 +105,7 @@ const deleteBrand = async (req, res) => {
 
 module.exports = {
     getBrandPage,
-    getBrandEdit,
+    // getBrandEdit,
     createBrand,
     brandBlock,
     deleteBrand,

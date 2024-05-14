@@ -6,7 +6,7 @@
     "chart.js": "^4.4.2",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
-    "cropperjs": "^2.0.0-beta.5",
+    "cropper": "^4.1.0",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.1",
     "ejs": "^3.1.9",
@@ -24,6 +24,7 @@
     "passport-google-oauth20": "^2.0.0",
     "razorpay": "^2.9.3",
     "router": "^1.3.8",
+    "sharp": "^0.33.3",
     "uuid": "^9.0.1"
   },
   "name": "szucci-bags",

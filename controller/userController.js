@@ -168,7 +168,7 @@ const signupUser = async(req,res)=>{
         console.log(error.message);
         return res.status(500).json({ error: error.message });
     }
-};
+};   
   
 const resendOtp = async(req,res)=>{
     try{
@@ -208,9 +208,8 @@ const verifyOtp = async(req,res)=>{
             await newUser.save();
             req.session.user = newUser._id;
             res.locals.message = "OTP verified successfully";
-            console.log("verifying OTP")
-            res.json({status:"success"});
-            // res.redirect("/login");
+            console.log("verifying OTP");
+            res.redirect("/login");
            
         }else{
          res.json({status:"failed"});
@@ -285,29 +284,6 @@ const securePassword = async (password) => {
 
 
 
-
-//   const resendOtp = async(req,res)=>{
-//     try{
-//        const email = req.session.data.email;
-//        console.log(email);
-//         const newOtp = otpController.generateOtp();
-
-//         const otpData = {newOtp, expiryTime:Date.now() };
-//         otpController.otpExpiryTimer(otpData);
-//         console.log(newOtp);
-//         await sentMail(email, newOtp);
-//         req.session.data.otp = newOtp;
-//         res.render("user/verify-otp")
-//     }catch(error){
-//         console.error("Error in resending OTP:", error);
-
-//     }
-//   }
-  
-
-
-
-
 const userLogin = async (req, res) => {   
     try {
         const email = req.body.email;
@@ -341,52 +317,6 @@ const userLogin = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
-
-
-
-// const sortProducts = async (sortKey) => {
-//     try {
-//         let sortedProducts;
-//         switch (sortKey) {
-//             case "Lowtohigh":
-//                 sortedProducts = await Product.find({ isBlocked: false }).sort({ salePrice: 1 });
-//                 break;
-//             case "Hightolow":
-//                 sortedProducts = await Product.find({ isBlocked: false }).sort({ salePrice: -1 });
-//                 break;
-//             case "AtoZ":
-//                 sortedProducts = await Product.find({ isBlocked: false }).sort({ productName: 1 });
-//                 break;
-//             case "ZtoA":
-//                 sortedProducts = await Product.find({ isBlocked: false }).sort({ productName: -1 });
-//                 break;
-//             default:
-//                 sortedProducts = await Product.find({ isBlocked: false });
-//         }
-//         return sortedProducts;
-//     } catch (error) {
-//         console.error(`Error sorting products: ${error}`);
-//         throw error; // Propagate the error for handling at a higher level
-//     }
-// };
-
-// const allProductSort = async (req, res) => {
-//     try {
-//         const sort = req.query.sort;
-//         const userId = req.session.userId;
-//         const catData = await Category.find({ isBlocked: false });
-//         const brandData = await Brand.find({ isBlocked: false });
-
-//         // Call the sorting method to get sorted products
-//         const prodData = await sortProducts(sort);
-
-//         res.render("user/allProducts", { prodData, userId, catData, brandData,  });
-//     } catch (error) {
-//         console.error(`Error in logging all products page: ${error}`);
-//         res.status(500).send("Internal Server Error");
-//     }
-// };
-
 
 
 
@@ -623,7 +553,7 @@ const verifyForgPswdOtp = async (req, res) => {
             }
             req.session.user = user._id;
             console.log("Password changed successfully");
-            res.json({status:"success"});
+            res.redirect("/login");
         } else {
             return res.status(400).json({ error: "OTP verification failed" });
         }
@@ -735,7 +665,6 @@ module.exports = {
     resendOtp,
     securePassword,
     userLogin,
-    // allProductSort,
     addNewAddress,
     logout,
     forgetPswdPage,
