@@ -13,7 +13,6 @@ const port = 3000;
 mongoose.connect("mongodb://susmitha0313:ALX4NsI55BMuBf31@ac-tffkba5-shard-00-00.upa4avz.mongodb.net:27017,ac-tffkba5-shard-00-01.upa4avz.mongodb.net:27017,ac-tffkba5-shard-00-02.upa4avz.mongodb.net:27017/szucci?ssl=true&replicaSet=atlas-mkrrad-shard-0&authSource=admin&retryWrites=true&w=majority"
 );
 
-
      
 mongoose.connection.on("connected", () => {
   console.log("Connected to MongoDB Atlas");    
@@ -62,4 +61,4 @@ app.use("/pageNotFound", function (req, res) {
 
 app.listen(port, ()=>{
     console.log(`Server is running at http://localhost:${port}  .....if you are an admin click here http://localhost:${port}/admin/adminlogin`);
-})    
+})       

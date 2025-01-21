@@ -13,7 +13,7 @@ const {adminNotLog} = require("../Authentication/auth");
 router.set("view engine" , "ejs")
 router.set("views" , "./views/admin")
 
-
+   
 router.get("/pageerror", adminController.pageNotFound);
 
    

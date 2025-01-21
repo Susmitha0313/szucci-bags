@@ -2,56 +2,56 @@
 <html class="no-js" lang="en">
 
 <style>
+    /* Dropdown container */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
 
-     /* Dropdown container */
-     .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        /* Dropdown link */
-        /* .dropdown a {
+    /* Dropdown link */
+    /* .dropdown a {
             color: black;
             text-decoration: none;
             padding: 10px;
             display: inline-block;
         } */
 
-        /* Dropdown content */
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            z-index: 1;
-            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        }
+    /* Dropdown content */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        z-index: 1;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
 
-        /* Show dropdown when hovered */
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+    /* Show dropdown when hovered */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
 
-       
 
-        /* Dropdown list items */
-        .dropdown-content ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
 
-        .dropdown-content ul li {
-            padding: 10px;
-        }
+    /* Dropdown list items */
+    .dropdown-content ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
 
-        /* Arrow icon */
-        .fa-angle-down {
-            margin-left: 5px;
-        }
+    .dropdown-content ul li {
+        padding: 10px;
+    }
+
+    /* Arrow icon */
+    .fa-angle-down {
+        margin-left: 5px;
+    }
 </style>
 
 <!-- Mirrored from template.hasthemes.com/toro/toro/index-9.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Feb 2024 11:17:51 GMT -->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -81,8 +81,7 @@
     <link rel="stylesheet" href="assets/userAssets/css/plugins/jquery-ui.css">
     <link rel="stylesheet" href="assets/userAssets/css/plugins/select2.min.css">
     <link rel="stylesheet" href="assets/userAssets/css/style.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
@@ -95,7 +94,7 @@
                         <div class="logo logo-width">
                             <a href="/">
                                 <img src="assets/userAssets/images/logo/logo.png" alt="logo">
-                            </a>                            
+                            </a>
                         </div>
                     </div>
                     <div class="col-xl-8 col-lg-8 d-flex justify-content-center position-static">
@@ -103,7 +102,7 @@
                             <nav>
                                 <ul>
                                     <li class="position-static"><a href="/">Home</a>
-                                        
+
                                     </li>
                                     <li><a href="#">Pages <i class="fa fa-angle-down"></i></a>
                                         <ul class="sub-menu-width">
@@ -112,7 +111,7 @@
                                             <li><a href="/viewOrder">Orders</a></li>
                                         </ul>
                                     </li>
-                                    
+
                                     <li><a href="/allProducts">All Products</a></li>
                                     <!-- <li><a href="shop-fullwide.html">Brands <i class="fa fa-angle-down"></i></a>
                                         <ul class="sub-menu-width">
@@ -130,18 +129,18 @@
                     </div>
                     <div class="col-xl-2 col-lg-2">
                         <div class="header-right-wrap header-right-flex">
-                            
+
                             <div class="dropdown same-style">
                                 <a href="#"><i class="fa fa-user"></i></a>
                                 <div class="dropdown-content account-dropdown-active">
                                     <ul>
                                         <% if(!userId){ %>
-                                        <li><a href="/login">Login</a></li>
-                                        <li><a href="/signup">Register</a></li>
-                                        <% } else { %>
-                                        <li><a href="/accountDetails">Account</a></li>
-                                        <li><a href="/logout">Logout</a></li>
-                                        <% } %>
+                                            <li><a href="/login">Login</a></li>
+                                            <li><a href="/signup">Register</a></li>
+                                            <% } else { %>
+                                                <li><a href="/accountDetails">Account</a></li>
+                                                <li><a href="/logout">Logout</a></li>
+                                                <% } %>
                                     </ul>
                                 </div>
                             </div>
@@ -149,7 +148,7 @@
                                 <a class="header-aside-button" href="#">
                                     <i class="dlicon ui-3_menu-left"></i>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -157,7 +156,7 @@
         </header>
 
         <div class="header-small-mobile section-padding-1">
-            <div class="container-fluid">   
+            <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-6">
                         <div class="mobile-logo logo-width">
@@ -169,18 +168,18 @@
                     <div class="col-6">
                         <div class="mobile-header-right-wrap">
                             <div class="header-right-wrap header-right-flex">
-                               
+
                                 <div class="dropdown same-style">
                                     <a href="#"><i class="fa fa-user"></i></a>
                                     <div class="dropdown-content account-dropdown-active">
                                         <ul>
                                             <% if(!userId){ %>
-                                            <li><a href="/login">Login</a></li>
-                                            <li><a href="/signup">Register</a></li>
-                                            <% } else{ %>
-                                            <li><a href="/accountDetails">Account</a></li>
-                                            <li><a href="/logout">Logout</a></li>
-                                            <% } %>
+                                                <li><a href="/login">Login</a></li>
+                                                <li><a href="/signup">Register</a></li>
+                                                <% } else{ %>
+                                                    <li><a href="/accountDetails">Account</a></li>
+                                                    <li><a href="/logout">Logout</a></li>
+                                                    <% } %>
                                         </ul>
                                     </div>
                                 </div>
@@ -244,7 +243,7 @@
                     <!-- <div class="cart-total">
                         <h4>Subtotal: <span>$170.00</span></h4>
                     </div> -->
-                    
+
                 </div>
             </div>
         </div>
@@ -262,11 +261,12 @@
                                 <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
                             </form>
                         </div>
-                       
+
                         <div class="mobile-curr-lang-wrap">
                             <div class="single-mobile-curr-lang">
                                 <li class="menu-item-has-children"><a href="/">Home</a></li>
-                                <a class="mobile-account-active" href="#">My Account <i class="fa fa-angle-down"></i></a>
+                                <a class="mobile-account-active" href="#">My Account <i
+                                        class="fa fa-angle-down"></i></a>
                                 <div class="lang-curr-dropdown account-dropdown-active">
                                     <ul>
                                         <li><a href="/login">Login</a></li>
@@ -289,13 +289,15 @@
                         </nav>
                     </div>
                     <img src="assets/userAssets/images/icon-img/payments.png" alt="payment">
-                    <p>Pellentesque mollis nec orci id tincidunt. Sed mollis risus eu nisi aliquet, sit amet fermentum justo dapibus.</p>
+                    <p>Pellentesque mollis nec orci id tincidunt. Sed mollis risus eu nisi aliquet, sit amet fermentum
+                        justo dapibus.</p>
                     <div class="aside-contact-info">
                         <ul>
                             <li><i class="dlicon ui-2_time-clock"></i>Monday - Friday: 9:00 - 19:00</li>
                             <li><i class="dlicon ui-1_email-84"></i>Info@la-studioweb.com</li>
                             <li><i class="dlicon tech-2_rotate"></i>(+55) 254. 254. 254</li>
-                            <li><i class="dlicon ui-1_home-minimal"></i>Helios Tower 75 Tam Trinh Hoang - Ha Noi - Viet Nam</li>
+                            <li><i class="dlicon ui-1_home-minimal"></i>Helios Tower 75 Tam Trinh Hoang - Ha Noi - Viet
+                                Nam</li>
                         </ul>
                     </div>
                     <div class="social-icon-style mb-25">
@@ -329,98 +331,114 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="login-register-wrap mr-70">
-                            <h3 style="display: flex; justify-content:center; align-items: center;"><i class="fa fa-user-o"></i> Login</h3>
+                            <h3 style="display: flex; justify-content:center; align-items: center;"><i
+                                    class="fa fa-user-o"></i> Login</h3>
                             <div class="login-register-form">
                                 <form id="signform" action="/login" method="post">
-    
+
                                     <% if(locals.message) { %>
-                                    <div  class="alert alert-success"> <%= locals.message %></div>
-                                    <% } %>
-            
-                                    <% if(locals.errmessage) { %>
-                                    <div class="alert alert-danger"> <%= locals.errmessage %></div>
-                                    <% } %>
+                                        <div class="alert alert-success">
+                                            <%= locals.message %>
+                                        </div>
+                                        <% } %>
+
+                                            <% if(locals.errmessage) { %>
+                                                <div class="alert alert-danger">
+                                                    <%= locals.errmessage %>
+                                                </div>
+                                                <% } %>
 
 
-                                    <div class="sin-login-register">
-                                        <label for="typeEmailX">email address <span>*</span></label>
-                                        <input type="email" name="email" id="typeEmailX">
-                                    </div>
-                                    <p><div id="error2" style="display: none;" class="alert alert-danger err"></div></p>
+                                                    <div class="sin-login-register">
+                                                        <label for="typeEmailX">email address <span>*</span></label>
+                                                        <input type="email" name="email" id="typeEmailX">
+                                                    </div>
+                                                    <p>
+                                                    <div id="error2" style="display: none;"
+                                                        class="alert alert-danger err"></div>
+                                                    </p>
 
-                                    <div class="sin-login-register">
-                                        <label for="typePasswordX">Password <span>*</span></label>
-                                        <input type="password" name="password" id="typePasswordX">
-                                    </div>
-                                    <p><div id="error4" style="display: none;" class="alert alert-danger err"></div></p>
+                                                    <div class="sin-login-register">
+                                                        <label for="typePasswordX">Password <span>*</span></label>
+                                                        <input type="password" name="password" id="typePasswordX">
+                                                    </div>
+                                                    <p>
+                                                    <div id="error4" style="display: none;"
+                                                        class="alert alert-danger err"></div>
+                                                    </p>
 
-                                    <div class="login-register-btn-remember"  style="display: flex; justify-content:center; align-items: center; padding-top: 10px;">
-                                       
-                                            <div class="login-register-btn">
-                                                <button type="submit">Login</button>
-                                            </div>
-                                      
-                                    </div>
-                                    <a href="forgetPswd">Lost your password?</a>
+                                                    <div class="login-register-btn-remember"
+                                                        style="display: flex; justify-content:center; align-items: center; padding-top: 10px;">
+
+                                                        <div class="login-register-btn">
+                                                            <button type="submit">Login</button>
+                                                        </div>
+
+                                                    </div>
+                                                    <a href="forgetPswd">Lost your password?</a>
                                 </form>
                             </div>
                             <a>Don't have an account? </a> <a href="signup">SignUp here</a>
+                            <div>
+                                <p>Are you Szucci Bags Admin? <a href="/admin/adminlogin">Admin Login here</a>
+                                </p>
+                            </div>
                         </div>
                     </div>
+                </div>
             </div>
-        </div> 
-<script>
-  const emailid = document.getElementById('typeEmailX')
-  const passid = document.getElementById('typePasswordX')
-  const error2 = document.getElementById('error2')
-  const error4 = document.getElementById('error4')
-
-  
-function emailvalidateCheck(){
-    const emailval = emailid.value 
-    const emailpattern = /^([a-zA-Z0-9._-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/
-    if(!emailpattern.test(emailval)){
-        error2.style.display = "block"
-        error2.innerHTML = "Invalid Format"
-    }else{
-        error2.style.display = "none"
-        error2.innerHTML=""
-    }
-}
-
-function passValidateCheck(){
-    const passval = passid.value
-    const alpha = /[a-zA-Z]/
-    const digit = /\d/
-    if(passval.length < 6){
-        error4.style.display = "block"
-        error4.innerHTML = "Should contain atleast 6 characters"
-    }else if(!alpha.test(passval) || !digit.test(passval)){
-        error4.style.display = "block"
-        error4.innerHTML = "Should contain numbers an alphabets"
-    }else if(passval.trim()===""){
-        error4.style.display = "block"
-        error4.innerHTML = "Please enter the password"
-    }else{
-        error4.style.display = "none"
-        error4.innerHTML = ""
-    }
-}
-
-emailid.addEventListener("blur",emailvalidateCheck)
-passid.addEventListener("blur",passValidateCheck)
-
-document.addEventListener("DOMContentLoaded", function(){
-
-signform.addEventListener("submit", function(e){
-        emailvalidateCheck();
-        passValidateCheck();    
-        
-    });
-});
-
-</script> 
+            <script>
+                const emailid = document.getElementById('typeEmailX')
+                const passid = document.getElementById('typePasswordX')
+                const error2 = document.getElementById('error2')
+                const error4 = document.getElementById('error4')
 
 
+                function emailvalidateCheck() {
+                    const emailval = emailid.value
+                    const emailpattern = /^([a-zA-Z0-9._-]+)@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/
+                    if (!emailpattern.test(emailval)) {
+                        error2.style.display = "block"
+                        error2.innerHTML = "Invalid Format"
+                    } else {
+                        error2.style.display = "none"
+                        error2.innerHTML = ""
+                    }
+                }
 
-<%- include("../partials/footer.ejs") %>
+                function passValidateCheck() {
+                    const passval = passid.value
+                    const alpha = /[a-zA-Z]/
+                    const digit = /\d/
+                    if (passval.length < 6) {
+                        error4.style.display = "block"
+                        error4.innerHTML = "Should contain atleast 6 characters"
+                    } else if (!alpha.test(passval) || !digit.test(passval)) {
+                        error4.style.display = "block"
+                        error4.innerHTML = "Should contain numbers an alphabets"
+                    } else if (passval.trim() === "") {
+                        error4.style.display = "block"
+                        error4.innerHTML = "Please enter the password"
+                    } else {
+                        error4.style.display = "none"
+                        error4.innerHTML = ""
+                    }
+                }
+
+                emailid.addEventListener("blur", emailvalidateCheck)
+                passid.addEventListener("blur", passValidateCheck)
+
+                document.addEventListener("DOMContentLoaded", function () {
+
+                    signform.addEventListener("submit", function (e) {
+                        emailvalidateCheck();
+                        passValidateCheck();
+
+                    });
+                });
+
+            </script>
+
+
+
+            <%- include("../partials/footer.ejs") %>
