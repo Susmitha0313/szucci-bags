@@ -160,7 +160,7 @@ const addProduct = async (req, res) => {
                 console.error(`Error processing image: ${error.message}`);
                 // Handle image processing errors as needed
             }
-        }
+        }   
         console.log(cropImg);
         const description1 = "" + description;
         const cat = await Category.findById(category);

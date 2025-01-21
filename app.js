@@ -18,7 +18,7 @@ mongoose.connect("mongodb://susmitha0313:ALX4NsI55BMuBf31@ac-tffkba5-shard-00-00
 mongoose.connection.on("connected", () => {
   console.log("Connected to MongoDB Atlas");    
 });
-
+  
   
 mongoose.connection.on("error", (err) => {      
     console.log("Error connecting to MongoDB");
@@ -45,7 +45,7 @@ app.use(
             httpOnly: true
         }
     })
-);
+);  
 
 app.use("/", nocache());
 
@@ -62,4 +62,4 @@ app.use("/pageNotFound", function (req, res) {
 
 app.listen(port, ()=>{
     console.log(`Server is running at http://localhost:${port}  .....if you are an admin click here http://localhost:${port}/admin/adminlogin`);
-})
+})    

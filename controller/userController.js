@@ -40,14 +40,14 @@ const getAllProductsPage = async (req, res) => {
         const userId = req.session.userId;
         const searchData = req.query.searchProd || "";
         const page = parseInt(req.query.page) || 1;
-        const limit = 5;
+        const limit = 9;
 
         let sortQuery = {};
         const sort = req.query.sort;
         switch (sort) {
             case "Latest":
                 sortQuery = { createdAt: -1 };
-                break;
+                break;    
             case "ZtoA":
                 sortQuery = { productName: -1 };
                 break;
