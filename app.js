@@ -7,11 +7,11 @@ const mongoose = require("mongoose");
 const userRouter = require("./router/userRouter");
 const adminRouter = require("./router/adminRouter");
 const app = express();
-env.config();    
-const port = 3000;
-
-mongoose.connect("mongodb://susmitha0313:ALX4NsI55BMuBf31@ac-tffkba5-shard-00-00.upa4avz.mongodb.net:27017,ac-tffkba5-shard-00-01.upa4avz.mongodb.net:27017,ac-tffkba5-shard-00-02.upa4avz.mongodb.net:27017/szucci?ssl=true&replicaSet=atlas-mkrrad-shard-0&authSource=admin&retryWrites=true&w=majority"
-);
+env.config();  
+ 
+const port = process.env.PORT;
+const Mongo_Uri = process.env.MONGO_URI;
+mongoose.connect(Mongo_Uri);
 
      
 mongoose.connection.on("connected", () => {
