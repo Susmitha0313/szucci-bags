@@ -4,7 +4,7 @@
 Szucci Bags is a full-stack e-commerce platform designed for seamless online shopping. The platform provides role-based access for Admin and Users, featuring secure authentication, product browsing, a shopping cart, and order management. Users can track their orders and manage profiles, while Admins can oversee products, orders, coupons, and users. The platform also includes an analytics dashboard for tracking sales and user engagement.
 
 ## 🔥 Features
-- **Secure Authentication:** JWT-based authentication for users and admin.
+- **Secure Authentication:** Session authentication for users and admin.
 - **Role-Based Access:** Different access levels for Admin and Users.
 - **Product Management:** Browse, search, and filter products.
 - **Shopping Cart & Checkout:** Add products to cart and complete purchases securely.
@@ -57,24 +57,12 @@ Szucci Bags is a full-stack e-commerce platform designed for seamless online sho
    The app will be available at `http://localhost:3000`
 
 ## 📸 Screenshots
-(Include relevant screenshots of the UI)
+User Interface
+<img src="https://github.com/user-attachments/assets/b4555eef-a29f-401c-8fe5-2d4404f7e110" width="400" />
 
-## 📌 Future Enhancements
-- Implement advanced search and filtering options.
-- Integrate AI-based product recommendations.
-- Add user reviews and ratings.
+Admin Interface
+<img src="https://github.com/user-attachments/assets/5aa34eb7-1e1e-4400-8fb7-9dcfe0d88540" width="400"  />
 
-## 🤝 Contributing
-Contributions are welcome! Feel free to open an issue or submit a pull request.
 
-## 📜 License
-This project is licensed under the MIT License.
 
-## 📞 Contact
-For any queries or collaborations, feel free to reach out:
-- **Email:** [susmitha0313@gmail.com](mailto:susmitha0313@gmail.com)
-- **LinkedIn:** [Susmitha S](https://www.linkedin.com/in/susmitha-s0313)
-- **GitHub:** [Susmitha0313](https://github.com/Susmitha0313)
 
----
-**Star ⭐ the repository if you found this helpful!**
