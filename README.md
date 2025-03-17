@@ -58,10 +58,10 @@ Szucci Bags is a full-stack e-commerce platform designed for seamless online sho
 
 ## 📸 Screenshots
 User Interface
-<img src="https://github.com/user-attachments/assets/b4555eef-a29f-401c-8fe5-2d4404f7e110" width="400" />
+<img src="https://github.com/user-attachments/assets/5aa34eb7-1e1e-4400-8fb7-9dcfe0d88540" width="400"  />
 
 Admin Interface
-<img src="https://github.com/user-attachments/assets/5aa34eb7-1e1e-4400-8fb7-9dcfe0d88540" width="400"  />
+<img src="https://github.com/user-attachments/assets/b4555eef-a29f-401c-8fe5-2d4404f7e110" width="400" />
 
 
 
